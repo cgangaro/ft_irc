@@ -14,6 +14,8 @@ int main (void)
 		printf("Error socket");
 	dprintf(1, "Socket ouverte en TCP/IP\n");
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);
+	//sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+	dprintf(1, "adrr = |%u|\n", sin.sin_addr.s_addr);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(23); //le port
 
@@ -21,7 +23,7 @@ int main (void)
 		dprintf(1, "Error bind\n");
 	if (listen(sock, 5) < 0) //deuxieme parametre = nombre de co pouvant etre mise en attente
 		dprintf(1, "Error lsiten\n");
-	dprintf(1, "Before accept");
+	dprintf(1, "Before accept\n");
 	sock_client = accept(sock, (SOCKADDR*)&sin_client, &long_sock_c);
 	dprintf(1, "Un client se connect avec la socket %d de %s:%d\n", sock_client, inet_ntoa(sin_client.sin_addr), htons(sin_client.sin_port));
 	close(sock_client);
