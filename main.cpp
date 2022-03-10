@@ -22,13 +22,30 @@ int main (void)
 	if (bind(sock, (SOCKADDR*)&sin, sizeof(sin)) < 0)
 		dprintf(1, "Error bind\n");
 	if (listen(sock, 5) < 0) //deuxieme parametre = nombre de co pouvant etre mise en attente
-		dprintf(1, "Error lsiten\n");
-	dprintf(1, "Before accept\n");
-	sock_client = accept(sock, (SOCKADDR*)&sin_client, &long_sock_c);
-	dprintf(1, "Un client se connect avec la socket %d de %s:%d\n", sock_client, inet_ntoa(sin_client.sin_addr), htons(sin_client.sin_port));
+		dprintf(1, "Error listen\n");
+
+	fd_set readfs;
+	while (1)
+	{
+		FD_ZERO(&readfs);
+		FD_SET(sock, &readfs);
+		dprintf(1, "Before select\n");
+		if (select(sock + 1, &readfs, NULL, NULL, NULL) < 0)
+			dprintf(1, "Error select");
+		dprintf(1, "Before select\n");
+		if (FD_ISSET(sock, &readfs))
+		{
+			dprintf(1, "Before accept\n");
+			sock_client = accept(sock, (SOCKADDR*)&sin_client, &long_sock_c);
+			dprintf(1, "Un client se connect avec la socket %d de %s:%d\n", sock_client, inet_ntoa(sin_client.sin_addr), htons(sin_client.sin_port));
+			close(sock_client);
+			dprintf(1, "Fermeture socket client\n");
+		}
+	}
+
 	close(sock_client);
-	dprintf(1, "Fermeture socket client");
+	dprintf(1, "Fermeture socket client\n");
 	close(sock);
-	dprintf(1, "Fermeture socket serveur");
+	dprintf(1, "Fermeture socket serveur\n");
 	return (0);
 }
