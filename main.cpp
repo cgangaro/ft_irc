@@ -25,12 +25,15 @@ int main (void)
 		dprintf(1, "Error listen\n");
 
 	fd_set readfs;
+	fd_set writefs;
 	while (1)
 	{
 		FD_ZERO(&readfs);
 		FD_SET(sock, &readfs);
+		FD_ZERO(&writefs);
+		FD_SET(sock, &writefs);
 		dprintf(1, "Before select\n");
-		if (select(sock + 1, &readfs, NULL, NULL, NULL) < 0)
+		if (select(sock + 1, &readfs, &writefs, NULL, 0) < 0)
 			dprintf(1, "Error select");
 		dprintf(1, "Before select\n");
 		if (FD_ISSET(sock, &readfs))
