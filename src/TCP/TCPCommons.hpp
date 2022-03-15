@@ -13,6 +13,7 @@
 #include <cerrno>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 #define DEFAULT_PORT 1024
 #define INVALID_SOCKET -1
@@ -25,6 +26,8 @@ typedef struct sockaddr SOCKADDR;
 typedef struct s_client {
 	SOCKET socket;
 	SOCKADDR_IN sin;
+	std::string user;
+	std::string nickname;
 } t_client;
 
 #endif

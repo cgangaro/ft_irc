@@ -64,8 +64,9 @@ void TCPServer::serverListen() {
 			t_client *client = new t_client;
 			client->socket = csock;
 			client->sin = csin;
-			this->_clientManager.addClient(*client);
-			char welcome_msg[20] = "Wsh, tu veux un 10?";
+			this->_clientManager.addClient(*client, _nb_client);
+			_nb_client++;
+			char welcome_msg[21] = "Wsh, tu veux un 10?\n";
 			ssize_t ret_send = send(csock, welcome_msg, strlen(welcome_msg), 0);
 			if (ret_send != (ssize_t)strlen(welcome_msg))
 				throw TCPServer::SendFailed();

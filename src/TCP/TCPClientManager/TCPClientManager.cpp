@@ -1,4 +1,6 @@
 #include "TCPClientManager.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 
 TCPClientManager::TCPClientManager() {}
 
@@ -7,7 +9,14 @@ TCPClientManager::~TCPClientManager() {
 	this->_clients.clear();
 }
 
-void TCPClientManager::addClient(t_client & client) {
+void TCPClientManager::addClient(t_client & client, int nb_client) {
+	std::string str("USER");
+	for (int i = 100; nb_client < i && i > 1; i = i / 10)
+		str.append("0");
+	str.append(std::to_string(nb_client));
+	client.user = str;
+	std::string str2("");
+	client.nickname = str2;
 	this->_clients.push_back(client);
 }
 
@@ -55,7 +64,9 @@ int TCPClientManager::readClient(fd_set *readfds)
 			{
 				buffer[ret_read] = '\0';
 				// 	std::cout << "ret_read = " << ret_read << ", buff: |" << buffer << "|" << std::endl;
-				std::cout << "socket " << it->socket << " says: " << buffer << std::endl;
+				std::cout << it->user << ": " << buffer << std::endl;
+				std::string received(buffer);
+				sendToOthersClient(it->socket, it->user, received);
 			}
 		}
 	}
@@ -64,6 +75,22 @@ int TCPClientManager::readClient(fd_set *readfds)
 		removeClient(tab_client_to_delete[y]);
 	}
 	return (0);
+}
+
+void	TCPClientManager::sendToOthersClient(SOCKET sock_sender, std::string sender, std::string received)
+{
+	for (std::vector<t_client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+	{
+		if (it->socket != sock_sender)
+		{
+			std::string to_send(sender);
+			to_send.append(": ");
+			to_send.append(received);
+			ssize_t ret_send = send(it->socket, to_send.c_str(), to_send.size(), 0);
+			if (ret_send != (ssize_t)to_send.size())
+				throw TCPClientManager::SendFailed();
+		}
+	}
 }
 
 std::vector<t_client> TCPClientManager::getClients(void) const {

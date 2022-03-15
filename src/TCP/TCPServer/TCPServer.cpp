@@ -26,3 +26,8 @@ void TCPServer::listenning(void) {
 		exit(EXIT_FAILURE);
 	}
 }
+
+void TCPServer::initServer(void)
+{
+	_nb_client = 0;
+}
