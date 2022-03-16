@@ -1,6 +1,7 @@
 #include "TCPClientManager.hpp"
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstdlib>
 
 TCPClientManager::TCPClientManager() {}
 
@@ -11,9 +12,11 @@ TCPClientManager::~TCPClientManager() {
 
 void TCPClientManager::addClient(t_client & client, int nb_client) {
 	std::string str("USER");
+	std::stringstream ss;
 	for (int i = 100; nb_client < i && i > 1; i = i / 10)
-		str.append("0");
-	str.append(std::to_string(nb_client));
+		ss << "0";
+	ss << nb_client;
+	str = ss.str();
 	client.user = str;
 	std::string str2("");
 	client.nickname = str2;
