@@ -91,7 +91,7 @@ void	TCPClientManager::sendToOthersClient(SOCKET sock_sender, std::string sender
 			to_send.append(received);
 			ssize_t ret_send = send(it->socket, to_send.c_str(), to_send.size(), 0);
 			if (ret_send != (ssize_t)to_send.size())
-				throw TCPClientManager::SendFailed();
+				throw TCPException::SendFailed();
 		}
 	}
 }

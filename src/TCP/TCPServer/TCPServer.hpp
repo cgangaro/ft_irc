@@ -29,45 +29,6 @@ class TCPServer {
 		void listenning(void);
 		int getPort(void) const;
 		void initServer(void);
-
-		/*
-		** Exceptions:
-		*/
-		class BindFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class SocketCreationFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class ListenFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class AcceptFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class SelectFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class SendFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
-		class ReadFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
 };
 
 #endif

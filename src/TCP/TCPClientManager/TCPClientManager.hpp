@@ -22,12 +22,6 @@ class TCPClientManager {
 		void sendToOthersClient(SOCKET sock_sender, std::string sender, std::string received);
 		// void TCPClientManager::user(t_client *client);
 		std::vector<t_client> getClients(void) const;
-
-		class SendFailed : public std::exception
-		{
-			public:
-				virtual const char* what() const throw();
-		};
 };
 
 #endif
