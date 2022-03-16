@@ -30,4 +30,29 @@ typedef struct s_client {
 	std::string nickname;
 } t_client;
 
+#define TCP_EXCEPTION(name, function)																			\
+class name : public std::exception {																			\
+		private:																								\
+			std::string exceptionMessageBuilder(const std::string &func, const std::string &message) const {	\
+				std::stringstream ss;																			\
+				ss << func << ": " << message;																	\
+				return (ss.str());																				\
+			}																									\
+		public:																									\
+			virtual const char* what() const throw() {															\
+				static std::string message = exceptionMessageBuilder(function, std::strerror(errno));			\
+				return (message.c_str());																		\
+			}																									\
+};
+
+namespace TCPException {
+		TCP_EXCEPTION(BindFailed, "bind")
+		TCP_EXCEPTION(SocketCreationFailed, "socket");
+		TCP_EXCEPTION(ListenFailed, "listen")
+		TCP_EXCEPTION(AcceptFailed, "accept")
+		TCP_EXCEPTION(SelectFailed, "select")
+		TCP_EXCEPTION(SendFailed, "send")
+		TCP_EXCEPTION(ReadFailed, "read")
+};
+
 #endif
