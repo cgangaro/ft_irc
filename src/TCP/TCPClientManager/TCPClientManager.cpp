@@ -5,6 +5,7 @@
 
 TCPClientManager::TCPClientManager() {
 	FD_ZERO(&_readfds);
+	_maxSocket = 0;
 }
 
 TCPClientManager::~TCPClientManager() {
