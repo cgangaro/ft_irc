@@ -6,6 +6,7 @@
 #include "TCPCommunicationManager.hpp"
 
 #define MOTD "Welcome to the server\n"
+#define SERVER_NAME "ft_irc_server"
 
 class TCPServer {
 

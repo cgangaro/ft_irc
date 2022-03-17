@@ -14,9 +14,10 @@ class TCPCommunicationManager {
 		~TCPCommunicationManager();
 
 		TCPClientManager* getClientManager(void) const;
-		void sendToOne(SOCKET sock, const char* msg);
-		void sendToAll(const char* msg);
-		void sendToChannel(const char* msg, std::string channel);
+		std::string messageBuilder(std::string sender, const char* msg) const;
+		void sendToOne(std::string sender, SOCKET sock, const char* msg);
+		void sendToAll(std::string sender, const char* msg);
+		void sendToChannel(std::string sender, const char* msg, std::string channel);
 };
 
 #endif

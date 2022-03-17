@@ -10,20 +10,29 @@ TCPClientManager* TCPCommunicationManager::getClientManager(void) const {
 	return this->_clientManager;
 }
 
-void TCPCommunicationManager::sendToOne(SOCKET sock, const char* msg) {
-	int msgSize = strlen(msg);
-	ssize_t ret_send = send(sock, msg, msgSize, 0);
+std::string TCPCommunicationManager::messageBuilder(std::string sender, const char* msg) const {
+	std::stringstream ss;
+
+	ss << sender << " -- | " << msg;
+	return ss.str();
+}
+
+void TCPCommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
+	std::string msg = messageBuilder(sender, rawMsg);
+	int msgSize = strlen(msg.c_str());
+
+	ssize_t ret_send = send(sock, msg.c_str(), msgSize, 0);
 	if (ret_send != (ssize_t)msgSize)
 		throw TCPException::SendFailed();
 }
 
-void TCPCommunicationManager::sendToAll(const char* msg) {
+void TCPCommunicationManager::sendToAll(std::string sender, const char* msg) {
 	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
-		sendToOne(it->getSocket(), msg);
+		sendToOne(sender, it->getSocket(), msg);
 }
 
-void TCPCommunicationManager::sendToChannel(const char* msg, std::string channel) {
+void TCPCommunicationManager::sendToChannel(std::string sender, const char* msg, std::string channel) {
 	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 		if (it->getUser().getChannel() == channel)
-			sendToOne(it->getSocket(), msg);
+			sendToOne(sender, it->getSocket(), msg);
 }

@@ -58,7 +58,7 @@ void TCPServer::registerNewClient() {
 	if (csock == SOCKET_ERROR)
 		throw TCPException::AcceptFailed();
 	promptNewClient(csock);
-	this->_communicationManager.sendToOne(csock, MOTD);
+	this->_communicationManager.sendToOne(SERVER_NAME, csock, MOTD);
 	this->_clientManager.addClient(csock, csin);
 }
 
