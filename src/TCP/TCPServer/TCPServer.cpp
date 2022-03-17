@@ -6,6 +6,7 @@ TCPServer::TCPServer() {
 
 TCPServer::TCPServer(int port) {
 	createServer(port);
+	this->_communicationManager = TCPCommunicationManager(&this->_clientManager);
 }
 
 

@@ -20,6 +20,10 @@ int TCPClient::getPort(void) const {
 	return ntohs(this->_sin.sin_port);
 }
 
+User & TCPClient::getUser(void) {
+	return this->_data;
+}
+
 bool TCPClient::isAuthenticated(void) const {
 	return _isAuthenticated;
 }

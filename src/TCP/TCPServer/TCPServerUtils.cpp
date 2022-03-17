@@ -58,9 +58,7 @@ void TCPServer::registerNewClient() {
 	if (csock == SOCKET_ERROR)
 		throw TCPException::AcceptFailed();
 	promptNewClient(csock);
-	ssize_t ret_send = send(csock, MOTD, strlen(MOTD), 0);
-	if (ret_send != (ssize_t)strlen(MOTD))
-		throw TCPException::SendFailed();
+	this->_communicationManager.sendToOne(csock, MOTD);
 	this->_clientManager.addClient(csock, csin);
 }
 
@@ -69,10 +67,15 @@ void TCPServer::serverListen() {
 		throw TCPException::ListenFailed();
 	_clientManager.addSocket(_socket);
 
-	while (true) {
-		waitForActivity();
-		if (isNewClientWaiting()) registerNewClient();
-/* 		if (_clientManager.readClient() < 0)
-			throw TCPException::ReadFailed(); */
+	try {
+		while (true) {
+			waitForActivity();
+			if (isNewClientWaiting()) registerNewClient();
+	/* 		if (_clientManager.readClient() < 0)
+				throw TCPException::ReadFailed(); */
+		}
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		exit(EXIT_FAILURE);
 	}
 }

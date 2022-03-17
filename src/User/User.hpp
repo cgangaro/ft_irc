@@ -8,7 +8,7 @@ class User {
 		std::string _username;
 		std::string _password;
 		std::string _nickname;
-		// currentChannel
+		std::string _channel; // a string beginning with #
 
 	public:
 		User();
@@ -17,6 +17,7 @@ class User {
 		std::string getUsername(void) const;
 		std::string getPassword(void) const;
 		std::string getNickname(void) const;
+		std::string getChannel(void) const;
 
 		void setPassword(std::string password);
 		void setUsername(std::string username);

@@ -25,7 +25,7 @@ class TCPClientManager {
 		int readClient();
 		void sendToOthersClient(SOCKET sock_sender, std::string sender, std::string received);
 		// void TCPClientManager::user(t_client *client);
-		std::vector<TCPClient> getClients(void) const;
+		std::vector<TCPClient>* getClients(void);
 		int getMaxSocket(void) const;
 		int getNbClient(void) const;
 		fd_set* getReadfds(void);

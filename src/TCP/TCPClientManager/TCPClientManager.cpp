@@ -96,6 +96,6 @@ void	TCPClientManager::sendToOthersClient(SOCKET sock_sender, std::string sender
 	}
 }
 
-std::vector<TCPClient> TCPClientManager::getClients(void) const {
-	return this->_clients;
+std::vector<TCPClient>* TCPClientManager::getClients(void) {
+	return &this->_clients;
 }

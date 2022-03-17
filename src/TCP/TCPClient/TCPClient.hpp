@@ -19,6 +19,7 @@ class TCPClient {
 		char* getAddress(void) const;
 		int getPort(void) const;
 		SOCKET getSocket(void) const;
+		User & getUser(void);;
 		bool isAuthenticated(void) const;
 };
 

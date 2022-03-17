@@ -3,6 +3,7 @@
 
 #include "TCPCommons.hpp"
 #include "TCPClientManager.hpp"
+#include "TCPCommunicationManager.hpp"
 
 #define MOTD "Welcome to the server\n"
 
@@ -12,6 +13,7 @@ class TCPServer {
 		SOCKET _socket;
 		SOCKADDR_IN _sin;
 		TCPClientManager _clientManager;
+		TCPCommunicationManager _communicationManager;
 
 
 		static SOCKET createSocket();

@@ -16,6 +16,10 @@ std::string User::getNickname(void) const {
 	return this->_nickname;
 }
 
+std::string User::getChannel(void) const {
+	return this->_channel;
+}
+
 void User::setPassword(std::string password) {
 	this->_password = password;
 }
