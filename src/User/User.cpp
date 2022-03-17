@@ -1,6 +1,8 @@
 #include "User.hpp"
 
-User::User() {}
+User::User() {
+	this->_username = "defaultUsername";
+}
 
 User::~User() {}
 

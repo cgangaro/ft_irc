@@ -18,6 +18,7 @@ class TCPCommunicationManager {
 		void sendToOne(std::string sender, SOCKET sock, const char* msg);
 		void sendToAll(std::string sender, const char* msg);
 		void sendToChannel(std::string sender, const char* msg, std::string channel);
+		void processClientActivity(void);
 };
 
 #endif

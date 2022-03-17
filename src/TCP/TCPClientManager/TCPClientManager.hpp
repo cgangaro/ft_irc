@@ -17,14 +17,13 @@ class TCPClientManager {
 		~TCPClientManager();
 
 		void addSocket(SOCKET sock);
-
 		void addClient(SOCKET sock, SOCKADDR_IN sin);
 		void removeClient(SOCKET client);
+		void disconnectClient(SOCKET client);
 		static void deleteClient(TCPClient & client);
 		SOCKET initReadfdsClient(fd_set *readfds, SOCKET max_socket);
 		int readClient();
 		void sendToOthersClient(SOCKET sock_sender, std::string sender, std::string received);
-		// void TCPClientManager::user(t_client *client);
 		std::vector<TCPClient>* getClients(void);
 		int getMaxSocket(void) const;
 		int getNbClient(void) const;

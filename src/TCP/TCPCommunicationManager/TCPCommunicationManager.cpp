@@ -36,3 +36,27 @@ void TCPCommunicationManager::sendToChannel(std::string sender, const char* msg,
 		if (it->getUser().getChannel() == channel)
 			sendToOne(sender, it->getSocket(), msg);
 }
+
+void TCPCommunicationManager::processClientActivity(void) {
+	char* buffer = new char[TCP_BUFFER_SIZE];
+	std::vector<SOCKET> clientsToDelete;
+
+	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
+	{
+		if (FD_ISSET(it->getSocket(), _clientManager->getReadfds()))
+		{
+			int ret_read = read(it->getSocket(), buffer, TCP_BUFFER_SIZE);
+			if (ret_read == SOCKET_ERROR)
+				throw TCPException::ReadFailed();
+			else if (ret_read == 0)
+				clientsToDelete.push_back(it->getSocket());
+			else if (ret_read != 1) // ignore empty messages
+			{
+				buffer[ret_read] = '\0';
+				sendToAll(it->getUser().getUsername(), buffer);
+			}
+		}
+	}
+	for (std::vector<SOCKET>::iterator it = clientsToDelete.begin(); it != clientsToDelete.end(); it++)
+		_clientManager->disconnectClient(*it);
+}

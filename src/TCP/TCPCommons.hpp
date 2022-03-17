@@ -18,6 +18,7 @@
 #define DEFAULT_PORT 1024
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
+#define TCP_BUFFER_SIZE 1024
 
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;

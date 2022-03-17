@@ -10,3 +10,8 @@ void TCPClientManager::addSocket(SOCKET sock)
 void TCPClientManager::deleteClient(TCPClient & client) {
 	delete &client;
 }
+
+void TCPClientManager::disconnectClient(SOCKET client) {
+	std::cout << "Client with socket " << client << " disconnected." << std::endl;
+	removeClient(client);
+}

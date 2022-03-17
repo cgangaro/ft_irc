@@ -36,6 +36,7 @@ void TCPServer::createServer(int port) {
 void TCPServer::waitForActivity() {
 	int selectRet;
 
+	std::cout << "Waiting for activity..." << std::endl;
 	selectRet = select(_clientManager.getMaxSocket() + 1, _clientManager.getReadfds(), NULL, NULL, NULL);
 	if (selectRet == SOCKET_ERROR)
 			throw TCPException::SelectFailed();
@@ -71,8 +72,7 @@ void TCPServer::serverListen() {
 		while (true) {
 			waitForActivity();
 			if (isNewClientWaiting()) registerNewClient();
-	/* 		if (_clientManager.readClient() < 0)
-				throw TCPException::ReadFailed(); */
+			else this->_communicationManager.processClientActivity();
 		}
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
