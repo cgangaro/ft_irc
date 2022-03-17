@@ -9,7 +9,6 @@ int main (int argc, char **argv)
 	}
 
 	TCPServer server(atoi(argv[1]));
-	server.initServer();
 	server.listenning();
 
 	return (EXIT_SUCCESS);

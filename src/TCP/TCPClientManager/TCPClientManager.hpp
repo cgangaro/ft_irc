@@ -4,24 +4,31 @@
 #include <algorithm>
 #include <vector>
 #include "TCPCommons.hpp"
+#include "TCPClient.hpp"
 
 class TCPClientManager {
 	private:
-		std::vector<t_client> _clients;
-
-		static void deleteClient(t_client & client);
+		std::vector<TCPClient> _clients;
+		fd_set	_readfds;
+		int	_maxSocket;
 
 	public:
 		TCPClientManager();
 		~TCPClientManager();
 
-		void addClient(t_client & client, int nb_client);
+		void addSocket(SOCKET sock);
+
+		void addClient(SOCKET sock, SOCKADDR_IN sin);
 		void removeClient(SOCKET client);
+		static void deleteClient(TCPClient & client);
 		SOCKET initReadfdsClient(fd_set *readfds, SOCKET max_socket);
-		int readClient(fd_set *readfds);
+		int readClient();
 		void sendToOthersClient(SOCKET sock_sender, std::string sender, std::string received);
 		// void TCPClientManager::user(t_client *client);
-		std::vector<t_client> getClients(void) const;
+		std::vector<TCPClient> getClients(void) const;
+		int getMaxSocket(void) const;
+		int getNbClient(void) const;
+		fd_set* getReadfds(void);
 };
 
 #endif

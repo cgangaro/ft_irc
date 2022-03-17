@@ -1,10 +1,12 @@
 #include "TCPClientManager.hpp"
 
-void TCPClientManager::deleteClient(t_client & client) {
-	close(client.socket);
+void TCPClientManager::addSocket(SOCKET sock)
+{
+	FD_SET(sock, &_readfds);
+	if (sock > _maxSocket)
+		_maxSocket = sock;
 }
 
-// void TCPClientManager::user(t_client *client, char *msg)
-// {
-
-// }
+void TCPClientManager::deleteClient(TCPClient & client) {
+	delete &client;
+}

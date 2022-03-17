@@ -17,6 +17,10 @@ int TCPServer::getPort(void) const {
 	return ntohs(this->_sin.sin_port);
 }
 
+char* TCPServer::getAddress(void) const {
+	return inet_ntoa(this->_sin.sin_addr);
+}
+
 void TCPServer::listenning(void) {
 	try {
 		std::cout << "Listening on port " << this->getPort() << " ..." << std::endl;
@@ -25,9 +29,4 @@ void TCPServer::listenning(void) {
 		std::cerr << e.what() << std::endl;
 		exit(EXIT_FAILURE);
 	}
-}
-
-void TCPServer::initServer(void)
-{
-	_nb_client = 0;
 }

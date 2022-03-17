@@ -23,13 +23,6 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-typedef struct s_client {
-	SOCKET socket;
-	SOCKADDR_IN sin;
-	std::string user;
-	std::string nickname;
-} t_client;
-
 #define TCP_EXCEPTION(name, function)																			\
 class name : public std::exception {																			\
 		private:																								\
