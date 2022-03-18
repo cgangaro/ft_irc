@@ -38,7 +38,7 @@ void TCPClientManager::removeClient(SOCKET csock) {
 	for (std::vector<TCPClient>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		if (it->getSocket() == csock) {
 			FD_CLR(csock, &_readfds);
-			//TCPClientManager::deleteClient(*it);
+			close(csock);
 			this->_clients.erase(it);
 			break;
 		}

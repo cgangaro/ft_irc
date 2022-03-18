@@ -9,7 +9,6 @@ TCPClient::TCPClient(TCPClient const & src) {
 }
 
 TCPClient::~TCPClient() {
-	//close(_socket);
 }
 
 
