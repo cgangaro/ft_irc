@@ -37,6 +37,7 @@ class TCPServer {
 		int getPort(void) const;
 		void initServer(void);
 		static void killServer(int sig);
+		void refreshReadfds();
 };
 
 #endif

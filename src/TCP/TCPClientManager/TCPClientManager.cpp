@@ -26,25 +26,34 @@ fd_set* TCPClientManager::getReadfds(void) {
 }
 
 void TCPClientManager::addClient(SOCKET sock, SOCKADDR_IN sin) {
-	TCPClient* newClient = new TCPClient(sock, sin);
+	TCPClient newClient(sock, sin);
 
 	FD_SET(sock, &_readfds);
 	if (sock > _maxSocket)
 		_maxSocket = sock;
-	this->_clients.push_back(*newClient);
+	this->_clients.push_back(newClient);
 }
 
 void TCPClientManager::removeClient(SOCKET csock) {
 	for (std::vector<TCPClient>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		if (it->getSocket() == csock) {
 			FD_CLR(csock, &_readfds);
-			TCPClientManager::deleteClient(*it);
-			_clients.erase(it);
+			//TCPClientManager::deleteClient(*it);
+			this->_clients.erase(it);
 			break;
 		}
 	}
+	refreshMaxSocket();
 }
 
 std::vector<TCPClient>* TCPClientManager::getClients(void) {
 	return &this->_clients;
+}
+
+void TCPClientManager::refreshMaxSocket() {
+	this->_maxSocket = 0;
+	for (std::vector<TCPClient>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
+		if (it->getSocket() > _maxSocket)
+			_maxSocket = it->getSocket();
+	}
 }

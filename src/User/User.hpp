@@ -12,7 +12,10 @@ class User {
 
 	public:
 		User();
+		User(User const &src);
 		~User();
+
+		User &operator=(User const &rhs);
 
 		std::string getUsername(void) const;
 		std::string getPassword(void) const;

@@ -63,13 +63,20 @@ void TCPServer::registerNewClient() {
 	this->_clientManager.addClient(csock, csin);
 }
 
+void TCPServer::refreshReadfds() {
+	FD_ZERO(_clientManager.getReadfds());
+	_clientManager.addSocket(this->_socket);
+	for (std::vector<TCPClient>::iterator it = _clientManager.getClients()->begin(); it != _clientManager.getClients()->end(); ++it)
+		_clientManager.addSocket(it->getSocket());
+}
+
 void TCPServer::serverListen() {
 	if (listen(this->_socket, SOMAXCONN) == SOCKET_ERROR)
 		throw TCPException::ListenFailed();
-	_clientManager.addSocket(_socket);
-
+		
 	try {
 		while (true) {
+			refreshReadfds();
 			waitForActivity();
 			if (isNewClientWaiting()) registerNewClient();
 			else this->_communicationManager.processClientActivity();

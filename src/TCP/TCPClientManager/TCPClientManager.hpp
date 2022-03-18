@@ -28,6 +28,7 @@ class TCPClientManager {
 		int getMaxSocket(void) const;
 		int getNbClient(void) const;
 		fd_set* getReadfds(void);
+		void refreshMaxSocket();
 };
 
 #endif

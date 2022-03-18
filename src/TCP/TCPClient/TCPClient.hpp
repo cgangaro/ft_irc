@@ -13,14 +13,18 @@ class TCPClient {
 
 	public:
 		TCPClient();
+		TCPClient(TCPClient const &src);
 		TCPClient(SOCKET sock, SOCKADDR_IN sin);
-		~TCPClient();
+		virtual ~TCPClient();
+
+		TCPClient &operator=(TCPClient const &rhs);
+		SOCKET getSocket(void) const;
+		User getUser(void) const;
+		bool isAuthenticated(void) const;
+		SOCKADDR_IN getSin(void) const;
 
 		char* getAddress(void) const;
 		int getPort(void) const;
-		SOCKET getSocket(void) const;
-		User & getUser(void);;
-		bool isAuthenticated(void) const;
 };
 
 #endif

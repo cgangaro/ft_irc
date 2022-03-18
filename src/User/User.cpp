@@ -4,7 +4,21 @@ User::User() {
 	this->_username = "defaultUsername";
 }
 
+User::User(User const &src) {
+	*this = src;
+}
+
 User::~User() {}
+
+User & User::operator=(User const &rhs) {
+	if (this == &rhs)
+		return (*this);
+	this->_username = rhs.getUsername();
+	this->_password = rhs.getPassword();
+	this->_nickname = rhs.getNickname();
+	this->_channel = rhs.getChannel();
+	return (*this);
+}
 
 std::string User::getUsername(void) const {
 	return this->_username;
