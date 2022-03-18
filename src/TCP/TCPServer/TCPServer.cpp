@@ -7,6 +7,7 @@ TCPServer::TCPServer() {
 TCPServer::TCPServer(int port) {
 	createServer(port);
 	this->_communicationManager = TCPCommunicationManager(&this->_clientManager);
+	signal(SIGINT, TCPServer::killServer);
 }
 
 
@@ -30,4 +31,10 @@ void TCPServer::listenning(void) {
 		std::cerr << e.what() << std::endl;
 		exit(EXIT_FAILURE);
 	}
+}
+
+void TCPServer::killServer(int sig) {
+	(void)sig;
+	std::cout << std::endl << "Shutting server down..." << std::endl;
+	exit(EXIT_SUCCESS);
 }

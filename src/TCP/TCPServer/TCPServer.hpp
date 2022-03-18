@@ -4,6 +4,7 @@
 #include "TCPCommons.hpp"
 #include "TCPClientManager.hpp"
 #include "TCPCommunicationManager.hpp"
+#include <signal.h>
 
 #define MOTD "Welcome to the server\n"
 #define SERVER_NAME "ft_irc_server"
@@ -35,6 +36,7 @@ class TCPServer {
 		char* getAddress(void) const;
 		int getPort(void) const;
 		void initServer(void);
+		static void killServer(int sig);
 };
 
 #endif
