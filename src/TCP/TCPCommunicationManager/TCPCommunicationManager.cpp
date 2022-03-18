@@ -18,7 +18,8 @@ std::string TCPCommunicationManager::messageBuilder(std::string sender, const ch
 }
 
 void TCPCommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
-	std::string msg = messageBuilder(sender, rawMsg);
+	(void)sender;
+	std::string msg = rawMsg;
 	int msgSize = strlen(msg.c_str());
 
 	ssize_t ret_send = send(sock, msg.c_str(), msgSize, 0);
