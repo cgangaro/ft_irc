@@ -9,9 +9,9 @@ class TCPClient {
 		SOCKET _socket;
 		SOCKADDR_IN _sin;
 		bool _isAuthenticated;
-		User _data;
 
 	public:
+		User _data;
 		TCPClient();
 		TCPClient(TCPClient const &src);
 		TCPClient(SOCKET sock, SOCKADDR_IN sin);

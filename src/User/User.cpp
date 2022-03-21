@@ -1,7 +1,8 @@
 #include "User.hpp"
 
 User::User() {
-	this->_username = "defaultUsername";
+	this->_username = "";
+	this->_nickname = "";
 }
 
 User::User(User const &src) {
