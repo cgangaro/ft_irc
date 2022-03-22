@@ -6,8 +6,7 @@
 #include "TCPCommunicationManager.hpp"
 #include <signal.h>
 
-#define MOTD "Welcome to the server\nEnter your username and your nickname with the commands:\n/user your_username\n/nickname your_nickname\n"
-#define SERVER_NAME "ft_irc_server"
+#define MOTD "Welcome to the server\nEnter your username, your nickname and your password with the commands:\n/USER your_username\n/NICK your_nickname\n/PASS your_password\n"
 
 class TCPServer {
 

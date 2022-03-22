@@ -20,6 +20,8 @@
 #define SOCKET_ERROR -1
 #define TCP_BUFFER_SIZE 1024
 
+#define SERVER_NAME "ft_irc_server"
+
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;

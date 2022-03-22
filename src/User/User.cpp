@@ -3,6 +3,7 @@
 User::User() {
 	this->_username = "";
 	this->_nickname = "";
+	this->_password = "";
 }
 
 User::User(User const &src) {
@@ -17,7 +18,7 @@ User & User::operator=(User const &rhs) {
 	this->_username = rhs.getUsername();
 	this->_password = rhs.getPassword();
 	this->_nickname = rhs.getNickname();
-	this->_channel = rhs.getChannel();
+	this->_channels = rhs.getChannels();
 	return (*this);
 }
 
@@ -33,8 +34,8 @@ std::string User::getNickname(void) const {
 	return this->_nickname;
 }
 
-std::string User::getChannel(void) const {
-	return this->_channel;
+std::vector<std::string> User::getChannels(void) const {
+	return this->_channels;
 }
 
 void User::setPassword(std::string password) {
@@ -44,6 +45,11 @@ void User::setPassword(std::string password) {
 void User::setUsername(std::string username) {
 	this->_username = username;
 }
+
 void User::setNickname(std::string nickname) {
 	this->_nickname = nickname;
+}
+
+void User::addChannel(std::string channel) {
+	_channels.push_back(channel);
 }

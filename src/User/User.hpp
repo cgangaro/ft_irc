@@ -2,13 +2,14 @@
 #define USER_HPP
 
 #include <string>
+#include <vector>
 
 class User {
 	private:
 		std::string _username;
 		std::string _password;
 		std::string _nickname;
-		std::string _channel; // a string beginning with #
+		std::vector<std::string> _channels; // a string beginning with #
 
 	public:
 		User();
@@ -20,11 +21,12 @@ class User {
 		std::string getUsername(void) const;
 		std::string getPassword(void) const;
 		std::string getNickname(void) const;
-		std::string getChannel(void) const;
+		std::vector<std::string> getChannels(void) const;
 
 		void setPassword(std::string password);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
+		void addChannel(std::string channel);
 };
 
 #endif
