@@ -1,26 +1,20 @@
 #include "TCPCommunicationManager.hpp"
 
-std::vector<std::string> TCPCommunicationManager::split(const char *buffer, std::string space_delimiter)
+void TCPCommunicationManager::command(const char *buffer, std::vector<TCPClient>::iterator it)
 {
-	std::string buf(buffer);
-
-    std::vector<std::string> ret;
-
-    size_t pos = 0;
-    while ((pos = buf.find(space_delimiter)) != std::string::npos)
-	{
-        ret.push_back(buf.substr(0, pos));
-        buf.erase(0, pos + space_delimiter.length());
-    }
-	if (buf[buf.length() - 1] == '\n')
-		buf.erase(buf.length() - 1, 1);
-	ret.push_back(buf.substr(0, buf.length()));
-    buf.erase(0, buf.length());
-	// std::cout << "split ret[0] = " << ret[0] << std::endl;
-	// std::cout << "size = " << ret.size() << std::endl;
-	// for (size_t i = 0; i < ret.size(); i++)
-	// 	std::cout << ret[i] << std::endl;
-	return (ret);
+	std::vector<std::string> buf = split(buffer, " ");
+	std::string buf_str(buffer);
+	if (buf[0].compare("/USER") == 0)
+		commandUser(buf, it);
+	else if (buf[0].compare("/NICK") == 0)
+		commandNickname(buf, it);
+	else if (buf[0].compare("/PASS") == 0)
+		commandPass(buf, it);
+	else if (buf[0].compare("/JOIN") == 0)
+		commandJoin(buf, it);
+	else if (buf[0].compare("/MSG") == 0)
+		commandMsg(buf, buf_str, it);
+	buf.clear();
 }
 
 void TCPCommunicationManager::commandUser(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
@@ -88,28 +82,13 @@ void TCPCommunicationManager::commandJoin(std::vector<std::string> buf, std::vec
 		commandJoin_Verif(buf, it);
 }
 
-// void TCPCommunicationManager::commandMsg(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
-// {
-// 	if (verifExistChannel(buf[1]))
-// 	{
-
-// 	}
-// 	else
-// 		std::cout << "Channel existe pas" << std::endl;
-// }
-
-void TCPCommunicationManager::command(const char *buffer, std::vector<TCPClient>::iterator it)
+void TCPCommunicationManager::commandMsg(std::vector<std::string> buf, std::string buf_str, std::vector<TCPClient>::iterator it)
 {
-	std::vector<std::string> buf = split(buffer, " ");
-	if (buf[0].compare("/USER") == 0)
-		commandUser(buf, it);
-	else if (buf[0].compare("/NICK") == 0)
-		commandNickname(buf, it);
-	else if (buf[0].compare("/PASS") == 0)
-		commandPass(buf, it);
-	else if (buf[0].compare("/JOIN") == 0)
-		commandJoin(buf, it);
-	// else if (buf[0].compare("/MSG") == 0)
-	// 	commandMsg(buf, it);
-	buf.clear();
+	if (verifExistChannel(buf[1]) && returnChannel(buf[1]).verifIfUser(it->getUser()))
+	{
+		std::string msg_to_send(buf_str);
+		msg_to_send.erase(0, msg_to_send.find(" ") + 1);
+		msg_to_send.erase(0, msg_to_send.find(" ") + 1);
+		sendToChannel(it->getUser().getUsername(), msg_to_send, buf[1]);
+	}
 }

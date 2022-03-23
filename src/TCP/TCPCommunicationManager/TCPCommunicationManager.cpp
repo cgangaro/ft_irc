@@ -17,30 +17,41 @@ std::string TCPCommunicationManager::messageBuilder(std::string sender, const ch
 	return ss.str();
 }
 
-void TCPCommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
-	std::string msg = sender;
-	msg.append(": ");
-	msg.append(rawMsg);
+void TCPCommunicationManager::sendMsg(SOCKET sock, std::string msg)
+{
+	std::cout << "sendMsg to " << sock << std::endl;
 	int msgSize = msg.length();
-
 	ssize_t ret_send = send(sock, msg.c_str(), msgSize, 0);
 	if (ret_send != (ssize_t)msgSize)
 		throw TCPException::SendFailed();
 }
 
+void TCPCommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
+	std::string msg = sender;
+	msg.append(": ");
+	msg.append(rawMsg);
+	sendMsg(sock, msg);
+}
+
+void TCPCommunicationManager::sendToChannel(std::string sender, std::string msg, std::string channel_str)
+{
+	std::string msg_to_send("[");
+	msg_to_send.append(channel_str);
+	msg_to_send.append("][");
+	msg_to_send.append(sender);
+	msg_to_send.append("] ");
+	msg_to_send.append(msg);
+	std::vector<User> list = returnChannel(channel_str).getListUser();
+	for (size_t i = 0; i < list.size(); i++)
+	{
+		if (list[i].getUsername() != sender)
+			sendMsg(list[i].getSocket(), msg_to_send.c_str());
+	}
+}
+
 void TCPCommunicationManager::sendToAll(std::string sender, const char* msg) {
 	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 		sendToOne(sender, it->getSocket(), msg);
-}
-
-void TCPCommunicationManager::sendToChannel(std::string sender, const char* msg, std::string channel) {
-	// for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
-	// 	if (it->getUser().getChannels() == channel)
-	// 		sendToOne(sender, it->getSocket(), msg);
-	(void)sender;
-	(void)msg;
-	(void)channel;
-	
 }
 
 void TCPCommunicationManager::processClientActivity(void) {

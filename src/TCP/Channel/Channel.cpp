@@ -9,11 +9,14 @@ Channel::Channel(Channel const &src) {
 	*this = src;
 }
 
-Channel::Channel(std::string name, std::string password, std::string admin) {
+Channel::Channel(std::string name, std::string password, User admin) {
 	_name = name;
 	_password = password;
+	// std::cout << "admin.getSocket() = " << admin.getSocket() << " | username = " << admin.getUsername() << std::endl;
 	_list_admin.push_back(admin);
+	// std::cout << "_list_admin[0].getSocket() = " << _list_admin[0].getSocket() << " | username = " << _list_admin[0].getUsername() << std::endl;
 	_list_user.push_back(admin);
+	// std::cout << "_list_user[0].getSocket() = " << _list_user[0].getSocket() << " | username = " << _list_user[0].getUsername() << std::endl;
 }
 
 Channel::~Channel() {}
@@ -23,6 +26,8 @@ Channel & Channel::operator=(Channel const &rhs) {
 		return (*this);
 	_name = rhs.getName();
 	_password = rhs.getPassword();
+	_list_admin = rhs.getListAdmin();
+	_list_user = rhs.getListUser();
 	return (*this);
 }
 
@@ -34,11 +39,11 @@ std::string Channel::getPassword(void) const {
 	return _password;
 }
 
-std::vector<std::string> Channel::getListAdmin(void) const {
+std::vector<User> Channel::getListAdmin(void) const {
 	return _list_admin;
 }
 
-std::vector<std::string> Channel::getListUser(void) const {
+std::vector<User> Channel::getListUser(void) const {
 	return _list_user;
 }
 
@@ -50,31 +55,31 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::addAdmin(std::string admin)
+void Channel::addAdmin(User admin)
 {
 	_list_admin.push_back(admin);
 }
 
-void Channel::addUser(std::string user)
+void Channel::addUser(User user)
 {
 	_list_user.push_back(user);
 }
 
-bool Channel::verifIfAdmin(std::string admin)
+bool Channel::verifIfAdmin(User admin)
 {
 	for (size_t i = 0; i < _list_admin.size(); i++)
 	{
-		if (_list_admin[i].compare(admin) == 0)
+		if (_list_admin[i].getUsername().compare(admin.getUsername()) == 0)
 			return (true);
 	}
 	return (false);
 }
 
-bool Channel::verifIfUser(std::string user)
+bool Channel::verifIfUser(User user)
 {
 	for (size_t i = 0; i < _list_user.size(); i++)
 	{
-		if (_list_user[i].compare(user) == 0)
+		if (_list_user[i].getUsername().compare(user.getUsername()) == 0)
 			return (true);
 	}
 	return (false);

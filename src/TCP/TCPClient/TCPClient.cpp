@@ -2,7 +2,9 @@
 
 TCPClient::TCPClient() {}
 
-TCPClient::TCPClient(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuthenticated(false) {}
+TCPClient::TCPClient(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuthenticated(false) {
+	_data.setSocket(sock);
+}
 
 TCPClient::TCPClient(TCPClient const & src) {
 	*this = src;
