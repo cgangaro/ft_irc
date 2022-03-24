@@ -41,7 +41,7 @@ void CommunicationManager::sendToChannel(std::string sender, std::string msg, st
 	msg_to_send.append(sender);
 	msg_to_send.append("] ");
 	msg_to_send.append(msg);
-	std::vector<User> list = returnChannel(channel_str).getListUser();
+	std::vector<Client> list = returnChannel(channel_str).getListUser();
 	for (size_t i = 0; i < list.size(); i++)
 	{
 		if (list[i].getUsername() != sender)
@@ -74,10 +74,10 @@ void CommunicationManager::processClientActivity(void) {
 					command(buffer, it);
 				else
 				{
-					if (it->getUser().getUsername().empty() || it->getUser().getNickname().empty() || it->getUser().getPassword().empty())
+					if (it->getUsername().empty() || it->getNickname().empty() || it->getPassword().empty())
 						sendToOne(SERVER_NAME, it->getSocket(), "Enter your username, your nickname and your password to communicate\n");
 					else
-						sendToAll(it->getUser().getUsername(), buffer);
+						sendToAll(it->getUsername(), buffer);
 				}		
 			}
 		}

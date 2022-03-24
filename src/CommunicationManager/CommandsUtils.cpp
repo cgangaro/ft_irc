@@ -40,7 +40,7 @@ bool CommunicationManager::verifPasswordChannel(std::string channel, std::string
 	return (false);
 }
 
-void CommunicationManager::addUserChannel(std::string channel, User user)
+void CommunicationManager::addUserChannel(std::string channel, Client user)
 {
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
@@ -66,7 +66,7 @@ void CommunicationManager::joinChannel_withPass(std::vector<std::string> buf, st
 	std::cout << "joinChannel_withPass" << std::endl;
 	std::vector<std::string> cmd_channels = split(buf[1].c_str(), ",");
 	std::vector<std::string> cmd_pass = split(buf[2].c_str(), ",");
-	if (it->getUser().getChannels().size() + buf.size() > 10)
+	if (it->getChannels().size() + buf.size() > 10)
 	{
 		sendToOne(SERVER_NAME, it->getSocket(), "Max channels per user: 10\n");
 		return ;
@@ -79,8 +79,8 @@ void CommunicationManager::joinChannel_withPass(std::vector<std::string> buf, st
 			std::cout << "channel exist" << std::endl;
 			if ((i < cmd_pass.size() && verifPasswordChannel(cmd_channels[i], cmd_pass[i])) || (i >= cmd_pass.size() && verifPasswordChannel(cmd_channels[i], "")))
 			{
-				it->_data.addChannel(cmd_channels[i]);
-				addUserChannel(cmd_channels[i], it->getUser());
+				it->addChannel(cmd_channels[i]);
+				addUserChannel(cmd_channels[i], *it);
 			}
 			else
 			{
@@ -95,16 +95,16 @@ void CommunicationManager::joinChannel_withPass(std::vector<std::string> buf, st
 			std::cout << "channel not exist" << std::endl;
 			if (i < cmd_pass.size())
 			{
-				Channel new_channel(cmd_channels[i], cmd_pass[i], it->getUser());
+				Channel new_channel(cmd_channels[i], cmd_pass[i], *it);
 				_channels_server.push_back(new_channel);
 			}
 			else
 			{
-				Channel new_channel(cmd_channels[i], "", it->getUser());
+				Channel new_channel(cmd_channels[i], "", *it);
 				std::cout << "new_channel name = " << new_channel.getName() << "new_Channel password = " << new_channel.getPassword() << std::endl;
 				_channels_server.push_back(new_channel);
 			}
-			it->_data.addChannel(cmd_channels[i]);
+			it->addChannel(cmd_channels[i]);
 		}
 	}
 }
@@ -113,7 +113,7 @@ void CommunicationManager::joinChannel_withoutPass(std::vector<std::string> buf,
 {
 	std::cout << "joinChannel_withoutpass" << std::endl;
 	std::vector<std::string> cmd_channels = split(buf[1].c_str(), ",");
-	if (it->getUser().getChannels().size() + buf.size() > 10)
+	if (it->getChannels().size() + buf.size() > 10)
 	{
 		sendToOne(SERVER_NAME, it->getSocket(), "Max channels per user: 10\n");
 		return ;
@@ -124,15 +124,15 @@ void CommunicationManager::joinChannel_withoutPass(std::vector<std::string> buf,
 		if (verifExistChannel(cmd_channels[i]))
 		{
 			std::cout << "channel exist" << std::endl;
-			addUserChannel(cmd_channels[i], it->getUser());
+			addUserChannel(cmd_channels[i], *it);
 		}
 		else
 		{
 			std::cout << "channel not exist" << std::endl;
-			Channel new_channel(cmd_channels[i], "", it->getUser());
+			Channel new_channel(cmd_channels[i], "", *it);
 			std::cout << "new_channel name = " << new_channel.getName() << " new_Channel password = " << new_channel.getPassword() << std::endl;
 			_channels_server.push_back(new_channel);
-			it->_data.addChannel(cmd_channels[i]);
+			it->addChannel(cmd_channels[i]);
 		}
 	}
 }

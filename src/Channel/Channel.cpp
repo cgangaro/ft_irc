@@ -9,7 +9,7 @@ Channel::Channel(Channel const &src) {
 	*this = src;
 }
 
-Channel::Channel(std::string name, std::string password, User admin) {
+Channel::Channel(std::string name, std::string password, Client admin) {
 	_name = name;
 	_password = password;
 	// std::cout << "admin.getSocket() = " << admin.getSocket() << " | username = " << admin.getUsername() << std::endl;
@@ -39,11 +39,11 @@ std::string Channel::getPassword(void) const {
 	return _password;
 }
 
-std::vector<User> Channel::getListAdmin(void) const {
+std::vector<Client> Channel::getListAdmin(void) const {
 	return _list_admin;
 }
 
-std::vector<User> Channel::getListUser(void) const {
+std::vector<Client> Channel::getListUser(void) const {
 	return _list_user;
 }
 
@@ -55,17 +55,17 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::addAdmin(User admin)
+void Channel::addAdmin(Client admin)
 {
 	_list_admin.push_back(admin);
 }
 
-void Channel::addUser(User user)
+void Channel::addUser(Client user)
 {
 	_list_user.push_back(user);
 }
 
-bool Channel::verifIfAdmin(User admin)
+bool Channel::verifIfAdmin(Client admin)
 {
 	for (size_t i = 0; i < _list_admin.size(); i++)
 	{
@@ -75,7 +75,7 @@ bool Channel::verifIfAdmin(User admin)
 	return (false);
 }
 
-bool Channel::verifIfUser(User user)
+bool Channel::verifIfUser(Client user)
 {
 	for (size_t i = 0; i < _list_user.size(); i++)
 	{

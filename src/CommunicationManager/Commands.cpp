@@ -31,7 +31,7 @@ void CommunicationManager::commandUser(std::vector<std::string> buf, std::vector
 		else if (buf[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_", 0) != std::string::npos)
 			sendToOne(SERVER_NAME, it->getSocket(), "Wrongs arguments, characters accepted: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_\n");
 		else
-			it->_data.setUsername(buf[1]);
+			it->setUsername(buf[1]);
 	}
 }
 
@@ -49,7 +49,7 @@ void CommunicationManager::commandNickname(std::vector<std::string> buf, std::ve
 		else if (buf[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_", 0) != std::string::npos)
 			sendToOne(SERVER_NAME, it->getSocket(), "Wrongs arguments, characters accepted: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_\n");
 		else
-			it->_data.setNickname(buf[1]);
+			it->setNickname(buf[1]);
 	}
 }
 
@@ -67,7 +67,7 @@ void CommunicationManager::commandPass(std::vector<std::string> buf, std::vector
 		else if (buf[1].find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_", 0) != std::string::npos)
 			sendToOne(SERVER_NAME, it->getSocket(), "Wrongs arguments, characters accepted: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_\n");
 		else
-			it->_data.setPassword(buf[1]);
+			it->setPassword(buf[1]);
 	}
 }
 
@@ -84,11 +84,11 @@ void CommunicationManager::commandJoin(std::vector<std::string> buf, std::vector
 
 void CommunicationManager::commandMsg(std::vector<std::string> buf, std::string buf_str, std::vector<Client>::iterator it)
 {
-	if (verifExistChannel(buf[1]) && returnChannel(buf[1]).verifIfUser(it->getUser()))
+	if (verifExistChannel(buf[1]) && returnChannel(buf[1]).verifIfUser(*it))
 	{
 		std::string msg_to_send(buf_str);
 		msg_to_send.erase(0, msg_to_send.find(" ") + 1);
 		msg_to_send.erase(0, msg_to_send.find(" ") + 1);
-		sendToChannel(it->getUser().getUsername(), msg_to_send, buf[1]);
+		sendToChannel(it->getUsername(), msg_to_send, buf[1]);
 	}
 }

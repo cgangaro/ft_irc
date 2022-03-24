@@ -37,7 +37,7 @@ class CommunicationManager {
 		void commandJoin_Verif(std::vector<std::string> buf, std::vector<Client>::iterator it);
 		void joinChannel_withPass(std::vector<std::string> buf, std::vector<Client>::iterator it);
 		void joinChannel_withoutPass(std::vector<std::string> buf, std::vector<Client>::iterator it);
-		void addUserChannel(std::string channel, User user);
+		void addUserChannel(std::string channel, Client user);
 };
 
 #endif

@@ -3,35 +3,35 @@
 
 #include <string>
 #include <vector>
-#include "User.hpp"
+#include "Client.hpp"
 
 class Channel {
 	private:
 		std::string _name;
 		std::string _password;
-		std::vector<User> _list_admin;
-		std::vector<User> _list_user;
+		std::vector<Client> _list_admin;
+		std::vector<Client> _list_user;
 
 	public:
 		Channel();
 		Channel(Channel const &src);
-		Channel(std::string name, std::string password, User admin);
+		Channel(std::string name, std::string password, Client admin);
 		~Channel();
 
 		Channel &operator=(Channel const &rhs);
 
 		std::string getName(void) const;
 		std::string getPassword(void) const;
-		std::vector<User> getListAdmin(void) const;
-		std::vector<User> getListUser(void) const;
+		std::vector<Client> getListAdmin(void) const;
+		std::vector<Client> getListUser(void) const;
 
 		void setName(std::string username);
 		void setPassword(std::string password);
-		void addAdmin(User admin);
-		void addUser(User user);
+		void addAdmin(Client admin);
+		void addUser(Client user);
 
-		bool verifIfAdmin(User admin);
-		bool verifIfUser(User user);
+		bool verifIfAdmin(Client admin);
+		bool verifIfUser(Client user);
 };
 
 #endif

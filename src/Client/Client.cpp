@@ -3,7 +3,6 @@
 Client::Client() {}
 
 Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuthenticated(false) {
-	_data.setSocket(sock);
 }
 
 Client::Client(Client const & src) {
@@ -20,16 +19,19 @@ Client & Client::operator=(Client const &rhs) {
 	this->_socket = rhs.getSocket();
 	this->_sin = rhs.getSin();
 	this->_isAuthenticated = rhs.isAuthenticated();
-	this->_data = rhs.getUser();
+	this->_username = rhs.getUsername();
+	this->_password = rhs.getPassword();
+	this->_nickname = rhs.getNickname();
+	this->_channels = rhs.getChannels();
 	return (*this);
 }
 
 SOCKET Client::getSocket(void) const {
-	return _socket;
+	return this->_socket;
 }
 
 SOCKADDR_IN Client::getSin(void) const {
-	return _sin;
+	return this->_sin;
 }
 
 char* Client::getAddress(void) const {
@@ -40,10 +42,42 @@ int Client::getPort(void) const {
 	return ntohs(this->_sin.sin_port);
 }
 
-User Client::getUser(void) const {
-	return this->_data;
-}
-
 bool Client::isAuthenticated(void) const {
 	return _isAuthenticated;
+}
+
+std::string Client::getUsername(void) const {
+	return this->_username;
+}
+
+std::string Client::getPassword(void) const {
+	return this->_password;
+}
+
+std::string Client::getNickname(void) const {
+	return this->_nickname;
+}
+
+std::vector<std::string> Client::getChannels(void) const {
+	return this->_channels;
+}
+
+void Client::setPassword(std::string password) {
+	this->_password = password;
+}
+
+void Client::setUsername(std::string username) {
+	this->_username = username;
+}
+
+void Client::setNickname(std::string nickname) {
+	this->_nickname = nickname;
+}
+
+void Client::setSocket(SOCKET socket) {
+	this->_socket = socket;
+}
+
+void Client::addChannel(std::string channel) {
+	_channels.push_back(channel);
 }
