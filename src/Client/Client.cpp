@@ -1,4 +1,5 @@
 #include "Client.hpp"
+#include "Channel.hpp"
 
 Client::Client() {}
 
@@ -58,7 +59,7 @@ std::string Client::getNickname(void) const {
 	return this->_nickname;
 }
 
-std::vector<std::string> Client::getChannels(void) const {
+std::vector<Channel> Client::getChannels(void) const {
 	return this->_channels;
 }
 
@@ -78,6 +79,6 @@ void Client::setSocket(SOCKET socket) {
 	this->_socket = socket;
 }
 
-void Client::addChannel(std::string channel) {
+void Client::addChannel(Channel & channel) {
 	_channels.push_back(channel);
 }

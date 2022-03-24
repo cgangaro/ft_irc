@@ -12,11 +12,8 @@ Channel::Channel(Channel const &src) {
 Channel::Channel(std::string name, std::string password, Client admin) {
 	_name = name;
 	_password = password;
-	// std::cout << "admin.getSocket() = " << admin.getSocket() << " | username = " << admin.getUsername() << std::endl;
 	_list_admin.push_back(admin);
-	// std::cout << "_list_admin[0].getSocket() = " << _list_admin[0].getSocket() << " | username = " << _list_admin[0].getUsername() << std::endl;
 	_list_user.push_back(admin);
-	// std::cout << "_list_user[0].getSocket() = " << _list_user[0].getSocket() << " | username = " << _list_user[0].getUsername() << std::endl;
 }
 
 Channel::~Channel() {}

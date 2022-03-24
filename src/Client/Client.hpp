@@ -1,8 +1,10 @@
 #ifndef _CLIENT_H
 #define _CLIENT_H
 
-#include "Commons.hpp"
 #include <vector>
+#include "Commons.hpp"
+
+class Channel;
 
 class Client {
 	private:
@@ -13,7 +15,7 @@ class Client {
 		std::string _username;
 		std::string _password;
 		std::string _nickname;
-		std::vector<std::string> _channels; // a string beginning with #
+		std::vector<Channel> _channels; // a string beginning with #
 
 
 	public:
@@ -32,13 +34,13 @@ class Client {
 		std::string getUsername(void) const;
 		std::string getPassword(void) const;
 		std::string getNickname(void) const;
-		std::vector<std::string> getChannels(void) const;
+		std::vector<Channel> getChannels(void) const;
 
 		void setPassword(std::string password);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
 		void setSocket(SOCKET socket);
-		void addChannel(std::string channel);
+		void addChannel(Channel & channel);
 };
 
 #endif

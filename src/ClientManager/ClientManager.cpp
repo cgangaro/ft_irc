@@ -1,7 +1,4 @@
 #include "ClientManager.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <cstdlib>
 
 ClientManager::ClientManager() {
 	FD_ZERO(&_readfds);

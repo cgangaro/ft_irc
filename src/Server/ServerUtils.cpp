@@ -36,7 +36,6 @@ void Server::createServer(int port) {
 void Server::waitForActivity() {
 	int selectRet;
 
-	std::cout << "Waiting for activity..." << std::endl;
 	selectRet = select(_clientManager.getMaxSocket() + 1, _clientManager.getReadfds(), NULL, NULL, NULL);
 	if (selectRet == SOCKET_ERROR)
 			throw Exception::SelectFailed();
@@ -59,7 +58,6 @@ void Server::registerNewClient() {
 	if (csock == SOCKET_ERROR)
 		throw Exception::AcceptFailed();
 	promptNewClient(csock);
-	this->_communicationManager.sendToOne(SERVER_NAME, csock, MOTD);
 	this->_clientManager.addClient(csock, csin);
 }
 

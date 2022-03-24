@@ -1,9 +1,5 @@
 #include "Server.hpp"
 
-Server::Server() {
-	createServer(DEFAULT_PORT);
-}
-
 Server::Server(int port) {
 	createServer(port);
 	this->_communicationManager = CommunicationManager(&this->_clientManager);
