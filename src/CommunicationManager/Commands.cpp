@@ -1,6 +1,6 @@
-#include "TCPCommunicationManager.hpp"
+#include "CommunicationManager.hpp"
 
-void TCPCommunicationManager::command(const char *buffer, std::vector<TCPClient>::iterator it)
+void CommunicationManager::command(const char *buffer, std::vector<Client>::iterator it)
 {
 	std::vector<std::string> buf = split(buffer, " ");
 	std::string buf_str(buffer);
@@ -17,7 +17,7 @@ void TCPCommunicationManager::command(const char *buffer, std::vector<TCPClient>
 	buf.clear();
 }
 
-void TCPCommunicationManager::commandUser(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandUser(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	if (buf.size() != 2)
 	{
@@ -35,7 +35,7 @@ void TCPCommunicationManager::commandUser(std::vector<std::string> buf, std::vec
 	}
 }
 
-void TCPCommunicationManager::commandNickname(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandNickname(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	if (buf.size() != 2)
 	{
@@ -53,7 +53,7 @@ void TCPCommunicationManager::commandNickname(std::vector<std::string> buf, std:
 	}
 }
 
-void TCPCommunicationManager::commandPass(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandPass(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	if (buf.size() != 2)
 	{
@@ -71,7 +71,7 @@ void TCPCommunicationManager::commandPass(std::vector<std::string> buf, std::vec
 	}
 }
 
-void TCPCommunicationManager::commandJoin(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandJoin(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	if (buf.size() != 3 && buf.size() != 2)
 	{
@@ -82,7 +82,7 @@ void TCPCommunicationManager::commandJoin(std::vector<std::string> buf, std::vec
 		commandJoin_Verif(buf, it);
 }
 
-void TCPCommunicationManager::commandMsg(std::vector<std::string> buf, std::string buf_str, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandMsg(std::vector<std::string> buf, std::string buf_str, std::vector<Client>::iterator it)
 {
 	if (verifExistChannel(buf[1]) && returnChannel(buf[1]).verifIfUser(it->getUser()))
 	{

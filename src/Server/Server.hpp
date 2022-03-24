@@ -1,20 +1,21 @@
-#ifndef TCP_SERVER_H
-#define TCP_SERVER_H
+#ifndef _SERVER_H
+#define _SERVER_H
 
-#include "TCPCommons.hpp"
-#include "TCPClientManager.hpp"
-#include "TCPCommunicationManager.hpp"
+#include "Commons.hpp"
+#include "ClientManager.hpp"
+#include "CommunicationManager.hpp"
 #include <signal.h>
 
-#define MOTD "Welcome to the server\nEnter your username, your nickname and your password with the commands:\n/USER your_username\n/NICK your_nickname\n/PASS your_password\n"
+//#define MOTD "Welcome to the server\nEnter your username, your nickname and your password with the commands:\n/USER your_username\n/NICK your_nickname\n/PASS your_password\n"
+#define MOTD ""
 
-class TCPServer {
+class Server {
 
 	private:
 		SOCKET _socket;
 		SOCKADDR_IN _sin;
-		TCPClientManager _clientManager;
-		TCPCommunicationManager _communicationManager;
+		ClientManager _clientManager;
+		CommunicationManager _communicationManager;
 
 
 		static SOCKET createSocket();
@@ -27,9 +28,9 @@ class TCPServer {
 		void registerNewClient();
 
 	public:
-		TCPServer();
-		TCPServer(int port);
-		~TCPServer();
+		Server();
+		Server(int port);
+		~Server();
 
 		void listenning(void);
 		char* getAddress(void) const;

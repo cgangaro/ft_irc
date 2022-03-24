@@ -1,4 +1,4 @@
-#include "TCPServer.hpp"
+#include "Server.hpp"
 
 int main (int argc, char **argv)
 {
@@ -8,7 +8,7 @@ int main (int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	TCPServer server(atoi(argv[1]));
+	Server server(atoi(argv[1]));
 	server.listenning();
 
 	return (EXIT_SUCCESS);

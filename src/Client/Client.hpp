@@ -1,10 +1,10 @@
-#ifndef TCP_CLIENT_H
-#define TCP_CLIENT_H
+#ifndef _CLIENT_H
+#define _CLIENT_H
 
-#include "TCPCommons.hpp"
+#include "Commons.hpp"
 #include "User.hpp"
 
-class TCPClient {
+class Client {
 	private:
 		SOCKET _socket;
 		SOCKADDR_IN _sin;
@@ -12,12 +12,12 @@ class TCPClient {
 
 	public:
 		User _data;
-		TCPClient();
-		TCPClient(TCPClient const &src);
-		TCPClient(SOCKET sock, SOCKADDR_IN sin);
-		virtual ~TCPClient();
+		Client();
+		Client(Client const &src);
+		Client(SOCKET sock, SOCKADDR_IN sin);
+		virtual ~Client();
 
-		TCPClient &operator=(TCPClient const &rhs);
+		Client &operator=(Client const &rhs);
 		SOCKET getSocket(void) const;
 		User getUser(void) const;
 		bool isAuthenticated(void) const;

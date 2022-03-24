@@ -1,29 +1,29 @@
-#include "TCPServer.hpp"
+#include "Server.hpp"
 
-TCPServer::TCPServer() {
+Server::Server() {
 	createServer(DEFAULT_PORT);
 }
 
-TCPServer::TCPServer(int port) {
+Server::Server(int port) {
 	createServer(port);
-	this->_communicationManager = TCPCommunicationManager(&this->_clientManager);
-	signal(SIGINT, TCPServer::killServer);
+	this->_communicationManager = CommunicationManager(&this->_clientManager);
+	signal(SIGINT, Server::killServer);
 }
 
 
-TCPServer::~TCPServer() {
+Server::~Server() {
 	close(_socket);
 }
 
-int TCPServer::getPort(void) const {
+int Server::getPort(void) const {
 	return ntohs(this->_sin.sin_port);
 }
 
-char* TCPServer::getAddress(void) const {
+char* Server::getAddress(void) const {
 	return inet_ntoa(this->_sin.sin_addr);
 }
 
-void TCPServer::listenning(void) {
+void Server::listenning(void) {
 	try {
 		std::cout << "Listening on port " << this->getPort() << " ..." << std::endl;
 		serverListen();
@@ -33,7 +33,7 @@ void TCPServer::listenning(void) {
 	}
 }
 
-void TCPServer::killServer(int sig) {
+void Server::killServer(int sig) {
 	(void)sig;
 	std::cout << std::endl << "Shutting server down..." << std::endl;
 	exit(EXIT_SUCCESS);

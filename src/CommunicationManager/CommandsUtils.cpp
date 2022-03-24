@@ -1,6 +1,6 @@
-#include "TCPCommunicationManager.hpp"
+#include "CommunicationManager.hpp"
 
-Channel TCPCommunicationManager::returnChannel(std::string channel)
+Channel CommunicationManager::returnChannel(std::string channel)
 {
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
@@ -13,7 +13,7 @@ Channel TCPCommunicationManager::returnChannel(std::string channel)
 	return (ret);
 }
 
-bool TCPCommunicationManager::verifExistChannel(std::string channel)
+bool CommunicationManager::verifExistChannel(std::string channel)
 {
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
@@ -25,7 +25,7 @@ bool TCPCommunicationManager::verifExistChannel(std::string channel)
 	return (false);
 }
 
-bool TCPCommunicationManager::verifPasswordChannel(std::string channel, std::string password)
+bool CommunicationManager::verifPasswordChannel(std::string channel, std::string password)
 {
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
@@ -40,7 +40,7 @@ bool TCPCommunicationManager::verifPasswordChannel(std::string channel, std::str
 	return (false);
 }
 
-void TCPCommunicationManager::addUserChannel(std::string channel, User user)
+void CommunicationManager::addUserChannel(std::string channel, User user)
 {
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
@@ -53,7 +53,7 @@ void TCPCommunicationManager::addUserChannel(std::string channel, User user)
 	return ;
 }
 
-void TCPCommunicationManager::commandJoin_Verif(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::commandJoin_Verif(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	if (buf.size() <= 2)
 		joinChannel_withoutPass(buf, it);
@@ -61,7 +61,7 @@ void TCPCommunicationManager::commandJoin_Verif(std::vector<std::string> buf, st
 		joinChannel_withPass(buf, it);
 }
 
-void TCPCommunicationManager::joinChannel_withPass(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::joinChannel_withPass(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	std::cout << "joinChannel_withPass" << std::endl;
 	std::vector<std::string> cmd_channels = split(buf[1].c_str(), ",");
@@ -109,7 +109,7 @@ void TCPCommunicationManager::joinChannel_withPass(std::vector<std::string> buf,
 	}
 }
 
-void TCPCommunicationManager::joinChannel_withoutPass(std::vector<std::string> buf, std::vector<TCPClient>::iterator it)
+void CommunicationManager::joinChannel_withoutPass(std::vector<std::string> buf, std::vector<Client>::iterator it)
 {
 	std::cout << "joinChannel_withoutpass" << std::endl;
 	std::vector<std::string> cmd_channels = split(buf[1].c_str(), ",");
@@ -137,7 +137,7 @@ void TCPCommunicationManager::joinChannel_withoutPass(std::vector<std::string> b
 	}
 }
 
-std::vector<std::string> TCPCommunicationManager::split(const char *buffer, std::string space_delimiter)
+std::vector<std::string> CommunicationManager::split(const char *buffer, std::string space_delimiter)
 {
 	std::string buf(buffer);
 

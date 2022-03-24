@@ -1,20 +1,20 @@
-#include "TCPServer.hpp"
+#include "Server.hpp"
 
-SOCKET TCPServer::createSocket() {
+SOCKET Server::createSocket() {
 	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET)
-		throw TCPException::SocketCreationFailed();
+		throw Exception::SocketCreationFailed();
 	return (sock);
 }
 
-int TCPServer::bindSocket() {
+int Server::bindSocket() {
 	int ret = bind(this->_socket, (SOCKADDR*)&this->_sin, sizeof(this->_sin));
 	if (ret == SOCKET_ERROR)
-		throw TCPException::BindFailed();
+		throw Exception::BindFailed();
 	return (ret);
 }
 
-void TCPServer::createServer(int port) {
+void Server::createServer(int port) {
 	try {
 		// Create socket
 		this->_socket = createSocket();
@@ -33,46 +33,46 @@ void TCPServer::createServer(int port) {
 	}
 }
 
-void TCPServer::waitForActivity() {
+void Server::waitForActivity() {
 	int selectRet;
 
 	std::cout << "Waiting for activity..." << std::endl;
 	selectRet = select(_clientManager.getMaxSocket() + 1, _clientManager.getReadfds(), NULL, NULL, NULL);
 	if (selectRet == SOCKET_ERROR)
-			throw TCPException::SelectFailed();
+			throw Exception::SelectFailed();
 }
 
-bool TCPServer::isNewClientWaiting() {
+bool Server::isNewClientWaiting() {
 	return FD_ISSET(this->_socket, _clientManager.getReadfds());
 }
 
-void TCPServer::promptNewClient(int sock) {
+void Server::promptNewClient(int sock) {
 	std::cout << "Client connected with socket " << sock << " on " << this->getAddress() << ":" << this->getPort() << std::endl;
 }
 
-void TCPServer::registerNewClient() {
+void Server::registerNewClient() {
 	int csock;
 	SOCKADDR_IN csin;
 	socklen_t csin_size = sizeof(csin);
 
 	csock = accept(this->_socket, (SOCKADDR*)&csin, &csin_size);
 	if (csock == SOCKET_ERROR)
-		throw TCPException::AcceptFailed();
+		throw Exception::AcceptFailed();
 	promptNewClient(csock);
 	this->_communicationManager.sendToOne(SERVER_NAME, csock, MOTD);
 	this->_clientManager.addClient(csock, csin);
 }
 
-void TCPServer::refreshReadfds() {
+void Server::refreshReadfds() {
 	FD_ZERO(_clientManager.getReadfds());
 	_clientManager.addSocket(this->_socket);
-	for (std::vector<TCPClient>::iterator it = _clientManager.getClients()->begin(); it != _clientManager.getClients()->end(); ++it)
+	for (std::vector<Client>::iterator it = _clientManager.getClients()->begin(); it != _clientManager.getClients()->end(); ++it)
 		_clientManager.addSocket(it->getSocket());
 }
 
-void TCPServer::serverListen() {
+void Server::serverListen() {
 	if (listen(this->_socket, SOMAXCONN) == SOCKET_ERROR)
-		throw TCPException::ListenFailed();
+		throw Exception::ListenFailed();
 		
 	try {
 		while (true) {

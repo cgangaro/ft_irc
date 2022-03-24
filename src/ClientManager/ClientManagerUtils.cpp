@@ -1,17 +1,17 @@
-#include "TCPClientManager.hpp"
+#include "ClientManager.hpp"
 
-void TCPClientManager::addSocket(SOCKET sock)
+void ClientManager::addSocket(SOCKET sock)
 {
 	FD_SET(sock, &_readfds);
 	if (sock > _maxSocket)
 		_maxSocket = sock;
 }
 
-void TCPClientManager::deleteClient(TCPClient & client) {
+void ClientManager::deleteClient(Client & client) {
 	delete &client;
 }
 
-void TCPClientManager::disconnectClient(SOCKET client) {
+void ClientManager::disconnectClient(SOCKET client) {
 	std::cout << "Client with socket " << client << " disconnected." << std::endl;
 	removeClient(client);
 }

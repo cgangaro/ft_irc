@@ -1,39 +1,39 @@
-#include "TCPCommunicationManager.hpp"
+#include "CommunicationManager.hpp"
 
-TCPCommunicationManager::TCPCommunicationManager() {}
+CommunicationManager::CommunicationManager() {}
 
-TCPCommunicationManager::TCPCommunicationManager(TCPClientManager* _clientManager) : _clientManager(_clientManager) {}
+CommunicationManager::CommunicationManager(ClientManager* _clientManager) : _clientManager(_clientManager) {}
 
-TCPCommunicationManager::~TCPCommunicationManager() {}
+CommunicationManager::~CommunicationManager() {}
 
-TCPClientManager* TCPCommunicationManager::getClientManager(void) const {
+ClientManager* CommunicationManager::getClientManager(void) const {
 	return this->_clientManager;
 }
 
-std::string TCPCommunicationManager::messageBuilder(std::string sender, const char* msg) const {
+std::string CommunicationManager::messageBuilder(std::string sender, const char* msg) const {
 	std::stringstream ss;
 
 	ss << sender << " -- | " << msg;
 	return ss.str();
 }
 
-void TCPCommunicationManager::sendMsg(SOCKET sock, std::string msg)
+void CommunicationManager::sendMsg(SOCKET sock, std::string msg)
 {
 	std::cout << "sendMsg to " << sock << std::endl;
 	int msgSize = msg.length();
 	ssize_t ret_send = send(sock, msg.c_str(), msgSize, 0);
 	if (ret_send != (ssize_t)msgSize)
-		throw TCPException::SendFailed();
+		throw Exception::SendFailed();
 }
 
-void TCPCommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
+void CommunicationManager::sendToOne(std::string sender, SOCKET sock, const char* rawMsg) {
 	std::string msg = sender;
 	msg.append(": ");
 	msg.append(rawMsg);
 	sendMsg(sock, msg);
 }
 
-void TCPCommunicationManager::sendToChannel(std::string sender, std::string msg, std::string channel_str)
+void CommunicationManager::sendToChannel(std::string sender, std::string msg, std::string channel_str)
 {
 	std::string msg_to_send("[");
 	msg_to_send.append(channel_str);
@@ -49,22 +49,22 @@ void TCPCommunicationManager::sendToChannel(std::string sender, std::string msg,
 	}
 }
 
-void TCPCommunicationManager::sendToAll(std::string sender, const char* msg) {
-	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
+void CommunicationManager::sendToAll(std::string sender, const char* msg) {
+	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 		sendToOne(sender, it->getSocket(), msg);
 }
 
-void TCPCommunicationManager::processClientActivity(void) {
-	char* buffer = new char[TCP_BUFFER_SIZE];
+void CommunicationManager::processClientActivity(void) {
+	char* buffer = new char[BUFFER_SIZE];
 	std::vector<SOCKET> clientsToDelete;
 
-	for (std::vector<TCPClient>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
+	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 	{
 		if (FD_ISSET(it->getSocket(), _clientManager->getReadfds()))
 		{
-			int ret_read = read(it->getSocket(), buffer, TCP_BUFFER_SIZE);
+			int ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);
 			if (ret_read == SOCKET_ERROR)
-				throw TCPException::ReadFailed();
+				throw Exception::ReadFailed();
 			else if (ret_read == 0)
 				clientsToDelete.push_back(it->getSocket());
 			else if (ret_read != 1) // ignore empty messages
