@@ -14,7 +14,7 @@ class CommunicationManager {
 
 	public:
 		CommunicationManager();
-		CommunicationManager(ClientManager* _clientManager);
+		CommunicationManager(ClientManager* _clientManager, std::string pwd);
 		~CommunicationManager();
 
 		ClientManager* getClientManager(void) const;

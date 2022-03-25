@@ -79,6 +79,10 @@ void Client::setSocket(SOCKET socket) {
 	this->_socket = socket;
 }
 
+void Client::authenticate(void) {
+	this->_isAuthenticated = true;
+}
+
 void Client::addChannel(Channel & channel) {
 	_channels.push_back(channel);
 }

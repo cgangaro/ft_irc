@@ -6,9 +6,6 @@
 #include "CommunicationManager.hpp"
 #include <signal.h>
 
-//#define MOTD "Welcome to the server\nEnter your username, your nickname and your password with the commands:\n/USER your_username\n/NICK your_nickname\n/PASS your_password\n"
-#define MOTD ""
-
 class Server {
 
 	private:
@@ -16,6 +13,7 @@ class Server {
 		SOCKADDR_IN _sin;
 		ClientManager _clientManager;
 		CommunicationManager _communicationManager;
+		std::string _password;
 
 
 		static SOCKET createSocket();
@@ -29,7 +27,7 @@ class Server {
 
 	public:
 		Server();
-		Server(int port);
+		Server(int port, std::string pwd);
 		~Server();
 
 		void listenning(void);

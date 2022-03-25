@@ -2,9 +2,10 @@
 #define COMMAND_HPP
 
 #include "Client.hpp"
+#include "Errors.hpp"
 
-#define COMMANDS "NICK USER PASS JOIN MSG"
-#define NB_COMMANDS 5
+#define COMMANDS "NICK USER PASS JOIN MSG QUIT"
+#define NB_COMMANDS 6
 #define COMMAND_EXECUTOR(name) void name(Client & client, std::vector<std::string> tokens);
 
 class Command;
@@ -23,10 +24,11 @@ class Command
 		std::vector<t_command> _commands;
 		static commandExecutor _executors[NB_COMMANDS];
 		CommunicationManager *_communicationManager;
+		std::string _password;
 
 	public:
 		Command();
-		Command(CommunicationManager *_communicationManager);
+		Command(CommunicationManager *_communicationManager, std::string pwd);
 		~Command();
 
 		void interpret(char* buffer, Client & client);
@@ -38,6 +40,7 @@ class Command
 		COMMAND_EXECUTOR(commandPass)
 		COMMAND_EXECUTOR(commandJoin)
 		COMMAND_EXECUTOR(commandMsg)
+		COMMAND_EXECUTOR(commandQuit)
 };
 
 #endif

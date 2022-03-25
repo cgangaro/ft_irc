@@ -7,11 +7,12 @@ commandExecutor Command::_executors[NB_COMMANDS] = {
 	&Command::commandPass,
 	&Command::commandJoin,
 	&Command::commandMsg,
+	&Command::commandQuit
 };
 
 Command::Command() {}
 
-Command::Command(CommunicationManager *_communicationManager) {
+Command::Command(CommunicationManager *_communicationManager, std::string pwd) : _communicationManager(_communicationManager), _password(pwd) {
 	t_command command;
 	std::vector<std::string> commandNames = split(COMMANDS, " ");
 
@@ -20,7 +21,6 @@ Command::Command(CommunicationManager *_communicationManager) {
 		command.executor = this->_executors[i];
 		_commands.push_back(command);
 	}
-	this->_communicationManager = _communicationManager;
 }
 
 Command::~Command() {

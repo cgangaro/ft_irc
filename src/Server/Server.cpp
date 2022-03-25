@@ -1,8 +1,9 @@
 #include "Server.hpp"
 
-Server::Server(int port) {
+Server::Server(int port, std::string pwd) {
 	createServer(port);
-	this->_communicationManager = CommunicationManager(&this->_clientManager);
+	this->_password = pwd + '\r';
+	this->_communicationManager = CommunicationManager(&this->_clientManager, this->_password);
 	signal(SIGINT, Server::killServer);
 }
 

@@ -40,6 +40,7 @@ class Client {
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
 		void setSocket(SOCKET socket);
+		void authenticate(void);
 		void addChannel(Channel & channel);
 };
 

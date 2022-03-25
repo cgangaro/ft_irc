@@ -2,8 +2,8 @@
 
 CommunicationManager::CommunicationManager() {}
 
-CommunicationManager::CommunicationManager(ClientManager* _clientManager) : _clientManager(_clientManager) {
-	_interpreter = Command(this);	
+CommunicationManager::CommunicationManager(ClientManager* _clientManager, std::string pwd) : _clientManager(_clientManager) {
+	_interpreter = Command(this, pwd);	
 }
 
 CommunicationManager::~CommunicationManager() {}
