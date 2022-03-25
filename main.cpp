@@ -9,6 +9,8 @@ int main (int argc, char **argv)
 	}
 
 	Server server(atoi(argv[1]), argv[2]);
+/* 	std::cout << "=== main ===" << std::endl;
+	std::cout << "\tserver address: " << &server << std::endl; */
 	server.listenning();
 
 	return (EXIT_SUCCESS);

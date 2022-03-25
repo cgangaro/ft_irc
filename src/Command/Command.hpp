@@ -6,11 +6,11 @@
 
 #define COMMANDS "NICK USER PASS JOIN MSG QUIT"
 #define NB_COMMANDS 6
-#define COMMAND_EXECUTOR(name) void name(Client & client, std::vector<std::string> tokens);
+#define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens);
 
 class Command;
 
-typedef void (Command::*commandExecutor)(Client &, std::vector<std::string>);
+typedef bool (Command::*commandExecutor)(Client *, std::vector<std::string>);
 typedef struct s_command {
 	std::string name;
 	commandExecutor executor;
@@ -31,9 +31,12 @@ class Command
 		Command(CommunicationManager *_communicationManager, std::string pwd);
 		~Command();
 
-		void interpret(char* buffer, Client & client);
+		Command& operator=(const Command& cm);
+		bool interpret(char* buffer, Client * client);
+		bool processCommand(std::string *cmd, Client * client);
 		static std::vector<std::string> split(const char *buffer, std::string space_delimiter);
 		static bool isValidStringData(std::string & data);
+		static void eraseSubstr(std::string & str, const std::string & substr);
 
 		COMMAND_EXECUTOR(commandNick)
 		COMMAND_EXECUTOR(commandUser)

@@ -54,3 +54,12 @@ void ClientManager::refreshMaxSocket() {
 			_maxSocket = it->getSocket();
 	}
 }
+
+bool ClientManager::isNicknameTaken(std::string nickname) const {
+	//std::cout << __func__ << " nbClients(): " << this->getNbClient() << std::endl;
+	for (std::vector<Client>::const_iterator it = _clients.begin(); it != _clients.end(); ++it) {
+		if (it->getNickname() == nickname)
+			return true;
+	}
+	return false;
+}

@@ -21,27 +21,58 @@ Command::Command(CommunicationManager *_communicationManager, std::string pwd) :
 		command.executor = this->_executors[i];
 		_commands.push_back(command);
 	}
+/* 	std::cout << "=== Command constructor ===" << std::endl;
+	std::cout << "\tthis: " << this << std::endl;
+	std::cout << "\t_communicationManager: " << _communicationManager << std::endl;
+	std::cout << "=== Command END ===" << std::endl; */
 }
 
 Command::~Command() {
 	
 }
 
-void Command::interpret(char* buffer, Client & client) {
-	std::vector<std::string> tokens;
-	(void)client;
+Command& Command::operator=(const Command& cm) {
+	this->_communicationManager = cm._communicationManager;
+	this->_password = cm._password;
+	this->_commands = cm._commands;
+	return *this;
+}
+/*
+** Splitting the received data into maybe multiple commands
+*/
+bool Command::interpret(char* buffer, Client * client) {
+	bool shouldDisconnect = false;
+	std::vector<std::string> cmds;
 
 	std::cout << "Received: " << buffer << std::endl;
 
+	cmds = split(buffer, CRLF);
+	for (std::vector<std::string>::iterator it = cmds.begin(); it != cmds.end(); ++it) {
+		if (!it->empty() && (shouldDisconnect = processCommand(&(*it), client)))
+			break;
+	}
+	return shouldDisconnect;
+}
+
+/*
+** Processing a single command
+*/
+bool Command::processCommand(std::string *cmd, Client * client) {
+	std::vector<std::string> tokens;
+	bool shouldDisconnect = false;
+
+	std::cout << "Processing: " << *cmd << std::endl << std::endl;
+
 	try {
-		tokens = split(buffer, " ");
+		tokens = split(cmd->c_str(), " ");
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {
-				(this->*(it->executor))(client, tokens);
+				shouldDisconnect = (this->*(it->executor))(client, tokens);
 				break;
 			}
 		}
 	} catch (std::exception & e) {
-		this->_communicationManager->sendMsg(client.getSocket(), e.what());
+		this->_communicationManager->sendMsg(client->getSocket(), e.what());
 	}
+	return shouldDisconnect;
 }

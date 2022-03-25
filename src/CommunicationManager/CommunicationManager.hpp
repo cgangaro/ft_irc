@@ -14,9 +14,11 @@ class CommunicationManager {
 
 	public:
 		CommunicationManager();
-		CommunicationManager(ClientManager* _clientManager, std::string pwd);
+		CommunicationManager(ClientManager* _clientManager);
 		~CommunicationManager();
 
+		CommunicationManager& operator=(const CommunicationManager& cm);
+		void setInterpreter(Command interpreter);
 		ClientManager* getClientManager(void) const;
 		std::string messageBuilder(std::string sender, Channel & channel, const char* msg) const;
 		Channel & getDefaultChannel(void);

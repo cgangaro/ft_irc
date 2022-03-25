@@ -2,11 +2,24 @@
 
 CommunicationManager::CommunicationManager() {}
 
-CommunicationManager::CommunicationManager(ClientManager* _clientManager, std::string pwd) : _clientManager(_clientManager) {
-	_interpreter = Command(this, pwd);	
+CommunicationManager::CommunicationManager(ClientManager* _clientManager) : _clientManager(_clientManager) {
+/* 	std::cout << "=== CommunicationManager constructor ===" << std::endl;
+	std::cout << "\tthis: " << this << std::endl;
+	std::cout << "\t_clientManager: " << _clientManager << std::endl;
+	std::cout << "=== CommunicationManager END ===" << std::endl; */
 }
 
 CommunicationManager::~CommunicationManager() {}
+
+void CommunicationManager::setInterpreter(Command interpreter) {
+	this->_interpreter = interpreter;
+}
+
+CommunicationManager& CommunicationManager::operator=(const CommunicationManager& cm) {
+	this->_clientManager = cm._clientManager;
+	this->_interpreter = cm._interpreter;
+	return *this;
+}
 
 ClientManager* CommunicationManager::getClientManager(void) const {
 	return this->_clientManager;
@@ -48,22 +61,25 @@ void CommunicationManager::sendToChannel(std::string sender, Channel & channel, 
 void CommunicationManager::processClientActivity(void) {
 	char* buffer = new char[BUFFER_SIZE];
 	std::vector<SOCKET> clientsToDelete;
+	bool shouldDelete = false;
+	int ret_read;
 
+/* 	std::cout << "=== " << __func__ << " ===" << std::endl;
+	std::cout << "\tthis: " << this << std::endl;
+	std::cout << "\t_clientManager: " << _clientManager << std::endl;
+	std::cout << "\tnbClients(): " << _clientManager->getNbClient() << std::endl; */
 	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 	{
 		if (FD_ISSET(it->getSocket(), _clientManager->getReadfds()))
 		{
-			int ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);
-			if (ret_read == SOCKET_ERROR)
-				throw Exception::ReadFailed();
-			else if (ret_read == 0)
-				clientsToDelete.push_back(it->getSocket());
+			ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);
+			if (ret_read == SOCKET_ERROR) throw Exception::ReadFailed();
+			else if (ret_read == 0) clientsToDelete.push_back(it->getSocket());
 			else if (ret_read != 1) // ignore empty messages
 			{
 				buffer[ret_read] = '\0';
-				_interpreter.interpret(buffer, *it);
-				if (!it->isAuthenticated())
-					clientsToDelete.push_back(it->getSocket());
+				shouldDelete = _interpreter.interpret(buffer, &(*it));
+				if (shouldDelete) clientsToDelete.push_back(it->getSocket());
 			}
 		}
 	}

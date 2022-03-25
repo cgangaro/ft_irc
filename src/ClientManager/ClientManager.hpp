@@ -29,6 +29,7 @@ class ClientManager {
 		int getNbClient(void) const;
 		fd_set* getReadfds(void);
 		void refreshMaxSocket();
+		bool isNicknameTaken(std::string nickname) const;
 };
 
 #endif

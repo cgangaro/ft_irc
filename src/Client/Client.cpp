@@ -4,6 +4,9 @@
 Client::Client() {}
 
 Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuthenticated(false) {
+	this->_nickname = "";
+	this->_username = "";
+	
 }
 
 Client::Client(Client const & src) {
