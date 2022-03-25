@@ -22,12 +22,21 @@
 #define CRLF "\r\n"
 
 #define SERVER_NAME "ft_irc_server"
+#define SERVER_VERSION "0.0.1"
+#define SERVER_CREATED "2022-03-25"
+// TODO : what are those ?
+#define AVAILABLE_USER_MODES "<available user modes>"
+#define AVAILABLE_CHANNEL_MODES "<available channel modes>"
 
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-#define RPL_WELCOME(nickname, username, hostname) "001 RPL_WELCOME Welcome to the IRC Network " + nickname + "!" + username + "@" + hostname + CRLF
+#define RPL_WELCOME(nickname, username, hostname)  "001 " + nickname + "!" + username + "@" + hostname + " Welcome to the IRC Network " + CRLF
+#define RPL_YOURHOST "002 " + " Your host is " + SERVER_NAME + ", running version " + SERVER_VERSION + CRLF
+#define RPL_CREATED "003 " + " This server was created on " + SERVER_CREATED + CRLF
+#define RPL_MYINFO "004 " + SERVER_NAME + " " + SERVER_VERSION + " " + AVAILABLE_USER_MODES + " " + AVAILABLE_CHANNEL_MODES + CRLF
+#define REGISTRATION_SUCCESS(nickname, username, hostname) RPL_WELCOME(nickname, username, hostname) + RPL_YOURHOST + RPL_CREATED + RPL_MYINFO
 
 #define SERVER_EXCEPTION(name, function)																		\
 class name : public std::exception {																			\

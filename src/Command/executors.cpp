@@ -19,7 +19,7 @@ bool Command::commandUser(Client * client, std::vector<std::string> tokens) {
 	client->setUsername(tokens[1]);
 	client->authenticate();
 	_communicationManager->sendMsg(client->getSocket(),
-		RPL_WELCOME(client->getNickname(), client->getUsername(), SERVER_NAME));
+		REGISTRATION_SUCCESS(client->getNickname(), client->getUsername(), SERVER_NAME));
 	return false;
 }
 
