@@ -62,10 +62,13 @@ void CommunicationManager::processClientActivity(void) {
 			{
 				buffer[ret_read] = '\0';
 				_interpreter.interpret(buffer, *it);
+				if (!it->isAuthenticated())
+					clientsToDelete.push_back(it->getSocket());
 			}
 		}
 	}
-	for (std::vector<SOCKET>::iterator it = clientsToDelete.begin(); it != clientsToDelete.end(); it++)
+	for (std::vector<SOCKET>::iterator it = clientsToDelete.begin(); it != clientsToDelete.end(); it++) {
 		_clientManager->disconnectClient(*it);
+	}
 	delete[] buffer;
 }

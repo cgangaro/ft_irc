@@ -41,6 +41,15 @@ class name : public std::exception {																			\
 			}																									\
 };
 
+#define IRC_EXCEPTION(name, message)																			\
+class name : public std::exception {																			\
+		public:																									\
+			virtual const char* what() const throw() {															\
+				static std::string msg = message;															\
+				return (msg.c_str());																		\
+			}																									\
+};
+
 namespace Exception {
 		SERVER_EXCEPTION(BindFailed, "bind")
 		SERVER_EXCEPTION(SocketCreationFailed, "socket");
@@ -49,6 +58,8 @@ namespace Exception {
 		SERVER_EXCEPTION(SelectFailed, "select")
 		SERVER_EXCEPTION(SendFailed, "send")
 		SERVER_EXCEPTION(ReadFailed, "read")
+
+		IRC_EXCEPTION(ERR_PASSWDMISMATCH, "464 * :Password incorrect\r\n")
 };
 
 #endif

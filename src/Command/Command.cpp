@@ -33,11 +33,15 @@ void Command::interpret(char* buffer, Client & client) {
 
 	std::cout << "Received: " << buffer << std::endl;
 
-	tokens = split(buffer, " ");
-	for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
-		if (it->name == tokens[0]) {
-			(this->*(it->executor))(client, tokens);
-			break;
+	try {
+		tokens = split(buffer, " ");
+		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
+			if (it->name == tokens[0]) {
+				(this->*(it->executor))(client, tokens);
+				break;
+			}
 		}
+	} catch (std::exception & e) {
+		this->_communicationManager->sendMsg(client.getSocket(), e.what());
 	}
 }

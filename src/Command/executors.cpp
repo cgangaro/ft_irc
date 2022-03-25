@@ -20,13 +20,11 @@ void Command::commandPass(Client & client, std::vector<std::string> tokens) {
 		return;
 	}
 	if (client.isAuthenticated()) {
-		_communicationManager->sendMsg(client.getSocket(), ERR_ALREADYREGISTRED);
+		_communicationManager->sendMsg(client.getSocket(), "");
 		return;
 	}
-	if (tokens[1] != _password) {
-		_communicationManager->sendMsg(client.getSocket(), ERR_PASSWDMISMATCH);
-		return;
-	}
+	if (tokens[1] != _password)
+		throw Exception::ERR_PASSWDMISMATCH();
 	client.authenticate();
 }
 

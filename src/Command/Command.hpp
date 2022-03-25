@@ -1,8 +1,8 @@
 #ifndef COMMAND_HPP
 #define COMMAND_HPP
 
+#include "Commons.hpp"
 #include "Client.hpp"
-#include "Errors.hpp"
 
 #define COMMANDS "NICK USER PASS JOIN MSG QUIT"
 #define NB_COMMANDS 6
