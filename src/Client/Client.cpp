@@ -6,6 +6,7 @@ Client::Client() {}
 Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuthenticated(false) {
 	this->_nickname = "";
 	this->_username = "";
+	this->_isRegistered = false;
 	
 }
 
@@ -23,6 +24,7 @@ Client & Client::operator=(Client const &rhs) {
 	this->_socket = rhs.getSocket();
 	this->_sin = rhs.getSin();
 	this->_isAuthenticated = rhs.isAuthenticated();
+	this->_isRegistered = rhs.isRegistered();
 	this->_username = rhs.getUsername();
 	this->_password = rhs.getPassword();
 	this->_nickname = rhs.getNickname();
@@ -50,6 +52,10 @@ bool Client::isAuthenticated(void) const {
 	return _isAuthenticated;
 }
 
+bool Client::isRegistered(void) const {
+	return _isRegistered;
+}
+
 std::string Client::getUsername(void) const {
 	return this->_username;
 }
@@ -64,6 +70,10 @@ std::string Client::getNickname(void) const {
 
 std::vector<Channel> Client::getChannels(void) const {
 	return this->_channels;
+}
+
+void Client::registerMe(void) {
+	this->_isRegistered = true;
 }
 
 void Client::setPassword(std::string password) {

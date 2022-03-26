@@ -10,6 +10,7 @@ class Client {
 	private:
 		SOCKET _socket;
 		SOCKADDR_IN _sin;
+		bool _isRegistered;
 		bool _isAuthenticated;
 
 		std::string _username;
@@ -27,6 +28,7 @@ class Client {
 		Client &operator=(Client const &rhs);
 		SOCKET getSocket(void) const;
 		bool isAuthenticated(void) const;
+		bool isRegistered(void) const;
 		SOCKADDR_IN getSin(void) const;
 
 		char* getAddress(void) const;
@@ -41,6 +43,7 @@ class Client {
 		void setNickname(std::string nickname);
 		void setSocket(SOCKET socket);
 		void authenticate(void);
+		void registerMe(void);
 		void addChannel(Channel & channel);
 };
 
