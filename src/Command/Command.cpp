@@ -65,6 +65,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 
 	try {
 		tokens = split(cmd->c_str(), " ");
+        if (tokens[0] != "PASS" && !client->isAuthenticated()) return false;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {
 				shouldDisconnect = (this->*(it->executor))(client, tokens);
