@@ -1,12 +1,13 @@
 #include "Command.hpp"
 #include "CommunicationManager.hpp"
+#include "Commons.hpp"
 
 bool Command::isValidStringData(std::string & data) {
 	unsigned long pos;
 
 	if (data.empty())
 		return false;
-	pos = data.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_\r\n");
+	pos = data.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_#!+&\r\n");
 	return (pos == std::string::npos);
 }
 
@@ -53,23 +54,30 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 
 	for (size_t i = 0; i < channel_name.size(); i++)
 	{
+		if ((channel_name[i][0] != '&' && channel_name[i][0] != '#' && channel_name[i][0] != '+' && channel_name[i][0] != '!')
+			|| !isValidStringData(channel_name[i]))
+			throw Exception::ERR_NOSUCHCHANNEL(channel_name[i]);
+		if (!(client->getChannels().size() < MAX_CHANNELS_PER_USER))
+			throw Exception::ERR_TOOMANYCHANNELS(channel_name[i]);
 		if (_communicationManager->verifExistChannel(channel_name[i]))
 		{
 			std::cout << "channel exist" << std::endl;
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
+			if (!(channel->getListUser().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getSocket()))
+				throw Exception::ERR_CHANNELISFULL(channel_name[i]);
 			if (i < channel_pass.size())
 			{
 				if (channel->getPassword().compare(channel_pass[i]) == 0)
 					addClientChannel(client, channel);
 				else
-					std::cout << "oh grosse dinde c'est pas le bon mdp" << std::endl;
+					throw Exception::ERR_BADCHANNELKEY(channel_name[i]);
 			}
 			else
 			{
 				if (channel->getPassword().compare("") == 0)
 					addClientChannel(client, channel);
 				else
-					std::cout << "oh grosse dinde le mdp n'est pas vide" << std::endl;
+					throw Exception::ERR_BADCHANNELKEY(channel_name[i]);
 			}
 		}
 		else

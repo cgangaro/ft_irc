@@ -30,6 +30,8 @@ class ClientManager {
 		fd_set* getReadfds(void);
 		void refreshMaxSocket();
 		bool isNicknameTaken(std::string nickname) const;
+		bool checkListUsers(std::string user) const;
+		SOCKET retSocketClient(std::string client_name) const;
 };
 
 #endif

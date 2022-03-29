@@ -42,20 +42,21 @@ void CommunicationManager::sendMsg(SOCKET sock, std::string msg)
 		throw Exception::SendFailed();
 }
 
-void CommunicationManager::sendToOne(std::string sender, Channel & channel, SOCKET sock, const char* rawMsg) {
-	std::string msg = rawMsg;
-
-	(void)channel;
-	(void)sender;
-
-	sendMsg(sock, msg);
+void CommunicationManager::sendToOne(std::string sender, std::string channel, SOCKET sock, std::string rawMsg) {
+	std::string msg_to_send("[" + sender + "]");
+	if (!channel.empty())
+		msg_to_send = msg_to_send + "[" + channel + "]";
+	msg_to_send = msg_to_send + ": " + rawMsg + CRLF;
+	sendMsg(sock, msg_to_send);
 }
 
-void CommunicationManager::sendToChannel(std::string sender, Channel & channel, std::string msg)
+void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg)
 {
-	(void)sender;
-	(void)channel;
-	(void)msg;
+	for (size_t i = 0; i < channel.getListUser().size(); i++)
+	{
+		if (channel.getListUser()[i] != client.getSocket())
+			sendToOne(client.getUsername(), channel.getName(), channel.getListUser()[i], msg);
+	}
 }
 
 void CommunicationManager::processClientActivity(void) {

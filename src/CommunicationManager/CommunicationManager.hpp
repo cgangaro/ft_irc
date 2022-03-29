@@ -23,8 +23,8 @@ class CommunicationManager {
 		std::string messageBuilder(std::string sender, Channel & channel, const char* msg) const;
 		Channel & getDefaultChannel(void);
 		void sendMsg(SOCKET sock, std::string msg);
-		void sendToOne(std::string sender, Channel & channel, SOCKET sock, const char* rawMsg);
-		void sendToChannel(std::string sender, Channel & channel, std::string msg);
+		void sendToOne(std::string sender, std::string channel, SOCKET sock, std::string rawMsg);
+		void sendToChannel(Client client, Channel channel, std::string msg);
 		void processClientActivity(void);
 
 		bool verifExistChannel(std::string channel);

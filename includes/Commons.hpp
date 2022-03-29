@@ -21,6 +21,8 @@
 #define SOCKET_ERROR -1
 #define BUFFER_SIZE 1024
 #define CRLF "\r\n"
+#define MAX_USERS_PER_CHANNEL 5
+#define MAX_CHANNELS_PER_USER 6
 
 #define SERVER_NAME "ft_irc_server"
 #define SERVER_VERSION "0.0.1"
@@ -66,6 +68,13 @@ class name : public std::exception {																			\
 #define ERR_ERRONEOUSNICKNAME_BUILDER(nickname) ("432 * " + nickname + " :Erroneous nickname" + CRLF)
 #define ERR_NICKNAMEINUSE_BUILDER(nickname) ("433 * " + nickname + " :Nickname is already in use" + CRLF)
 #define ERR_NEEDMOREPARAMS_BUILDER(command) ("461 * " + command + " :Not enough parameters" + CRLF)
+#define ERR_CHANNELISFULL_BUILDER(channel) ("471 * " + channel + " CHANNEL_IS_FULL :Cannot join channel" + CRLF)
+#define ERR_NOSUCHCHANNEL_BUILDER(channel) ("403 * " + channel + " :No such channel" + CRLF)
+#define ERR_TOOMANYCHANNELS_BUILDER(channel) ("405 * " + channel + " :You have joined too many channels" + CRLF)
+#define ERR_BADCHANNELKEY_BUILDER(channel) ("475 * " + channel + " BAD_CHANNEL_KEY :Cannot join channel" + CRLF)
+#define ERR_CANNOTSENDTOCHAN_BUILDER(channel) ("404 * " + channel + " :Cannot send to channel" + CRLF)
+#define ERR_TOOMANYTARGETS_BUILDER(targets) ("407 * " + targets + " :too much recipients" + CRLF)
+#define ERR_NOSUCHNICK_BUILDER(nickname) ("401 * " + nickname + " :No such nick/channel" + CRLF)
 
 #define IRC_EXCEPTION_CUSTOM(name, messageBuilder)																\
 class name : public std::exception {																			\
@@ -92,9 +101,17 @@ namespace Exception {
 		IRC_EXCEPTION(ERR_ALREADYREGISTERED, "462 PASS :Unauthorized command (already registered)\r\n")
 		IRC_EXCEPTION(ERR_NONICKNAMEGIVEN, "431 NICK :No nickname given\r\n")
 		IRC_EXCEPTION(ERR_NOTREGISTERED, "451 :You have not registered\r\n")
+		IRC_EXCEPTION(ERR_NOTEXTTOSEND, "412 :No text to send\r\n")
 		IRC_EXCEPTION_CUSTOM(ERR_NEEDMOREPARAMS, ERR_NEEDMOREPARAMS_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_ERRONEOUSNICKNAME, ERR_ERRONEOUSNICKNAME_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_NICKNAMEINUSE, ERR_NICKNAMEINUSE_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_CHANNELISFULL, ERR_CHANNELISFULL_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_NOSUCHCHANNEL, ERR_NOSUCHCHANNEL_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_TOOMANYCHANNELS, ERR_TOOMANYCHANNELS_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_BADCHANNELKEY, ERR_BADCHANNELKEY_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_CANNOTSENDTOCHAN, ERR_CANNOTSENDTOCHAN_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_TOOMANYTARGETS, ERR_TOOMANYTARGETS_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_NOSUCHNICK, ERR_NOSUCHNICK_BUILDER)
 };
 
 #endif

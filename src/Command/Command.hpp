@@ -4,13 +4,13 @@
 #include "Commons.hpp"
 #include "Client.hpp"
 
-#define COMMANDS "NICK USER PASS JOIN MSG QUIT"
-#define NB_COMMANDS 6
-#define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens);
+#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT"
+#define NB_COMMANDS 7
+#define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens, std::string cmd);
 
 class Command;
 
-typedef bool (Command::*commandExecutor)(Client *, std::vector<std::string>);
+typedef bool (Command::*commandExecutor)(Client *, std::vector<std::string>, std::string cmd);
 typedef struct s_command {
 	std::string name;
 	commandExecutor executor;
@@ -42,6 +42,7 @@ class Command
 		COMMAND_EXECUTOR(commandUser)
 		COMMAND_EXECUTOR(commandPass)
 		COMMAND_EXECUTOR(commandJoin)
+		COMMAND_EXECUTOR(commandPrivmsg)
 		COMMAND_EXECUTOR(commandMsg)
 		COMMAND_EXECUTOR(commandQuit)
 

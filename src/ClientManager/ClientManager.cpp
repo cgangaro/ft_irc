@@ -63,3 +63,23 @@ bool ClientManager::isNicknameTaken(std::string nickname) const {
 	}
 	return false;
 }
+
+bool ClientManager::checkListUsers(std::string user) const {
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (_clients[i].getUsername().compare(user) == 0)
+			return (true);
+	}
+	return (false);
+}
+
+SOCKET ClientManager::retSocketClient(std::string client_name) const {
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (_clients[i].getUsername().compare(client_name) == 0)
+			return (_clients[i].getSocket());
+	}
+	return (-1);
+}
+
+

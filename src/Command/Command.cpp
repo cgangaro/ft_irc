@@ -6,6 +6,7 @@ commandExecutor Command::_executors[NB_COMMANDS] = {
 	&Command::commandUser,
 	&Command::commandPass,
 	&Command::commandJoin,
+	&Command::commandPrivmsg,
 	&Command::commandMsg,
 	&Command::commandQuit
 };
@@ -69,7 +70,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 		std::cout << "test" << std::endl;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {
-				shouldDisconnect = (this->*(it->executor))(client, tokens);
+				shouldDisconnect = (this->*(it->executor))(client, tokens, *cmd);
 				break;
 			}
 		}

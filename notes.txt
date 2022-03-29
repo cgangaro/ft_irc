@@ -1,0 +1,24 @@
+ERRORS:
+
+- JOIN:
+461 ERR_NEEDMOREPARAMS		ok
+ERR_INVITEONLYCHAN 			On a pas fait des invite           
+471 ERR_CHANNELISFULL		ok
+403 ERR_NOSUCHCHANNEL		ok
+ERR_TOOMANYTARGETS			On a pas de safe channel
+RPL_TOPIC					Si on utilise les topics
+ERR_BANNEDFROMCHAN			Pas de systeme de ban pour l'instant
+475 ERR_BADCHANNELKEY		ok
+ERR_BADCHANMASK				Pas fait, pas utile je crois
+405 ERR_TOOMANYCHANNELS		ok
+ERR_UNAVAILRESOURCE			Pas utile je crois
+
+- PRIVMSG:
+ERR_NORECIPIENT				Pas compris
+412 ERR_NOTEXTTOSEND		ok
+ERR_CANNOTSENDTOCHAN		Déclaré mais pas utilisé, voir avec operator
+ERR_NOTOPLEVEL				Pas utile je crois, lié aux masks
+ERR_WILDTOPLEVEL			Pas utile je crois, lié aux masks
+407 ERR_TOOMANYTARGETS		ok
+401 ERR_NOSUCHNICK			ok
+RPL_AWAY					Pas compris, avec AWAY command il me semble
