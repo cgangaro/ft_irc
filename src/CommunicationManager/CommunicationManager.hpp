@@ -26,6 +26,15 @@ class CommunicationManager {
 		void sendToOne(std::string sender, Channel & channel, SOCKET sock, const char* rawMsg);
 		void sendToChannel(std::string sender, Channel & channel, std::string msg);
 		void processClientActivity(void);
+
+		bool verifExistChannel(std::string channel);
+		bool verifChannelPassword(std::string channel, std::string password);
+		void addChannel(std::string channel, std::string password, SOCKET admin);
+		//void addUserToChannel(std::string channel, Client * client);
+		Channel * returnChannel(std::string channel);
+
+		void test_printChannels(void);
+
 };
 
 #endif

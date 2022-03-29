@@ -17,7 +17,6 @@ Client::Client(Client const & src) {
 Client::~Client() {
 }
 
-
 Client & Client::operator=(Client const &rhs) {
 	if (this == &rhs)
 		return (*this);
@@ -96,6 +95,26 @@ void Client::authenticate(void) {
 	this->_isAuthenticated = true;
 }
 
-void Client::addChannel(Channel & channel) {
-	_channels.push_back(channel);
+void Client::addChannel(Channel * channel) {
+	_channels.push_back(*channel);
+}
+
+bool Client::verifIfRegisteredChannel(Channel * channel) {
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		if (_channels[i].getName().compare(channel->getName()) == 0)
+			return (true);
+	}
+	return (false);
+}
+
+void Client::test_printChannels(void)
+{
+	std::cout << "Print client: " << _username << " channels" << std::endl;
+	std::cout << "size = " << _channels.size() << std::endl;
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		std::cout << _channels[i].getName() << std::endl;
+	}
+	std::cout << "End print client channels" << std::endl;
 }

@@ -9,29 +9,29 @@ class Channel {
 	private:
 		std::string _name;
 		std::string _password;
-		std::vector<Client> _list_admin;
-		std::vector<Client> _list_user;
+		std::vector<SOCKET> _list_admin;
+		std::vector<SOCKET> _list_user;
 
 	public:
 		Channel();
 		Channel(Channel const &src);
-		Channel(std::string name, std::string password, Client admin);
+		Channel(std::string name, std::string password, SOCKET admin);
 		~Channel();
 
 		Channel &operator=(Channel const &rhs);
 
 		std::string getName(void) const;
 		std::string getPassword(void) const;
-		std::vector<Client> getListAdmin(void) const;
-		std::vector<Client> getListUser(void) const;
+		std::vector<SOCKET> getListAdmin(void) const;
+		std::vector<SOCKET> getListUser(void) const;
 
 		void setName(std::string username);
 		void setPassword(std::string password);
-		void addAdmin(Client admin);
-		void addUser(Client user);
+		void addAdmin(SOCKET admin);
+		void addUser(SOCKET user);
 
-		bool verifIfAdmin(Client admin);
-		bool verifIfUser(Client user);
+		bool verifIfRegisteredAdmin(SOCKET admin);
+		bool verifIfRegisteredUser(SOCKET user);
 };
 
 #endif

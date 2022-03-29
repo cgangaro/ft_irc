@@ -37,9 +37,15 @@ bool Command::commandPass(Client * client, std::vector<std::string> tokens) {
 }
 
 bool Command::commandJoin(Client * client, std::vector<std::string> tokens) {
-	(void)client;
-	(void)tokens;
+	std::cout << "join, size = " << tokens.size() << std::endl;
+	if (!(tokens.size() >= 2 && tokens.size() <= 3)) throw Exception::ERR_NEEDMOREPARAMS(tokens[0]); //erreurs a revoir
+	if (tokens.size() == 2)
+		joinChannel(client, tokens[1], "");
+	else
+		joinChannel(client, tokens[1], tokens[2]);
 	std::cout << __func__ << std::endl;
+	_communicationManager->test_printChannels();
+	client->test_printChannels();
 	return false;
 }
 

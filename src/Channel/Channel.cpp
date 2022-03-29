@@ -9,7 +9,7 @@ Channel::Channel(Channel const &src) {
 	*this = src;
 }
 
-Channel::Channel(std::string name, std::string password, Client admin) {
+Channel::Channel(std::string name, std::string password, SOCKET admin) {
 	_name = name;
 	_password = password;
 	_list_admin.push_back(admin);
@@ -36,11 +36,11 @@ std::string Channel::getPassword(void) const {
 	return _password;
 }
 
-std::vector<Client> Channel::getListAdmin(void) const {
+std::vector<SOCKET> Channel::getListAdmin(void) const {
 	return _list_admin;
 }
 
-std::vector<Client> Channel::getListUser(void) const {
+std::vector<SOCKET> Channel::getListUser(void) const {
 	return _list_user;
 }
 
@@ -52,31 +52,31 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::addAdmin(Client admin)
+void Channel::addAdmin(SOCKET admin)
 {
 	_list_admin.push_back(admin);
 }
 
-void Channel::addUser(Client user)
+void Channel::addUser(SOCKET user)
 {
 	_list_user.push_back(user);
 }
 
-bool Channel::verifIfAdmin(Client admin)
+bool Channel::verifIfRegisteredAdmin(SOCKET admin)
 {
 	for (size_t i = 0; i < _list_admin.size(); i++)
 	{
-		if (_list_admin[i].getUsername().compare(admin.getUsername()) == 0)
+		if (_list_admin[i] == admin)
 			return (true);
 	}
 	return (false);
 }
 
-bool Channel::verifIfUser(Client user)
+bool Channel::verifIfRegisteredUser(SOCKET user)
 {
 	for (size_t i = 0; i < _list_user.size(); i++)
 	{
-		if (_list_user[i].getUsername().compare(user.getUsername()) == 0)
+		if (_list_user[i] == user)
 			return (true);
 	}
 	return (false);

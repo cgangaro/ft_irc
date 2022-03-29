@@ -88,3 +88,64 @@ void CommunicationManager::processClientActivity(void) {
 	}
 	delete[] buffer;
 }
+
+bool CommunicationManager::verifExistChannel(std::string channel)
+{
+	std::cout << "size = " << _channels_server.size() << std::endl;
+	for (size_t i = 0; i < _channels_server.size(); i++)
+	{
+		if (_channels_server[i].getName().compare(channel) == 0)
+		{
+			return (true);
+		}
+	}
+	return (false);
+}
+
+bool CommunicationManager::verifChannelPassword(std::string channel, std::string password)
+{
+	for (size_t i = 0; i < _channels_server.size(); i++)
+	{
+		if (_channels_server[i].getName().compare(channel) == 0)
+		{
+			if (_channels_server[i].getPassword().compare(password) == 0)
+				return (true);
+			else
+				return (false);
+		}
+	}
+	return (false);
+}
+
+void CommunicationManager::addChannel(std::string channel, std::string password, SOCKET admin)
+{
+	std::cout << "test addChannel 1" << std::endl;
+	Channel new_channel(channel, password, admin);
+	std::cout << "new_channel name = " << new_channel.getName() << ", new_Channel password = " << new_channel.getPassword() << std::endl;
+	_channels_server.push_back(new_channel);
+	std::cout << "test addChannel 2" << std::endl;
+}
+
+Channel * CommunicationManager::returnChannel(std::string channel)
+{
+	for (size_t i = 0; i < _channels_server.size(); i++)
+	{
+		if (_channels_server[i].getName().compare(channel) == 0)
+		{
+			return (&_channels_server[i]);
+		}
+	}
+	Channel *ret = NULL;
+	return (ret);
+}
+
+void CommunicationManager::test_printChannels(void)
+{
+	std::cout << "Print server channels" << std::endl;
+	std::cout << "size = " << _channels_server.size() << std::endl;
+	for (size_t i = 0; i < _channels_server.size(); i++)
+	{
+		std::cout << _channels_server[i].getName() << std::endl;
+	}
+	std::cout << "End print server channels" << std::endl;
+}

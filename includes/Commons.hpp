@@ -14,6 +14,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
 
 #define DEFAULT_PORT 1024
 #define INVALID_SOCKET -1

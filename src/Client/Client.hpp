@@ -44,7 +44,10 @@ class Client {
 		void setSocket(SOCKET socket);
 		void authenticate(void);
 		void registerMe(void);
-		void addChannel(Channel & channel);
+		void addChannel(Channel * channel);
+		bool verifIfRegisteredChannel(Channel * channel);
+
+		void test_printChannels(void);
 };
 
 #endif
