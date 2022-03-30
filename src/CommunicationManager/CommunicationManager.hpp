@@ -33,6 +33,11 @@ class CommunicationManager {
 		//void addUserToChannel(std::string channel, Client * client);
 		Channel * returnChannel(std::string channel);
 
+		std::string RPL_TOPIC_builder(Client * client, std::string sujet);
+		std::string RPL_CHANNELMODEIS_builder(std::string canal, std::string channel, std::string param_mode);
+		std::string RPL_NAMREPLY_builder(std::string canal, Channel channel, Client client);
+		std::string RPL_ENDOFNAMES_builder(std::string canal, Channel channel, Client client);
+
 		void test_printChannels(void);
 
 };

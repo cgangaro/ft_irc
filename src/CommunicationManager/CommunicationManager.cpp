@@ -43,10 +43,13 @@ void CommunicationManager::sendMsg(SOCKET sock, std::string msg)
 }
 
 void CommunicationManager::sendToOne(std::string sender, std::string channel, SOCKET sock, std::string rawMsg) {
-	std::string msg_to_send("[" + sender + "]");
-	if (!channel.empty())
-		msg_to_send = msg_to_send + "[" + channel + "]";
-	msg_to_send = msg_to_send + ": " + rawMsg + CRLF;
+	// std::string msg_to_send("[" + sender + "]");
+	// if (!channel.empty())
+	// 	msg_to_send = msg_to_send + "[" + channel + "]";
+	// msg_to_send = msg_to_send + ": " + rawMsg + CRLF;
+	(void)channel;
+	(void)sender;
+	std::string msg_to_send(rawMsg);
 	sendMsg(sock, msg_to_send);
 }
 
@@ -120,11 +123,9 @@ bool CommunicationManager::verifChannelPassword(std::string channel, std::string
 
 void CommunicationManager::addChannel(std::string channel, std::string password, SOCKET admin)
 {
-	std::cout << "test addChannel 1" << std::endl;
 	Channel new_channel(channel, password, admin);
 	std::cout << "new_channel name = " << new_channel.getName() << ", new_Channel password = " << new_channel.getPassword() << std::endl;
 	_channels_server.push_back(new_channel);
-	std::cout << "test addChannel 2" << std::endl;
 }
 
 Channel * CommunicationManager::returnChannel(std::string channel)
@@ -137,6 +138,46 @@ Channel * CommunicationManager::returnChannel(std::string channel)
 		}
 	}
 	Channel *ret = NULL;
+	return (ret);
+}
+
+std::string CommunicationManager::RPL_TOPIC_builder(Client * client, std::string sujet)
+{
+	std::string ret(':' + client->getNickname() + "!~" + client->getUsername() + "@" + client->getAddress() + " " + sujet + CRLF);
+	return (ret);
+}
+
+std::string CommunicationManager::RPL_CHANNELMODEIS_builder(std::string canal, std::string channel, std::string param_mode)
+{
+	std::string ret (":" + canal + " MODE " + channel + " " + param_mode + CRLF);
+	return (ret);
+}
+
+std::string CommunicationManager::RPL_NAMREPLY_builder(std::string canal, Channel channel, Client client)
+{
+	std::string ret (":" + canal + " 353 " + client.getNickname() + " @ " + channel.getName() + " :");
+	std::vector<Client> iencli = *_clientManager->getClients();
+	bool f = false;
+	for (size_t i = 0; i < iencli.size(); i++)
+	{
+		if (channel.verifIfRegisteredUser(iencli[i].getSocket()))
+		{
+			if (f == true)
+				ret = ret + " ";
+			f = true;
+			if (channel.verifIfRegisteredAdmin(iencli[i].getSocket()))
+				ret = ret + "@" + iencli[i].getNickname();
+			else
+				ret = ret + iencli[i].getNickname();
+		}
+	}
+	ret = ret + CRLF;
+	return (ret);
+}
+
+std::string CommunicationManager::RPL_ENDOFNAMES_builder(std::string canal, Channel channel, Client client)
+{
+	std::string ret (":" + canal + " 366 " + client.getNickname() + " " + channel.getName() + " :End of /NAMES list." + CRLF);
 	return (ret);
 }
 

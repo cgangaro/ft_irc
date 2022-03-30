@@ -47,7 +47,7 @@ class Command
 		COMMAND_EXECUTOR(commandQuit)
 
 		void joinChannel(Client * client, std::string tokens_name, std::string tokens_pass);
-		void addClientChannel(Client * client, Channel * channel);
+		void addClientChannel(Client * client, Channel * channel, bool creator);
 };
 
 #endif

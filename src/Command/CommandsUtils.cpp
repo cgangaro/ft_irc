@@ -37,14 +37,21 @@ std::vector<std::string> Command::split(const char *buffer, std::string separato
 	return (ret);
 }
 
-void Command::addClientChannel(Client * client, Channel * channel)
+void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 {
+	//(void)creator;
 	if (!(client->verifIfRegisteredChannel(channel)))
 		client->addChannel(channel);
-	if (!(channel->verifIfRegisteredAdmin(client->getSocket())))
-		channel->addAdmin(client->getSocket());
+	// if (!(channel->verifIfRegisteredAdmin(client->getSocket())))
+	// 	channel->addAdmin(client->getSocket());
 	if (!(channel->verifIfRegisteredUser(client->getSocket())))
 		channel->addUser(client->getSocket());
+	std::cout << "adress = |" << client->getAddress() << "|" << std::endl;
+	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
+	if (creator)
+		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder("localhost", channel->getName(), "+Cnst"));
+	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_NAMREPLY_builder("localhost", *channel, *client));
+	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_ENDOFNAMES_builder("localhost", *channel, *client));
 }
 
 void Command::joinChannel(Client * client, std::string tokens_name, std::string tokens_pass)
@@ -68,14 +75,14 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			if (i < channel_pass.size())
 			{
 				if (channel->getPassword().compare(channel_pass[i]) == 0)
-					addClientChannel(client, channel);
+					addClientChannel(client, channel, false);
 				else
 					throw Exception::ERR_BADCHANNELKEY(channel_name[i]);
 			}
 			else
 			{
 				if (channel->getPassword().compare("") == 0)
-					addClientChannel(client, channel);
+					addClientChannel(client, channel, false);
 				else
 					throw Exception::ERR_BADCHANNELKEY(channel_name[i]);
 			}
@@ -88,7 +95,7 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			else
 				_communicationManager->addChannel(channel_name[i], "", client->getSocket());
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
-			addClientChannel(client, channel);
+			addClientChannel(client, channel, true);
 		}
 	}
 }
