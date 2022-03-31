@@ -8,7 +8,8 @@ commandExecutor Command::_executors[NB_COMMANDS] = {
 	&Command::commandJoin,
 	&Command::commandPrivmsg,
 	&Command::commandMsg,
-	&Command::commandQuit
+	&Command::commandQuit,
+	&Command::commandPing
 };
 
 Command::Command() {}

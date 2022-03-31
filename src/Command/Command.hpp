@@ -4,8 +4,8 @@
 #include "Commons.hpp"
 #include "Client.hpp"
 
-#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT"
-#define NB_COMMANDS 7
+#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING"
+#define NB_COMMANDS 8
 #define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens, std::string cmd);
 
 class Command;
@@ -47,6 +47,7 @@ class Command
 		COMMAND_EXECUTOR(commandPrivmsg)
 		COMMAND_EXECUTOR(commandMsg)
 		COMMAND_EXECUTOR(commandQuit)
+		COMMAND_EXECUTOR(commandPing)
 
 		void joinChannel(Client * client, std::string tokens_name, std::string tokens_pass);
 		void addClientChannel(Client * client, Channel * channel, bool creator);

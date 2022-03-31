@@ -92,3 +92,11 @@ bool Command::commandQuit(Client * client, std::vector<std::string> tokens, std:
 	std::cout << __func__ << std::endl;
 	return false;
 }
+
+bool Command::commandPing(Client * client, std::vector<std::string> tokens, std::string complete_cmd) {
+	(void)client;
+	(void)tokens;
+	(void)complete_cmd;
+	std::cout << __func__ << std::endl;
+	return false;
+}
