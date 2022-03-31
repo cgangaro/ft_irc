@@ -6,7 +6,7 @@ DEPS	= $(shell find . -type f -name "*.hpp")
 DEPS_DIR= $(shell find . -type d)
 FILES	= $(shell find . -type f -name "*.cpp")
 OBJ		= $(FILES:%.cpp=%.o)
-CC		= clang++
+CC		= c++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98 $(addprefix -I, $(DEPS_DIR))
 SHELL	= /bin/bash
 #
