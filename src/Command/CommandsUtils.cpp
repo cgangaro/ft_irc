@@ -40,7 +40,6 @@ std::vector<std::string> Command::split(const char *buffer, std::string separato
 std::string Command::buildCmdResponse(Client & client, std::string cmd, int mode) {
 	std::string msg_to_send;
 	std::string sender;
-	std::vector<std::string> cmds;
 
 	switch (mode) {
 		case OPT_CLIENT:
