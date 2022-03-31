@@ -19,6 +19,8 @@
 #define DEFAULT_PORT 1024
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
+#define OPT_CLIENT 0
+#define OPT_SERVER 1
 #define BUFFER_SIZE 1024
 #define CRLF "\r\n"
 #define MAX_USERS_PER_CHANNEL 5
@@ -26,6 +28,7 @@
 
 #define SERVER_NAME "ft_irc_server"
 #define SERVER_VERSION "0.0.1"
+// TODO : get current date
 #define SERVER_CREATED "2022-03-25"
 // TODO : what are those ?
 #define AVAILABLE_USER_MODES "<available user modes>"

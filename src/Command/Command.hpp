@@ -37,6 +37,8 @@ class Command
 		static std::vector<std::string> split(const char *buffer, std::string space_delimiter);
 		static bool isValidStringData(std::string & data);
 		static void eraseSubstr(std::string & str, const std::string & substr);
+		static std::string buildCmdResponse(Client & client, std::string cmd, int mode = OPT_SERVER);
+		static std::string buildMultipleCmdResponse(Client & client, std::vector<std::string> raw_cmds, int mode = OPT_SERVER);
 
 		COMMAND_EXECUTOR(commandNick)
 		COMMAND_EXECUTOR(commandUser)

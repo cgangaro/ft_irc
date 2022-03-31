@@ -37,6 +37,35 @@ std::vector<std::string> Command::split(const char *buffer, std::string separato
 	return (ret);
 }
 
+std::string Command::buildCmdResponse(Client & client, std::string cmd, int mode) {
+	std::string msg_to_send;
+	std::string sender;
+	std::vector<std::string> cmds;
+
+	switch (mode) {
+		case OPT_CLIENT:
+			sender = client.getNickname() + "!~" + client.getUsername() + "@" + client.getAddress();
+			break;
+		case OPT_SERVER:
+			sender = SERVER_NAME;
+			break;
+		default:
+			return "";
+	}
+	msg_to_send = ":" + sender + " " + cmd + CRLF;
+	return msg_to_send;
+}
+
+std::string Command::buildMultipleCmdResponse(Client & client, std::vector<std::string> raw_cmds, int mode) {
+	std::string msg_to_send;
+
+	for (std::vector<std::string>::iterator it = raw_cmds.begin(); it != raw_cmds.end(); ++it) {
+		if (!it->empty())
+			msg_to_send += buildCmdResponse(client, *it, mode);
+	}
+	return msg_to_send;
+}
+
 void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 {
 	//(void)creator;
@@ -49,9 +78,9 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 	std::cout << "adress = |" << client->getAddress() << "|" << std::endl;
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
 	if (creator)
-		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder("localhost", channel->getName(), "+Cnst"));
-	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_NAMREPLY_builder("localhost", *channel, *client));
-	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_ENDOFNAMES_builder("localhost", *channel, *client));
+		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), "+Cnst"));
+	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_NAMREPLY_builder(SERVER_NAME, *channel, *client));
+	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_ENDOFNAMES_builder(SERVER_NAME, *channel, *client));
 }
 
 void Command::joinChannel(Client * client, std::string tokens_name, std::string tokens_pass)

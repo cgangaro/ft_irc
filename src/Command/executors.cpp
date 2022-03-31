@@ -20,10 +20,12 @@ bool Command::commandUser(Client * client, std::vector<std::string> tokens, std:
 	if (client->isRegistered()) throw Exception::ERR_ALREADYREGISTERED();
 	if (!client->isAuthenticated()) throw Exception::ERR_PASSWDMISMATCH();
 
+	std::string welcomeMsg = REGISTRATION_SUCCESS(client->getNickname(), client->getUsername(), SERVER_NAME);
+	std::vector<std::string> reply = split(welcomeMsg.c_str(), CRLF);
 	client->setUsername(tokens[1]);
 	client->registerMe();
 	_communicationManager->sendMsg(client->getSocket(),
-		REGISTRATION_SUCCESS(client->getNickname(), client->getUsername(), SERVER_NAME));
+		buildMultipleCmdResponse(*client, reply));
 	return false;
 }
 
