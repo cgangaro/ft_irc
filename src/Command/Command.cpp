@@ -75,7 +75,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 			}
 		}
 	} catch (std::exception & e) {
-		this->_communicationManager->sendMsg(client->getSocket(), e.what());
+		this->_communicationManager->sendMsg(client->getSocket(), buildCmdResponse(*client, e.what()));
 	}
 	return shouldDisconnect;
 }

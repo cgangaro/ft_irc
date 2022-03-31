@@ -38,11 +38,11 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-#define RPL_WELCOME(nickname, username, hostname)  "001 " + nickname + "!" + username + "@" + hostname + " Welcome to the IRC Network " + CRLF
-#define RPL_YOURHOST "002 " + " Your host is " + SERVER_NAME + ", running version " + SERVER_VERSION + CRLF
-#define RPL_CREATED "003 " + " This server was created on " + SERVER_CREATED + CRLF
-#define RPL_MYINFO "004 " + SERVER_NAME + " " + SERVER_VERSION + " " + AVAILABLE_USER_MODES + " " + AVAILABLE_CHANNEL_MODES + CRLF
-#define REGISTRATION_SUCCESS(nickname, username, hostname) RPL_WELCOME(nickname, username, hostname) + RPL_YOURHOST + RPL_CREATED + RPL_MYINFO
+#define RPL_WELCOME(nickname)  "001 " + nickname + " Welcome to the IRC Network " + nickname + CRLF
+#define RPL_YOURHOST(nickname) "002 "+ nickname + " Your host is " + SERVER_NAME + ", running version " + SERVER_VERSION + CRLF
+#define RPL_CREATED(nickname) "003 "+ nickname + " This server was created on " + SERVER_CREATED + CRLF
+#define RPL_MYINFO(nickname) "004 "+ nickname + " " + SERVER_NAME + " " + SERVER_VERSION + " " + AVAILABLE_USER_MODES + " " + AVAILABLE_CHANNEL_MODES + CRLF
+#define REGISTRATION_SUCCESS(nickname) RPL_WELCOME(nickname) + RPL_YOURHOST(nickname) + RPL_CREATED(nickname) + RPL_MYINFO(nickname)
 
 #define SERVER_EXCEPTION(name, function)																		\
 class name : public std::exception {																			\
