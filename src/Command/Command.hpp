@@ -6,11 +6,11 @@
 
 #define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING"
 #define NB_COMMANDS 8
-#define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens, std::string cmd);
+#define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens);
 
 class Command;
 
-typedef bool (Command::*commandExecutor)(Client *, std::vector<std::string>, std::string cmd);
+typedef bool (Command::*commandExecutor)(Client *, std::vector<std::string>);
 typedef struct s_command {
 	std::string name;
 	commandExecutor executor;
@@ -25,6 +25,7 @@ class Command
 		static commandExecutor _executors[NB_COMMANDS];
 		CommunicationManager *_communicationManager;
 		std::string _password;
+		std::string _latestCommand;
 
 	public:
 		Command();
