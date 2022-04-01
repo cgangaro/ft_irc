@@ -39,22 +39,42 @@ Command& Command::operator=(const Command& cm) {
 	this->_commands = cm._commands;
 	return *this;
 }
+
+std::string Command::recomposeCommand(char* inputBuffer, Client * client) {
+	std::string clientBuffer(client->getBuffer());
+	std::string outputBuffer;
+	size_t pos;
+
+	clientBuffer += inputBuffer;
+	if ((pos = clientBuffer.rfind(CRLF)) == std::string::npos) {
+		client->setBuffer(clientBuffer);
+		return "";
+	}
+	outputBuffer = clientBuffer.substr(0, pos);
+	clientBuffer.erase(0, pos + 2);
+	client->setBuffer(clientBuffer);
+	return outputBuffer;
+}
+
 /*
 ** Splitting the received data into maybe multiple commands
 */
 bool Command::interpret(char* buffer, Client * client) {
 	bool shouldDisconnect = false;
 	std::vector<std::string> cmds;
+	std::string input;
 
 	std::cout << "Received: " << buffer << std::endl;
 
-	cmds = split(buffer, CRLF);
+	input = recomposeCommand(buffer, client);
+	cmds = split(input.c_str(), CRLF);
 	for (std::vector<std::string>::iterator it = cmds.begin(); it != cmds.end(); ++it) {
 		if (!it->empty() && (shouldDisconnect = processCommand(&(*it), client)))
 			break;
 	}
 	return shouldDisconnect;
 }
+
 
 /*
 ** Processing a single command
@@ -68,8 +88,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 	try {
 		tokens = split(cmd->c_str(), " ");
 		this->_latestCommand = *cmd;
-        if (tokens[0] != "PASS" && !client->isAuthenticated()) return false;
-		std::cout << "test" << std::endl;
+        if (tokens.empty() || (tokens.front() != "PASS" && !client->isAuthenticated())) return false;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {
 				shouldDisconnect = (this->*(it->executor))(client, tokens);

@@ -35,6 +35,7 @@ class Command
 		Command& operator=(const Command& cm);
 		bool interpret(char* buffer, Client * client);
 		bool processCommand(std::string *cmd, Client * client);
+		std::string recomposeCommand(char* inputBuffer, Client * client);
 		static std::vector<std::string> split(const char *buffer, std::string space_delimiter);
 		static bool isValidStringData(std::string & data);
 		static void eraseSubstr(std::string & str, const std::string & substr);

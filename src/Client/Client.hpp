@@ -18,6 +18,8 @@ class Client {
 		std::string _nickname;
 		std::vector<Channel> _channels; // a string beginning with #
 
+		std::string buffer;
+
 
 	public:
 		Client();
@@ -36,7 +38,9 @@ class Client {
 		std::string getUsername(void) const;
 		std::string getPassword(void) const;
 		std::string getNickname(void) const;
+		const std::string & getBuffer(void) const;
 		std::vector<Channel> getChannels(void) const;
+		void setBuffer(std::string buffer);
 
 		void setPassword(std::string password);
 		void setUsername(std::string username);

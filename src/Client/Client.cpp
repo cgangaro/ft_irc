@@ -7,7 +7,7 @@ Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuth
 	this->_nickname = "";
 	this->_username = "";
 	this->_isRegistered = false;
-	
+	this->buffer = "";
 }
 
 Client::Client(Client const & src) {
@@ -69,6 +69,14 @@ std::string Client::getNickname(void) const {
 
 std::vector<Channel> Client::getChannels(void) const {
 	return this->_channels;
+}
+
+const std::string & Client::getBuffer(void) const {
+	return this->buffer;
+}
+
+void Client::setBuffer(std::string buffer) {
+	this->buffer = buffer;
 }
 
 void Client::registerMe(void) {
