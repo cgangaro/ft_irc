@@ -25,7 +25,6 @@ Client & Client::operator=(Client const &rhs) {
 	this->_isAuthenticated = rhs.isAuthenticated();
 	this->_isRegistered = rhs.isRegistered();
 	this->_username = rhs.getUsername();
-	this->_password = rhs.getPassword();
 	this->_nickname = rhs.getNickname();
 	this->_channels = rhs.getChannels();
 	return (*this);
@@ -59,10 +58,6 @@ std::string Client::getUsername(void) const {
 	return this->_username;
 }
 
-std::string Client::getPassword(void) const {
-	return this->_password;
-}
-
 std::string Client::getNickname(void) const {
 	return this->_nickname;
 }
@@ -81,10 +76,6 @@ void Client::setBuffer(std::string buffer) {
 
 void Client::registerMe(void) {
 	this->_isRegistered = true;
-}
-
-void Client::setPassword(std::string password) {
-	this->_password = password;
 }
 
 void Client::setUsername(std::string username) {
