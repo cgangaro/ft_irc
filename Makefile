@@ -29,13 +29,13 @@ $(NAME): $(DEPS) $(OBJ)
 	@echo -e $(L_GRAY)Building $@...; \
 	$(CC) $(CFLAGS) $(OBJ) -o $@ && \
 	echo -e $(GREEN)[OK]$(L_GRAY) || \
-	echo -e $(RED)[FAIL]$(L_GRAY);
+	(echo -e $(RED)[FAIL]$(L_GRAY) && exit 1);
 
 %.o: %.cpp
 	@echo -e $(L_GRAY)Building $<...; \
 	$(CC) $(CFLAGS) -c $< -o $@ && \
 	echo -e $(GREEN)[OK]$(L_GRAY) || \
-	echo -e $(RED)[FAIL]$(L_GRAY);
+	(echo -e $(RED)[FAIL]$(L_GRAY) && exit 1);
 
 clean:
 	@echo -ne $(YELLOW)
