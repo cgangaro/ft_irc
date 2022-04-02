@@ -4,12 +4,12 @@ Ce projet a pour but de recréer un serveur IRC simple.
 
 ## To-Do list
 
- - [ ] Pouvoir s'authentifier
- - [ ] Pouvoir définir un nickname
- - [ ] Pouvoir définir un username
- - [ ] Pouvoir rejoindre un channel
- - [ ] Envoyer des messages privés
- - [ ] Recevoir des messages privés
+ - [X] Pouvoir s'authentifier
+ - [X] Pouvoir définir un nickname
+ - [X] Pouvoir définir un username
+ - [X] Pouvoir rejoindre un channel
+ - [X] Envoyer des messages privés
+ - [X] Recevoir des messages privés
  - [ ] Avoir des utilisateurs "operator"
  - [ ] Implémenter les commandes spécifiques aux operators
   - [ ] KILL
@@ -17,4 +17,4 @@ Ce projet a pour but de recréer un serveur IRC simple.
 
 ### Plus spécifiquement
  - [ ] Gerer propremement les deconnexions, notamment avec la commande QUIT
- - [ ] Utiliser le retour de la fonction erase pour ne plus avoir besoin de la boucle de disconnect dans processClientActivity
+ - [X] Utiliser le retour de la fonction erase pour ne plus avoir besoin de la boucle de disconnect dans processClientActivity
