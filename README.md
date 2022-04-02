@@ -10,10 +10,9 @@ Ce projet a pour but de recréer un serveur IRC simple.
  - [X] Pouvoir rejoindre un channel
  - [X] Envoyer des messages privés
  - [X] Recevoir des messages privés
- - [ ] Avoir des utilisateurs "operator"
+ - [X] Avoir des utilisateurs "operator"
  - [ ] Implémenter les commandes spécifiques aux operators
-  - [ ] KILL
-  - [ ] OPER
+ - [ ] KILL
 
 ### Plus spécifiquement
  - [ ] Gerer propremement les deconnexions, notamment avec la commande QUIT
