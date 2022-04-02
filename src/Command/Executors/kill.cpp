@@ -10,7 +10,10 @@ bool Command::commandKill(Client * client, std::vector<std::string> tokens) {
 	** TODO : kill the requested client
 	** Pseudo-code :
 	** Client toKill = clientManager.getClientByNickname(tokens[1]); // this function needs to be added
-	** cl
+	** clientManager.disconnectClient(toKill);
+	** attention si on supprime le client ici ca va segfault parceque ca va rendre
+	** invalide l'iterator de processClientActivity, donc il faut trouver un moyen de faire
+	** remonter la suppression a ce niveau la
 	*/
 	return false;
 }
