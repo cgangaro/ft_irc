@@ -64,31 +64,25 @@ void CommunicationManager::sendToChannel(Client client, Channel channel, std::st
 
 void CommunicationManager::processClientActivity(void) {
 	char* buffer = new char[BUFFER_SIZE];
-	std::vector<SOCKET> clientsToDelete;
 	bool shouldDelete = false;
 	int ret_read;
 
-/* 	std::cout << "=== " << __func__ << " ===" << std::endl;
-	std::cout << "\tthis: " << this << std::endl;
-	std::cout << "\t_clientManager: " << _clientManager << std::endl;
-	std::cout << "\tnbClients(): " << _clientManager->getNbClient() << std::endl; */
 	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 	{
+		std::cout << "Processing client " << it->getNickname() << std::endl;
 		if (FD_ISSET(it->getSocket(), _clientManager->getReadfds()))
 		{
 			ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);
 			if (ret_read == SOCKET_ERROR) throw Exception::ReadFailed();
-			else if (ret_read == 0) clientsToDelete.push_back(it->getSocket());
+			else if (ret_read == 0) it = _clientManager->disconnectClient(it);
 			else if (ret_read != 1) // ignore empty messages
 			{
 				buffer[ret_read] = '\0';
 				shouldDelete = _interpreter.interpret(buffer, &(*it));
-				if (shouldDelete) clientsToDelete.push_back(it->getSocket());
+				if (shouldDelete) it = _clientManager->disconnectClient(it);
 			}
 		}
-	}
-	for (std::vector<SOCKET>::iterator it = clientsToDelete.begin(); it != clientsToDelete.end(); it++) {
-		_clientManager->disconnectClient(*it);
+		if (it == _clientManager->getClients()->end()) break;
 	}
 	delete[] buffer;
 }

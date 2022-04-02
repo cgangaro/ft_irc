@@ -31,16 +31,15 @@ void ClientManager::addClient(SOCKET sock, SOCKADDR_IN sin) {
 	this->_clients.push_back(newClient);
 }
 
-void ClientManager::removeClient(SOCKET csock) {
-	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
-		if (it->getSocket() == csock) {
-			FD_CLR(csock, &_readfds);
-			close(csock);
-			this->_clients.erase(it);
-			break;
-		}
-	}
+std::vector<Client>::iterator ClientManager::removeClient(std::vector<Client>::iterator it) {
+	std::vector<Client>::iterator newIt;
+	SOCKET csock = it->getSocket();
+
+	FD_CLR(csock, &_readfds);
+	close(csock);
+	newIt = this->_clients.erase(it);
 	refreshMaxSocket();
+	return newIt;
 }
 
 std::vector<Client>* ClientManager::getClients(void) {

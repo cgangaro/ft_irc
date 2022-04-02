@@ -18,8 +18,8 @@ class ClientManager {
 
 		void addSocket(SOCKET sock);
 		void addClient(SOCKET sock, SOCKADDR_IN sin);
-		void removeClient(SOCKET client);
-		void disconnectClient(SOCKET client);
+		std::vector<Client>::iterator removeClient(std::vector<Client>::iterator it);
+		std::vector<Client>::iterator disconnectClient(std::vector<Client>::iterator it);
 		static void deleteClient(Client & client);
 		SOCKET initReadfdsClient(fd_set *readfds, SOCKET max_socket);
 		int readClient();

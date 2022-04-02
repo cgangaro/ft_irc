@@ -11,7 +11,7 @@ void ClientManager::deleteClient(Client & client) {
 	delete &client;
 }
 
-void ClientManager::disconnectClient(SOCKET client) {
-	std::cout << "Client with socket " << client << " disconnected." << std::endl;
-	removeClient(client);
+std::vector<Client>::iterator ClientManager::disconnectClient(std::vector<Client>::iterator it) {
+	std::cout << "Client with socket " << it->getSocket() << " (" << it->getNickname() << ") disconnected." << std::endl;
+	return removeClient(it);
 }
