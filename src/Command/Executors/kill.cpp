@@ -6,6 +6,11 @@ bool Command::commandKill(Client * client, std::vector<std::string> tokens) {
 	if (!client->isOperator()) throw Exception::ERR_NOPRIVILEGES();
 	if (!_communicationManager->getClientManager()->isNicknameTaken(tokens[1])) throw Exception::ERR_NOSUCHNICK(tokens[1]);
 
-	this->_communicationManager->sendMsg(client->getSocket(), buildCmdResponse(*client, "KILL " + tokens[1] + " :" + tokens[2]));
+	/*
+	** TODO : kill the requested client
+	** Pseudo-code :
+	** Client toKill = clientManager.getClientByNickname(tokens[1]); // this function needs to be added
+	** cl
+	*/
 	return false;
 }
