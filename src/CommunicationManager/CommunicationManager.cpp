@@ -69,7 +69,6 @@ void CommunicationManager::processClientActivity(void) {
 
 	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); it++)
 	{
-		std::cout << "Processing client " << it->getNickname() << std::endl;
 		if (FD_ISSET(it->getSocket(), _clientManager->getReadfds()))
 		{
 			ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);

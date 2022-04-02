@@ -24,6 +24,7 @@
 #define BUFFER_SIZE 1024
 #define MAX_USERS_PER_CHANNEL 5
 #define MAX_CHANNELS_PER_USER 6
+#define OPER_PASSWORD "oper"
 
 /*
 ** Those are used in buildCmdResponse in Command class

@@ -10,7 +10,8 @@ commandExecutor Command::_executors[NB_COMMANDS] = {
 	&Command::commandMsg,
 	&Command::commandQuit,
 	&Command::commandPing,
-	&Command::commandKill
+	&Command::commandKill,
+	&Command::commandOper
 };
 
 Command::Command() {}
@@ -76,6 +77,20 @@ bool Command::interpret(char* buffer, Client * client) {
 	return shouldDisconnect;
 }
 
+std::vector<std::string> Command::extractArgs(std::string cmd) {
+	std::vector<std::string> args;
+	std::string lastArg;
+	size_t pos;
+
+	pos = cmd.find(':');
+	if (pos != std::string::npos) {
+		lastArg = cmd.substr(pos + 1);
+		cmd.erase(pos);
+	}
+	args = split(cmd.c_str(), " ");
+	if (pos != std::string::npos) args.push_back(lastArg);
+	return args;
+}
 
 /*
 ** Processing a single command
@@ -87,7 +102,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 	std::cout << "Processing: " << *cmd << std::endl << std::endl;
 
 	try {
-		tokens = split(cmd->c_str(), " ");
+		tokens = extractArgs(*cmd);
 		this->_latestCommand = *cmd;
         if (tokens.empty() || (tokens.front() != "PASS" && !client->isAuthenticated())) return false;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
