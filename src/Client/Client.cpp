@@ -7,6 +7,7 @@ Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuth
 	this->_nickname = "";
 	this->_username = "";
 	this->_isRegistered = false;
+	this->_isOperator = false;
 	this->buffer = "";
 }
 
@@ -54,6 +55,10 @@ bool Client::isRegistered(void) const {
 	return _isRegistered;
 }
 
+bool Client::isOperator(void) const {
+	return _isOperator;
+}
+
 std::string Client::getUsername(void) const {
 	return this->_username;
 }
@@ -68,6 +73,10 @@ std::vector<Channel> Client::getChannels(void) const {
 
 const std::string & Client::getBuffer(void) const {
 	return this->buffer;
+}
+
+void Client::setOperator(bool isOperator) {
+	this->_isOperator = isOperator;
 }
 
 void Client::setBuffer(std::string buffer) {
