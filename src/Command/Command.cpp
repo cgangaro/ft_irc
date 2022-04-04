@@ -48,7 +48,7 @@ std::string Command::recomposeCommand(char* inputBuffer, Client * client) {
 	size_t pos;
 
 	clientBuffer += inputBuffer;
-	if ((pos = clientBuffer.rfind(CRLF)) == std::string::npos) {
+	if ((pos = clientBuffer.rfind('\n')) == std::string::npos) {
 		client->setBuffer(clientBuffer);
 		return "";
 	}

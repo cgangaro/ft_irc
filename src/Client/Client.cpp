@@ -67,6 +67,11 @@ std::string Client::getNickname(void) const {
 	return this->_nickname;
 }
 
+std::string Client::getSujet(void) const {
+	std::string ret(":" + _nickname + "!~" + _username + "@" + getAddress());
+	return ret;
+}
+
 std::vector<Channel> Client::getChannels(void) const {
 	return this->_channels;
 }
@@ -84,7 +89,8 @@ void Client::setBuffer(std::string buffer) {
 }
 
 void Client::registerMe(void) {
-	this->_isRegistered = true;
+	if (!getUsername().empty() && !getNickname().empty())
+		this->_isRegistered = true;
 }
 
 void Client::setUsername(std::string username) {

@@ -31,5 +31,6 @@
 #define ERR_CANNOTSENDTOCHAN_BUILDER(channel) ("404 * " + channel + " :Cannot send to channel" + CRLF)
 #define ERR_TOOMANYTARGETS_BUILDER(targets) ("407 * " + targets + " :too much recipients" + CRLF)
 #define ERR_NOSUCHNICK_BUILDER(nickname) ("401 * " + nickname + " :No such nick/channel" + CRLF)
+#define ERR_NORECIPIENT_PRIVMSG_BUILDER(nickname) ("411 * " + nickname + " No recipient given (PRIVMSG)" + CRLF)
 
 #endif

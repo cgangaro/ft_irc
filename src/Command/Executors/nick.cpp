@@ -9,5 +9,6 @@ bool Command::commandNick(Client * client, std::vector<std::string> tokens) {
 	if (!client->isAuthenticated()) throw Exception::ERR_PASSWDMISMATCH();
 
 	client->setNickname(tokens[1]);
+	client->registerMe();
 	return false;
 }

@@ -14,7 +14,7 @@ ERR_BADCHANMASK				Pas fait, pas utile je crois
 ERR_UNAVAILRESOURCE			Pas utile je crois
 
 - PRIVMSG:
-ERR_NORECIPIENT				Pas compris
+411 ERR_NORECIPIENT				Pas compris
 412 ERR_NOTEXTTOSEND		ok
 ERR_CANNOTSENDTOCHAN		Déclaré mais pas utilisé, voir avec operator
 ERR_NOTOPLEVEL				Pas utile je crois, lié aux masks

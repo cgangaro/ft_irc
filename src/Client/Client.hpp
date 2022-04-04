@@ -37,6 +37,7 @@ class Client {
 		int getPort(void) const;
 		std::string getUsername(void) const;
 		std::string getNickname(void) const;
+		std::string getSujet(void) const;
 		const std::string & getBuffer(void) const;
 		std::vector<Channel> getChannels(void) const;
 		void setBuffer(std::string buffer);

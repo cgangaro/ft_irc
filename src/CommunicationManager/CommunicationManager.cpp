@@ -88,7 +88,6 @@ void CommunicationManager::processClientActivity(void) {
 
 bool CommunicationManager::verifExistChannel(std::string channel)
 {
-	std::cout << "size = " << _channels_server.size() << std::endl;
 	for (size_t i = 0; i < _channels_server.size(); i++)
 	{
 		if (_channels_server[i].getName().compare(channel) == 0)
@@ -136,7 +135,7 @@ Channel * CommunicationManager::returnChannel(std::string channel)
 
 std::string CommunicationManager::RPL_TOPIC_builder(Client * client, std::string sujet)
 {
-	std::string ret(':' + client->getNickname() + "!~" + client->getUsername() + "@" + client->getAddress() + " " + sujet + CRLF);
+	std::string ret(client->getSujet() + " " + sujet + CRLF);
 	return (ret);
 }
 
