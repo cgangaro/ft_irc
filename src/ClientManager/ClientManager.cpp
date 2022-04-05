@@ -81,4 +81,26 @@ SOCKET ClientManager::retSocketClient(std::string client_name) const {
 	return (-1);
 }
 
+void ClientManager::addClientToKill(std::string client_nickname) {
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (_clients[i].getNickname().compare(client_nickname) == 0) {
+			std::cout << _clients[i].getNickname() << " add to kill" << std::endl;
+			_clients[i].setToKill();
+			break ;
+		}
+	}
+}
+
+void ClientManager::disconnectClientsToKill(void) {
+	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
+		if (it->getToKill())
+		{
+			//std::cout << "kill " << it->getNickname() << std::endl;
+			it = disconnectClient(it);
+			if (it == _clients.end()) break;
+		}
+	}
+}
+
 

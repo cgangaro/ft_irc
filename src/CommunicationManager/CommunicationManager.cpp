@@ -83,7 +83,12 @@ void CommunicationManager::processClientActivity(void) {
 		}
 		if (it == _clientManager->getClients()->end()) break;
 	}
+	_clientManager->disconnectClientsToKill();
 	delete[] buffer;
+}
+
+void CommunicationManager::addClientToKill(std::string client_nickname) {
+	_clientManager->addClientToKill(client_nickname);
 }
 
 bool CommunicationManager::verifExistChannel(std::string channel)
@@ -182,4 +187,13 @@ void CommunicationManager::test_printChannels(void)
 		std::cout << _channels_server[i].getName() << std::endl;
 	}
 	std::cout << "End print server channels" << std::endl;
+}
+
+void CommunicationManager::sendToHisChannels(Client client, std::string msg)
+{
+	for (std::vector<Client>::iterator it = _clientManager->getClients()->begin(); it != _clientManager->getClients()->end(); ++it)
+	{
+		if (it->hasCommonChannel(client))
+			sendToOne(client.getUsername(), "", it->getSocket(), msg);
+	}
 }

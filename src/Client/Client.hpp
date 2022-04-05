@@ -13,6 +13,7 @@ class Client {
 		bool _isRegistered;
 		bool _isAuthenticated;
 		bool _isOperator;
+		bool _toKill;
 
 		std::string _username;
 		std::string _nickname;
@@ -40,16 +41,19 @@ class Client {
 		std::string getSujet(void) const;
 		const std::string & getBuffer(void) const;
 		std::vector<Channel> getChannels(void) const;
-		void setBuffer(std::string buffer);
+		bool getToKill(void) const;
 
+		void setBuffer(std::string buffer);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
 		void setSocket(SOCKET socket);
+		void setToKill(void);
 		void authenticate(void);
 		void registerMe(void);
 		void setOperator(bool isOperator);
 		void addChannel(Channel * channel);
 		bool verifIfRegisteredChannel(Channel * channel);
+		bool hasCommonChannel(Client Client);
 
 		void test_printChannels(void);
 };

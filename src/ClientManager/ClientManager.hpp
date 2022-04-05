@@ -32,6 +32,8 @@ class ClientManager {
 		bool isNicknameTaken(std::string nickname) const;
 		bool checkListUsers(std::string user) const;
 		SOCKET retSocketClient(std::string client_name) const;
+		void addClientToKill(std::string client_nickname);
+		void disconnectClientsToKill(void);
 };
 
 #endif

@@ -100,7 +100,6 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 	bool shouldDisconnect = false;
 
 	std::cout << "Processing: " << *cmd << std::endl << std::endl;
-
 	try {
 		tokens = extractArgs(*cmd);
 		this->_latestCommand = *cmd;

@@ -15,5 +15,6 @@ bool Command::commandKill(Client * client, std::vector<std::string> tokens) {
 	** invalide l'iterator de processClientActivity, donc il faut trouver un moyen de faire
 	** remonter la suppression a ce niveau la
 	*/
+	_communicationManager->addClientToKill(tokens[1]);
 	return false;
 }

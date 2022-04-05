@@ -9,6 +9,7 @@ Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuth
 	this->_isRegistered = false;
 	this->_isOperator = false;
 	this->buffer = "";
+	this->_toKill = false;
 }
 
 Client::Client(Client const & src) {
@@ -28,6 +29,7 @@ Client & Client::operator=(Client const &rhs) {
 	this->_username = rhs.getUsername();
 	this->_nickname = rhs.getNickname();
 	this->_channels = rhs.getChannels();
+	this->_toKill = rhs.getToKill();
 	return (*this);
 }
 
@@ -80,12 +82,21 @@ const std::string & Client::getBuffer(void) const {
 	return this->buffer;
 }
 
+bool Client::getToKill(void) const {
+	return this->_toKill;
+}
+
 void Client::setOperator(bool isOperator) {
 	this->_isOperator = isOperator;
 }
 
 void Client::setBuffer(std::string buffer) {
 	this->buffer = buffer;
+}
+
+void Client::setToKill(void) {
+	//std::cout << _username << " set to kill" << std::endl;
+	this->_toKill = true;
 }
 
 void Client::registerMe(void) {
@@ -117,6 +128,16 @@ bool Client::verifIfRegisteredChannel(Channel * channel) {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		if (_channels[i].getName().compare(channel->getName()) == 0)
+			return (true);
+	}
+	return (false);
+}
+
+bool Client::hasCommonChannel(Client client)
+{
+	for (size_t i = 0; i < client.getChannels().size(); i++)
+	{
+		if (verifIfRegisteredChannel(&client.getChannels()[i]))
 			return (true);
 	}
 	return (false);
