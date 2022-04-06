@@ -4,8 +4,8 @@
 #include "Commons.hpp"
 #include "Client.hpp"
 
-#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING KILL OPER"
-#define NB_COMMANDS 10
+#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING KILL OPER MODE"
+#define NB_COMMANDS 11
 #define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens);
 
 class Command;
@@ -23,6 +23,7 @@ class Command
 	private:
 		std::vector<t_command> _commands;
 		static commandExecutor _executors[NB_COMMANDS];
+		static std::string channelPrefix; 
 		CommunicationManager *_communicationManager;
 		std::string _password;
 		std::string _latestCommand;
@@ -53,6 +54,13 @@ class Command
 		COMMAND_EXECUTOR(commandPing)
 		COMMAND_EXECUTOR(commandKill)
 		COMMAND_EXECUTOR(commandOper)
+		COMMAND_EXECUTOR(commandMode)
+
+		/*
+		** Sub-executors, do not include in this->_executors array
+		*/
+		COMMAND_EXECUTOR(commandModeUser)
+		COMMAND_EXECUTOR(commandModeChannel)
 
 		void joinChannel(Client * client, std::string tokens_name, std::string tokens_pass);
 		void addClientChannel(Client * client, Channel * channel, bool creator);
