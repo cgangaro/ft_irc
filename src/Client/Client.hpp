@@ -20,6 +20,7 @@ class Client {
 		std::vector<Channel> _channels; // a string beginning with #
 
 		std::string buffer;
+		int _modeSettings;
 
 	public:
 		Client();
@@ -38,6 +39,8 @@ class Client {
 		int getPort(void) const;
 		std::string getUsername(void) const;
 		std::string getNickname(void) const;
+		int getModeSettings(void) const;
+		std::string getUsermode();
 		std::string getSujet(void) const;
 		const std::string & getBuffer(void) const;
 		std::vector<Channel> getChannels(void) const;
@@ -54,6 +57,8 @@ class Client {
 		void addChannel(Channel * channel);
 		bool verifIfRegisteredChannel(Channel * channel);
 		bool hasCommonChannel(Client Client);
+		void addMode(int mode);
+		void removeMode(int mode);
 
 		void test_printChannels(void);
 };

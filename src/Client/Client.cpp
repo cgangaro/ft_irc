@@ -10,6 +10,7 @@ Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuth
 	this->_isOperator = false;
 	this->buffer = "";
 	this->_toKill = false;
+	this->_modeSettings = 0;
 }
 
 Client::Client(Client const & src) {
@@ -30,6 +31,8 @@ Client & Client::operator=(Client const &rhs) {
 	this->_nickname = rhs.getNickname();
 	this->_channels = rhs.getChannels();
 	this->_toKill = rhs.getToKill();
+	this->_modeSettings = rhs.getModeSettings();
+	this->_isOperator = rhs.isOperator();
 	return (*this);
 }
 
@@ -67,6 +70,10 @@ std::string Client::getUsername(void) const {
 
 std::string Client::getNickname(void) const {
 	return this->_nickname;
+}
+
+int Client::getModeSettings(void) const {
+	return this->_modeSettings;
 }
 
 std::string Client::getSujet(void) const {
@@ -152,4 +159,25 @@ void Client::test_printChannels(void)
 		std::cout << _channels[i].getName() << std::endl;
 	}
 	std::cout << "End print client channels" << std::endl;
+}
+
+void Client::addMode(int mode) {
+	this->_modeSettings |= mode;
+}
+
+void Client::removeMode(int mode) {
+	this->_modeSettings &= ~mode;
+}
+
+std::string Client::getUsermode() {
+	std::string usermode;
+
+	usermode += '+';
+	if (_modeSettings & F_AWAY) usermode += 'a';
+	if (_modeSettings & F_INVISIBLE) usermode += 'i';
+	if (_modeSettings & F_WALLOPS) usermode += 'w';
+	if (_modeSettings & F_RESTRICTED) usermode += 'r';
+	if (_modeSettings & F_OPER) usermode += 'o';
+	if (_modeSettings & F_LOCALOPER) usermode += 'O';
+	return usermode;
 }

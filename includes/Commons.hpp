@@ -32,6 +32,22 @@
 #define OPT_CLIENT 0
 #define OPT_SERVER 1
 
+/*
+** Flags for the User MODE command
+*/
+#define UMODE_FLAGS "aiwroOs"
+#define F_AWAY 0x01
+#define F_INVISIBLE (0x01 << 1)
+#define F_WALLOPS (0x01 << 2)
+#define F_RESTRICTED (0x01 << 3)
+#define F_OPER (0x01 << 4)
+#define F_LOCALOPER (0x01 << 5)
+
+/*
+** Flags for the Channel MODE command
+*/
+#define CMODE_FLAGS "OovaimnqpsrtklbeI"
+
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;

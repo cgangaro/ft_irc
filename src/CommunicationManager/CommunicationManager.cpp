@@ -25,6 +25,14 @@ ClientManager* CommunicationManager::getClientManager(void) const {
 	return this->_clientManager;
 }
 
+Channel* CommunicationManager::getChannel(std::string channelName) {
+	for (std::vector<Channel>::iterator it = _channels_server.begin(); it != _channels_server.end(); ++it) {
+		if (it->getName() == channelName)
+			return &(*it);
+	}
+	return NULL;
+}
+
 std::string CommunicationManager::messageBuilder(std::string sender, Channel & channel, const char* msg) const {
 	std::stringstream ss;
 

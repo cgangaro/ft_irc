@@ -28,6 +28,16 @@ class Command
 		std::string _password;
 		std::string _latestCommand;
 
+		/*
+		** Internal logic for MODE command 
+		*/
+		std::vector<std::string> getOperations(std::vector<std::string> input, std::string legalOps);
+		int userCharToFlag(char c);
+		char userFlagTochar(int flag);
+		int channelCharToFlag(char c);
+		char channelFlagToChar(int flag);
+		void execOperation(Client * client, std::string op);
+		void execOperation(Channel * channel, std::string op);
 	public:
 		Command();
 		Command(CommunicationManager *_communicationManager, std::string pwd);
@@ -64,6 +74,7 @@ class Command
 
 		void joinChannel(Client * client, std::string tokens_name, std::string tokens_pass);
 		void addClientChannel(Client * client, Channel * channel, bool creator);
+
 };
 
 #endif

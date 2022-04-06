@@ -11,7 +11,10 @@ bool Command::commandUser(Client * client, std::vector<std::string> tokens) {
 	std::vector<std::string> reply = split(welcomeMsg.c_str(), CRLF);
 	client->setUsername(tokens[1]);
 	client->registerMe();
+	client->addMode(F_INVISIBLE);
+	client->addMode(F_WALLOPS);
 	_communicationManager->sendMsg(client->getSocket(),
 		buildMultipleCmdResponse(*client, reply));
+	_communicationManager->sendMsg(client->getSocket(), buildCmdResponse(*client, "MODE " + client->getNickname() + " " + client->getUsermode(), OPT_CLIENT));
 	return false;
 }

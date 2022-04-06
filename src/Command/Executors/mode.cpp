@@ -2,16 +2,27 @@
 #include "CommunicationManager.hpp"
 
 bool Command::commandModeUser(Client * client, std::vector<std::string> tokens) {
-	(void)client;
-	(void)tokens;
-	std::cout << __func__ << std::endl;
+	std::vector<std::string> operations;
+
+	if (tokens[1] != client->getNickname()) throw Exception::ERR_USERSDONTMATCH();
+	
+	operations = getOperations(tokens, UMODE_FLAGS);
+	if (!operations.empty()) {
+		for (std::vector<std::string>::iterator it = operations.begin(); it != operations.end(); ++it) {
+			execOperation(client, *it);
+		}
+	}
+	std::string msg = buildCmdResponse(*client, RPL_UMODEIS(client->getNickname(), client->getUsermode()));
+	this->_communicationManager->sendMsg(client->getSocket(), msg);
 	return false;
 }
 
 bool Command::commandModeChannel(Client * client, std::vector<std::string> tokens) {
-	(void)client;
-	(void)tokens;
-	std::cout << __func__ << std::endl;
+	Channel * channel;
+
+	channel = this->_communicationManager->getChannel(tokens[1]);
+	if (!channel) return false;
+	if (!channel->isOperator(client->getSocket())) throw Exception::ERR_CHANOPRIVSNEEDED(tokens[1]);
 	return false;
 }
 

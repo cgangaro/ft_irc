@@ -20,6 +20,7 @@ class CommunicationManager {
 		CommunicationManager& operator=(const CommunicationManager& cm);
 		void setInterpreter(Command interpreter);
 		ClientManager* getClientManager(void) const;
+		Channel* getChannel(std::string channelName);
 		std::string messageBuilder(std::string sender, Channel & channel, const char* msg) const;
 		Channel & getDefaultChannel(void);
 		void sendMsg(SOCKET sock, std::string msg);

@@ -81,3 +81,18 @@ bool Channel::verifIfRegisteredUser(SOCKET user)
 	}
 	return (false);
 }
+
+bool Channel::isOperator(SOCKET user) {
+	for (std::vector<SOCKET>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
+		if (*it == user)
+			return (true);
+	return false;
+}
+
+void Channel::addMode(int mode) {
+	this->_modeSettings |= mode;
+}
+
+void Channel::removeMode(int mode) {
+	this->_modeSettings &= ~mode;
+}

@@ -18,8 +18,8 @@
 
 #define REGISTRATION_SUCCESS(nickname) RPL_WELCOME(nickname) + RPL_YOURHOST(nickname) + RPL_CREATED(nickname) + RPL_MYINFO(nickname)
 
-#define RPL_YOUREOPER(nickname) "381 " + nickname + " You are now an IRC operator" + CRLF
-
+#define RPL_YOUREOPER(nickname) ("381 " + nickname + " You are now an IRC operator" + CRLF)
+#define RPL_UMODEIS(user, usermode) ("221 " + user + " " + usermode + CRLF)
 // Those are used in Exception.hpp
 #define ERR_ERRONEOUSNICKNAME_BUILDER(nickname) ("432 * " + nickname + " :Erroneous nickname" + CRLF)
 #define ERR_NICKNAMEINUSE_BUILDER(nickname) ("433 * " + nickname + " :Nickname is already in use" + CRLF)
@@ -32,5 +32,5 @@
 #define ERR_TOOMANYTARGETS_BUILDER(targets) ("407 * " + targets + " :too much recipients" + CRLF)
 #define ERR_NOSUCHNICK_BUILDER(nickname) ("401 * " + nickname + " :No such nick/channel" + CRLF)
 #define ERR_NORECIPIENT_PRIVMSG_BUILDER(nickname) ("411 * " + nickname + " No recipient given (PRIVMSG)" + CRLF)
-
+#define ERR_CHANOPRIVSNEEDED_BUILDER(channel) ("482 * " + channel + " :You're not channel operator" + CRLF)	
 #endif

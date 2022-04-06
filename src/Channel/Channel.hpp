@@ -12,6 +12,8 @@ class Channel {
 		std::vector<SOCKET> _list_admin;
 		std::vector<SOCKET> _list_user;
 
+		int _modeSettings;
+
 	public:
 		Channel();
 		Channel(Channel const &src);
@@ -29,9 +31,12 @@ class Channel {
 		void setPassword(std::string password);
 		void addAdmin(SOCKET admin);
 		void addUser(SOCKET user);
+		void addMode(int mode);
+		void removeMode(int mode);
 
 		bool verifIfRegisteredAdmin(SOCKET admin);
 		bool verifIfRegisteredUser(SOCKET user);
+		bool isOperator(SOCKET user);
 };
 
 #endif
