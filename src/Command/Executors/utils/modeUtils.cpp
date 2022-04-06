@@ -46,12 +46,46 @@ char Command::userFlagTochar(int flag) {
 
 char Command::channelFlagToChar(int flag) {
 	switch (flag) {
+		case F_CREATOR: return 'O';
+		case F_OP: return 'o';
+		case F_VOICE: return 'v';
+		case F_ANONYMOUS: return 'a';
+		case F_INVITE: return 'i';
+		case F_MODERATED: return 'm';
+		case F_NOEXTERNMSGS: return 'n';
+		case F_QUIET: return 'q';
+		case F_PRIVATE: return 'p';
+		case F_SECRET: return 's';
+		case F_REOP: return 'r';
+		case F_TOPICOP: return 't';
+		case F_KEY: return 'k';
+		case F_LIMIT: return 'l';
+		case F_BAN: return 'b';
+		case F_EXCEPT: return 'e';
+		case F_INVITEONLY: return 'I';
 		default: return 0;
 	}
 }
 
 int Command::channelCharToFlag(char c) {
 	switch (c) {
+		case 'O': return F_CREATOR;
+		case 'o': return F_OP;
+		case 'v': return F_VOICE;
+		case 'a': return F_ANONYMOUS;
+		case 'i': return F_INVITE;
+		case 'm': return F_MODERATED;
+		case 'n': return F_NOEXTERNMSGS;
+		case 'q': return F_QUIET;
+		case 'p': return F_PRIVATE;
+		case 's': return F_SECRET;
+		case 'r': return F_REOP;
+		case 't': return F_TOPICOP;
+		case 'k': return F_KEY;
+		case 'l': return F_LIMIT;
+		case 'b': return F_BAN;
+		case 'e': return F_EXCEPT;
+		case 'I': return F_INVITEONLY;
 		default: return 0;
 	}
 }

@@ -47,6 +47,23 @@
 ** Flags for the Channel MODE command
 */
 #define CMODE_FLAGS "OovaimnqpsrtklbeI"
+#define F_CREATOR 0x01
+#define F_OP (0x01 << 1)
+#define F_VOICE (0x01 << 2)
+#define F_ANONYMOUS (0x01 << 3)
+#define F_INVITE (0x01 << 4)
+#define F_MODERATED (0x01 << 5)
+#define F_NOEXTERNMSGS (0x01 << 6)
+#define F_QUIET (0x01 << 7)
+#define F_PRIVATE (0x01 << 8)
+#define F_SECRET (0x01 << 9)
+#define F_REOP (0x01 << 10)
+#define F_TOPICOP (0x01 << 11)
+#define F_KEY (0x01 << 12)
+#define F_LIMIT (0x01 << 13)
+#define F_BAN (0x01 << 14)
+#define F_EXCEPT (0x01 << 15)
+#define F_INVITEONLY (0x01 << 16)
 
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
