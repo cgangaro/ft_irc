@@ -3,8 +3,9 @@
 
 #include <vector>
 #include "Commons.hpp"
+#include "Channel.hpp"
 
-class Channel;
+//class Channel;
 
 class Client {
 	private:
@@ -17,7 +18,7 @@ class Client {
 
 		std::string _username;
 		std::string _nickname;
-		std::vector<Channel> _channels; // a string beginning with #
+		std::vector<Channel*> _channels; // a string beginning with #
 
 		std::string buffer;
 		int _modeSettings;
@@ -43,7 +44,7 @@ class Client {
 		std::string getUsermode();
 		std::string getSujet(void) const;
 		const std::string & getBuffer(void) const;
-		std::vector<Channel> getChannels(void) const;
+		std::vector<Channel*> getChannels(void) const;
 		bool getToKill(void) const;
 
 		void setBuffer(std::string buffer);

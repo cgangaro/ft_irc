@@ -81,7 +81,7 @@ std::string Client::getSujet(void) const {
 	return ret;
 }
 
-std::vector<Channel> Client::getChannels(void) const {
+std::vector<Channel*> Client::getChannels(void) const {
 	return this->_channels;
 }
 
@@ -127,13 +127,13 @@ void Client::authenticate(void) {
 }
 
 void Client::addChannel(Channel * channel) {
-	_channels.push_back(*channel);
+	_channels.push_back(channel);
 }
 
 bool Client::verifIfRegisteredChannel(Channel * channel) {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i].getName().compare(channel->getName()) == 0)
+		if (_channels[i]->getName().compare(channel->getName()) == 0)
 			return (true);
 	}
 	return (false);
@@ -143,7 +143,7 @@ bool Client::hasCommonChannel(Client client)
 {
 	for (size_t i = 0; i < client.getChannels().size(); i++)
 	{
-		if (verifIfRegisteredChannel(&client.getChannels()[i]))
+		if (verifIfRegisteredChannel(client.getChannels()[i]))
 			return (true);
 	}
 	return (false);
@@ -155,7 +155,7 @@ void Client::test_printChannels(void)
 	std::cout << "size = " << _channels.size() << std::endl;
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		std::cout << _channels[i].getName() << std::endl;
+		std::cout << _channels[i]->getName() << std::endl;
 	}
 	std::cout << "End print client channels" << std::endl;
 }
