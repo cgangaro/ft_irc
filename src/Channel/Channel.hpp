@@ -26,11 +26,15 @@ class Channel {
 		std::string getPassword(void) const;
 		std::vector<SOCKET> getListAdmin(void) const;
 		std::vector<SOCKET> getListUser(void) const;
+		std::string getChannelmode();
+		int getModeSettings(void);
 
 		void setName(std::string username);
 		void setPassword(std::string password);
 		void addAdmin(SOCKET admin);
+		void removeAdmin(SOCKET admin);
 		void addUser(SOCKET user);
+		void removeUser(SOCKET user);
 		void addMode(int mode);
 		void removeMode(int mode);
 

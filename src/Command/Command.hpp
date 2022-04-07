@@ -32,12 +32,15 @@ class Command
 		** Internal logic for MODE command 
 		*/
 		std::vector<std::string> getOperations(std::vector<std::string> input, std::string legalOps);
+		std::vector<std::string> getArg(std::vector<std::string> input);
 		int userCharToFlag(char c);
 		char userFlagTochar(int flag);
 		int channelCharToFlag(char c);
 		char channelFlagToChar(int flag);
 		void execOperation(Client * client, std::string op);
-		void execOperation(Channel * channel, std::string op);
+		void execChannelOperation(Channel * channel, std::string op, std::vector<std::string> arg);
+
+		void channelOperationOp(Channel * channel, std::vector<std::string> arg, bool activ);
 	public:
 		Command();
 		Command(CommunicationManager *_communicationManager, std::string pwd);

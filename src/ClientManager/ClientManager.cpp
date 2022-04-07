@@ -55,7 +55,6 @@ void ClientManager::refreshMaxSocket() {
 }
 
 bool ClientManager::isNicknameTaken(std::string nickname) const {
-	//std::cout << __func__ << " nbClients(): " << this->getNbClient() << std::endl;
 	for (std::vector<Client>::const_iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		if (it->getNickname() == nickname)
 			return true;
@@ -85,7 +84,6 @@ void ClientManager::addClientToKill(std::string client_nickname) {
 	for (size_t i = 0; i < _clients.size(); i++)
 	{
 		if (_clients[i].getNickname().compare(client_nickname) == 0) {
-			std::cout << _clients[i].getNickname() << " add to kill" << std::endl;
 			_clients[i].setToKill();
 			break ;
 		}
@@ -96,7 +94,6 @@ void ClientManager::disconnectClientsToKill(void) {
 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		if (it->getToKill())
 		{
-			//std::cout << "kill " << it->getNickname() << std::endl;
 			it = disconnectClient(it);
 			if (it == _clients.end()) break;
 		}

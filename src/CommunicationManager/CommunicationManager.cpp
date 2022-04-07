@@ -2,12 +2,7 @@
 
 CommunicationManager::CommunicationManager() {}
 
-CommunicationManager::CommunicationManager(ClientManager* _clientManager) : _clientManager(_clientManager) {
-/* 	std::cout << "=== CommunicationManager constructor ===" << std::endl;
-	std::cout << "\tthis: " << this << std::endl;
-	std::cout << "\t_clientManager: " << _clientManager << std::endl;
-	std::cout << "=== CommunicationManager END ===" << std::endl; */
-}
+CommunicationManager::CommunicationManager(ClientManager* _clientManager) : _clientManager(_clientManager) {}
 
 CommunicationManager::~CommunicationManager() {}
 
@@ -129,7 +124,6 @@ bool CommunicationManager::verifChannelPassword(std::string channel, std::string
 void CommunicationManager::addChannel(std::string channel, std::string password, SOCKET admin)
 {
 	Channel new_channel(channel, password, admin);
-	std::cout << "new_channel name = " << new_channel.getName() << ", new_Channel password = " << new_channel.getPassword() << std::endl;
 	_channels_server.push_back(new_channel);
 }
 

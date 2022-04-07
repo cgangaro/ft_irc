@@ -67,14 +67,10 @@ std::string Command::buildMultipleCmdResponse(Client & client, std::vector<std::
 
 void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 {
-	//(void)creator;
 	if (!(client->verifIfRegisteredChannel(channel)))
 		client->addChannel(channel);
-	// if (!(channel->verifIfRegisteredAdmin(client->getSocket())))
-	// 	channel->addAdmin(client->getSocket());
 	if (!(channel->verifIfRegisteredUser(client->getSocket())))
 		channel->addUser(client->getSocket());
-	std::cout << "adress = |" << client->getAddress() << "|" << std::endl;
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
 	if (creator)
 		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), "+Cnst"));
@@ -97,7 +93,6 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			throw Exception::ERR_TOOMANYCHANNELS(channel_name[i]);
 		if (_communicationManager->verifExistChannel(channel_name[i]))
 		{
-			std::cout << "channel exist" << std::endl;
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
 			if (!(channel->getListUser().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getSocket()))
 				throw Exception::ERR_CHANNELISFULL(channel_name[i]);
@@ -118,7 +113,6 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 		}
 		else
 		{
-			std::cout << "channel not exist" << std::endl;
 			if (i < channel_pass.size())
 				_communicationManager->addChannel(channel_name[i], channel_pass[i], client->getSocket());
 			else

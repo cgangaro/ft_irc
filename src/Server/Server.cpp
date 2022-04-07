@@ -6,11 +6,6 @@ Server::Server(int port, std::string pwd) {
 	this->_password = pwd;
 	this->_communicationManager = CommunicationManager(&this->_clientManager);
 	this->_communicationManager.setInterpreter(cmd);
-/* 	std::cout << "=== Server constructor ===" << std::endl;
-	std::cout << "\tthis: " << this << std::endl;
-	std::cout << "\t_communicationManager: " << &this->_communicationManager << std::endl;
-	std::cout << "\t_clientManager: " << &this->_clientManager << std::endl;
-	std::cout << "=== Server END ===" << std::endl; */
 	signal(SIGINT, Server::killServer);
 }
 

@@ -28,10 +28,6 @@ Command::Command(CommunicationManager *_communicationManager, std::string pwd) :
 		command.executor = this->_executors[i];
 		_commands.push_back(command);
 	}
-/* 	std::cout << "=== Command constructor ===" << std::endl;
-	std::cout << "\tthis: " << this << std::endl;
-	std::cout << "\t_communicationManager: " << _communicationManager << std::endl;
-	std::cout << "=== Command END ===" << std::endl; */
 }
 
 Command::~Command() {
@@ -68,8 +64,6 @@ bool Command::interpret(char* buffer, Client * client) {
 	bool shouldDisconnect = false;
 	std::vector<std::string> cmds;
 	std::string input;
-
-	std::cout << "Received: " << buffer << std::endl;
 
 	input = recomposeCommand(buffer, client);
 	cmds = split(input.c_str(), CRLF);

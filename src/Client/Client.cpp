@@ -102,7 +102,6 @@ void Client::setBuffer(std::string buffer) {
 }
 
 void Client::setToKill(void) {
-	//std::cout << _username << " set to kill" << std::endl;
 	this->_toKill = true;
 }
 

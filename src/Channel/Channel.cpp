@@ -54,12 +54,38 @@ void Channel::setName(std::string name) {
 
 void Channel::addAdmin(SOCKET admin)
 {
-	_list_admin.push_back(admin);
+	if (!verifIfRegisteredAdmin(admin))
+		_list_admin.push_back(admin);
+}
+
+void Channel::removeAdmin(SOCKET admin)
+{
+	for (std::vector<SOCKET>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
+	{
+		if (*it == admin)
+		{
+			_list_admin.erase(it); 
+			return ;
+		}
+	}
 }
 
 void Channel::addUser(SOCKET user)
 {
-	_list_user.push_back(user);
+	if (!verifIfRegisteredAdmin(user))
+		_list_user.push_back(user);
+}
+
+void Channel::removeUser(SOCKET user)
+{
+	for (std::vector<SOCKET>::iterator it = _list_user.begin(); it != _list_user.end(); ++it)
+	{
+		if (*it == user)
+		{
+			_list_user.erase(it); 
+			return ;
+		}
+	}
 }
 
 bool Channel::verifIfRegisteredAdmin(SOCKET admin)
@@ -95,4 +121,32 @@ void Channel::addMode(int mode) {
 
 void Channel::removeMode(int mode) {
 	this->_modeSettings &= ~mode;
+}
+
+int Channel::getModeSettings(void){
+	return this->_modeSettings;
+}
+
+std::string Channel::getChannelmode() {
+	std::string usermode;
+
+	usermode += '+';
+	if (_modeSettings & F_CREATOR) usermode += 'O';
+	if (_modeSettings & F_OP) usermode += 'o';
+	if (_modeSettings & F_VOICE) usermode += 'v';
+	if (_modeSettings & F_ANONYMOUS) usermode += 'a';
+	if (_modeSettings & F_INVITE) usermode += 'i';
+	if (_modeSettings & F_MODERATED) usermode += 'm';
+	if (_modeSettings & F_NOEXTERNMSGS) usermode += 'n';
+	if (_modeSettings & F_QUIET) usermode += 'q';
+	if (_modeSettings & F_PRIVATE) usermode += 'p';
+	if (_modeSettings & F_SECRET) usermode += 's';
+	if (_modeSettings & F_REOP) usermode += 'r';
+	if (_modeSettings & F_TOPICOP) usermode += 't';
+	if (_modeSettings & F_KEY) usermode += 'k';
+	if (_modeSettings & F_LIMIT) usermode += 'l';
+	if (_modeSettings & F_BAN) usermode += 'b';
+	if (_modeSettings & F_EXCEPT) usermode += 'e';
+	if (_modeSettings & F_INVITEONLY) usermode += 'I';
+	return usermode;
 }

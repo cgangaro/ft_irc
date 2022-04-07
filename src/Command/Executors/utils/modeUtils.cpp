@@ -20,6 +20,16 @@ std::vector<std::string> Command::getOperations(std::vector<std::string> input, 
 	return output;
 }
 
+std::vector<std::string> Command::getArg(std::vector<std::string> input)
+{
+	std::vector<std::string> arg;
+	if (input.size() < 4)
+		return arg;
+	for (size_t i = 3; i < input.size(); i++)
+		arg.push_back(input[i]);
+	return arg;
+}
+
 int Command::userCharToFlag(char c) {
 	switch (c) {
 		case 'a': return F_AWAY;
@@ -100,11 +110,30 @@ void Command::execOperation(Client * client, std::string op) {
 	}
 }
 
-void Command::execOperation(Channel * channel, std::string op) {
+void Command::execChannelOperation(Channel * channel, std::string op, std::vector<std::string> arg) {
 	int mode = channelCharToFlag(op.at(1));
+	bool activ = true;
 	if (op.at(0) == '+') {
 		channel->addMode(mode);
 	} else if (op.at(0) == '-') {
 		channel->removeMode(mode);
+		activ = false;
+	}
+	if (arg.size() > 0) {
+		if (mode == F_OP)
+			channelOperationOp(channel, arg, activ);
+		else if (mode == F_KEY)
+			channel->setPassword(arg[0]);
+	}
+}
+
+void Command::channelOperationOp(Channel * channel, std::vector<std::string> arg, bool activ) {
+	if (!_communicationManager->getClientManager()->isNicknameTaken(arg[0])) throw Exception::ERR_NOSUCHNICK(arg[0]);
+	else if (!channel->verifIfRegisteredUser(_communicationManager->getClientManager()->retSocketClient(arg[0]))) throw Exception::ERR_CANNOTSENDTOCHAN(channel->getName());
+	else if (!activ) {
+		channel->removeAdmin(_communicationManager->getClientManager()->retSocketClient(arg[0]));
+	}
+	else if (activ) {
+		channel->addAdmin(_communicationManager->getClientManager()->retSocketClient(arg[0]));
 	}
 }
