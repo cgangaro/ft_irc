@@ -40,6 +40,8 @@ std::string CommunicationManager::messageBuilder(std::string sender, Channel & c
 void CommunicationManager::sendMsg(SOCKET sock, std::string msg)
 {
 	int msgSize = msg.length();
+
+	if (sock < 0) return ;
 	ssize_t ret_send = send(sock, msg.c_str(), msgSize, 0);
 	if (ret_send != (ssize_t)msgSize)
 		throw Exception::SendFailed();
@@ -60,8 +62,8 @@ void CommunicationManager::sendToChannel(Client client, Channel channel, std::st
 {
 	for (size_t i = 0; i < channel.getListUser().size(); i++)
 	{
-		if (channel.getListUser()[i] != client.getSocket())
-			sendToOne(client.getUsername(), channel.getName(), channel.getListUser()[i], msg);
+		if (channel.getListUser()[i] != client.getNickname())
+			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getListUser()[i]), msg);
 	}
 }
 
@@ -121,7 +123,7 @@ bool CommunicationManager::verifChannelPassword(std::string channel, std::string
 	return (false);
 }
 
-void CommunicationManager::addChannel(std::string channel, std::string password, SOCKET admin)
+void CommunicationManager::addChannel(std::string channel, std::string password, std::string admin)
 {
 	Channel new_channel(channel, password, admin);
 	_channels_server.push_back(new_channel);
@@ -159,12 +161,12 @@ std::string CommunicationManager::RPL_NAMREPLY_builder(std::string canal, Channe
 	bool f = false;
 	for (size_t i = 0; i < iencli.size(); i++)
 	{
-		if (channel.verifIfRegisteredUser(iencli[i].getSocket()))
+		if (channel.verifIfRegisteredUser(iencli[i].getNickname()))
 		{
 			if (f == true)
 				ret = ret + " ";
 			f = true;
-			if (channel.verifIfRegisteredAdmin(iencli[i].getSocket()))
+			if (channel.verifIfRegisteredAdmin(iencli[i].getNickname()))
 				ret = ret + "@" + iencli[i].getNickname();
 			else
 				ret = ret + iencli[i].getNickname();

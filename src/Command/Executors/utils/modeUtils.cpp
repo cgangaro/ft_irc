@@ -129,11 +129,11 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 
 void Command::channelOperationOp(Channel * channel, std::vector<std::string> arg, bool activ) {
 	if (!_communicationManager->getClientManager()->isNicknameTaken(arg[0])) throw Exception::ERR_NOSUCHNICK(arg[0]);
-	else if (!channel->verifIfRegisteredUser(_communicationManager->getClientManager()->retSocketClient(arg[0]))) throw Exception::ERR_CANNOTSENDTOCHAN(channel->getName());
+	else if (!channel->verifIfRegisteredUser(arg[0])) throw Exception::ERR_CANNOTSENDTOCHAN(channel->getName());
 	else if (!activ) {
-		channel->removeAdmin(_communicationManager->getClientManager()->retSocketClient(arg[0]));
+		channel->removeAdmin(arg[0]);
 	}
 	else if (activ) {
-		channel->addAdmin(_communicationManager->getClientManager()->retSocketClient(arg[0]));
+		channel->addAdmin(arg[0]);
 	}
 }

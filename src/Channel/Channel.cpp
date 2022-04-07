@@ -9,7 +9,7 @@ Channel::Channel(Channel const &src) {
 	*this = src;
 }
 
-Channel::Channel(std::string name, std::string password, SOCKET admin) {
+Channel::Channel(std::string name, std::string password, std::string admin) {
 	_name = name;
 	_password = password;
 	_list_admin.push_back(admin);
@@ -36,11 +36,11 @@ std::string Channel::getPassword(void) const {
 	return _password;
 }
 
-std::vector<SOCKET> Channel::getListAdmin(void) const {
+std::vector<std::string> Channel::getListAdmin(void) const {
 	return _list_admin;
 }
 
-std::vector<SOCKET> Channel::getListUser(void) const {
+std::vector<std::string> Channel::getListUser(void) const {
 	return _list_user;
 }
 
@@ -52,15 +52,15 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::addAdmin(SOCKET admin)
+void Channel::addAdmin(std::string admin)
 {
 	if (!verifIfRegisteredAdmin(admin))
 		_list_admin.push_back(admin);
 }
 
-void Channel::removeAdmin(SOCKET admin)
+void Channel::removeAdmin(std::string admin)
 {
-	for (std::vector<SOCKET>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
+	for (std::vector<std::string>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
 	{
 		if (*it == admin)
 		{
@@ -70,15 +70,15 @@ void Channel::removeAdmin(SOCKET admin)
 	}
 }
 
-void Channel::addUser(SOCKET user)
+void Channel::addUser(std::string user)
 {
 	if (!verifIfRegisteredAdmin(user))
 		_list_user.push_back(user);
 }
 
-void Channel::removeUser(SOCKET user)
+void Channel::removeUser(std::string user)
 {
-	for (std::vector<SOCKET>::iterator it = _list_user.begin(); it != _list_user.end(); ++it)
+	for (std::vector<std::string>::iterator it = _list_user.begin(); it != _list_user.end(); ++it)
 	{
 		if (*it == user)
 		{
@@ -88,7 +88,7 @@ void Channel::removeUser(SOCKET user)
 	}
 }
 
-bool Channel::verifIfRegisteredAdmin(SOCKET admin)
+bool Channel::verifIfRegisteredAdmin(std::string admin)
 {
 	for (size_t i = 0; i < _list_admin.size(); i++)
 	{
@@ -98,7 +98,7 @@ bool Channel::verifIfRegisteredAdmin(SOCKET admin)
 	return (false);
 }
 
-bool Channel::verifIfRegisteredUser(SOCKET user)
+bool Channel::verifIfRegisteredUser(std::string user)
 {
 	for (size_t i = 0; i < _list_user.size(); i++)
 	{
@@ -108,8 +108,8 @@ bool Channel::verifIfRegisteredUser(SOCKET user)
 	return (false);
 }
 
-bool Channel::isOperator(SOCKET user) {
-	for (std::vector<SOCKET>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
+bool Channel::isOperator(std::string user) {
+	for (std::vector<std::string>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
 		if (*it == user)
 			return (true);
 	return false;

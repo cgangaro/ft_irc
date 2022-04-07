@@ -32,7 +32,7 @@ class CommunicationManager {
 
 		bool verifExistChannel(std::string channel);
 		bool verifChannelPassword(std::string channel, std::string password);
-		void addChannel(std::string channel, std::string password, SOCKET admin);
+		void addChannel(std::string channel, std::string password, std::string admin);
 		//void addUserToChannel(std::string channel, Client * client);
 		Channel * returnChannel(std::string channel);
 

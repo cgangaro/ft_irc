@@ -69,8 +69,8 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 {
 	if (!(client->verifIfRegisteredChannel(channel)))
 		client->addChannel(channel);
-	if (!(channel->verifIfRegisteredUser(client->getSocket())))
-		channel->addUser(client->getSocket());
+	if (!(channel->verifIfRegisteredUser(client->getNickname())))
+		channel->addUser(client->getNickname());
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
 	if (creator)
 		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), "+Cnst"));
@@ -94,7 +94,7 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 		if (_communicationManager->verifExistChannel(channel_name[i]))
 		{
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
-			if (!(channel->getListUser().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getSocket()))
+			if (!(channel->getListUser().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getNickname()))
 				throw Exception::ERR_CHANNELISFULL(channel_name[i]);
 			if (i < channel_pass.size())
 			{
@@ -114,9 +114,9 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 		else
 		{
 			if (i < channel_pass.size())
-				_communicationManager->addChannel(channel_name[i], channel_pass[i], client->getSocket());
+				_communicationManager->addChannel(channel_name[i], channel_pass[i], client->getNickname());
 			else
-				_communicationManager->addChannel(channel_name[i], "", client->getSocket());
+				_communicationManager->addChannel(channel_name[i], "", client->getNickname());
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
 			addClientChannel(client, channel, true);
 		}
