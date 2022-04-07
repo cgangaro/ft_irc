@@ -54,7 +54,7 @@ bool Command::commandModeChannel(Client * client, std::vector<std::string> token
 		}
 	}
 	else if (tokens.size() == 2) {
-		std::string msg = buildCmdResponse(*client, RPL_UMODEIS(client->getNickname(), client->getUsermode()));
+ 		std::string msg = ":" + (std::string)SERVER_NAME + " " + RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), channel->getChannelmode());
 		this->_communicationManager->sendMsg(client->getSocket(), msg);
 	}
 	else throw Exception::ERR_NEEDMOREPARAMS("MODE");

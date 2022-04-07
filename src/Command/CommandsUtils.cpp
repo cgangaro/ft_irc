@@ -72,8 +72,9 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 	if (!(channel->verifIfRegisteredUser(client->getNickname())))
 		channel->addUser(client->getNickname());
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
+	channel->addMode(F_NOEXTERNMSGS | F_SECRET | F_TOPICOP);
 	if (creator)
-		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), "+Cnst"));
+		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), channel->getChannelmode()));
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_NAMREPLY_builder(SERVER_NAME, *channel, *client));
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_ENDOFNAMES_builder(SERVER_NAME, *channel, *client));
 	_communicationManager->sendToChannel(*client, *channel, _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));

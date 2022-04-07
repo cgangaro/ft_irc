@@ -131,6 +131,7 @@ std::string Channel::getChannelmode() {
 	std::string usermode;
 
 	usermode += '+';
+	usermode += 'C';
 	if (_modeSettings & F_CREATOR) usermode += 'O';
 	if (_modeSettings & F_OP) usermode += 'o';
 	if (_modeSettings & F_VOICE) usermode += 'v';
