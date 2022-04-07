@@ -8,13 +8,13 @@
 // TODO : get current date
 #define SERVER_CREATED "2022-03-25"
 // TODO : what are those ?
-#define AVAILABLE_USER_MODES "<available user modes>"
-#define AVAILABLE_CHANNEL_MODES "<available channel modes>"
+#define AVAILABLE_USER_MODES UMODE_FLAGS
+#define AVAILABLE_CHANNEL_MODES CMODE_FLAGS
 
-#define RPL_WELCOME(nickname)  "001 " + nickname + " Welcome to the IRC Network " + nickname + CRLF
-#define RPL_YOURHOST(nickname) "002 "+ nickname + " Your host is " + SERVER_NAME + ", running version " + SERVER_VERSION + CRLF
-#define RPL_CREATED(nickname) "003 "+ nickname + " This server was created on " + SERVER_CREATED + CRLF
-#define RPL_MYINFO(nickname) "004 "+ nickname + " " + SERVER_NAME + " " + SERVER_VERSION + " " + AVAILABLE_USER_MODES + " " + AVAILABLE_CHANNEL_MODES + CRLF
+#define RPL_WELCOME(nickname)  "001 " + nickname + " :Welcome to the IRC Network " + nickname + CRLF
+#define RPL_YOURHOST(nickname) "002 "+ nickname + " :Your host is " + SERVER_NAME + ", running version " + SERVER_VERSION + CRLF
+#define RPL_CREATED(nickname) "003 "+ nickname + " :This server was created on " + SERVER_CREATED + CRLF
+#define RPL_MYINFO(nickname) "004 "+ nickname + " :" + SERVER_NAME + " " + SERVER_VERSION + " User modes are " + AVAILABLE_USER_MODES + ", Channel modes are " + AVAILABLE_CHANNEL_MODES + CRLF
 
 #define REGISTRATION_SUCCESS(nickname) RPL_WELCOME(nickname) + RPL_YOURHOST(nickname) + RPL_CREATED(nickname) + RPL_MYINFO(nickname)
 

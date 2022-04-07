@@ -11,7 +11,7 @@ std::vector<std::string> Command::getOperations(std::vector<std::string> input, 
 		if ((it->at(0) == '+' || it->at(0) == '-') && it->length() > 1) {
 			tmp[0] = it->at(0);
 			for (size_t i = 1; i < it->length(); i++) {
-				if (legalOps.find(it->at(i)) == std::string::npos) throw Exception::ERR_UMODEUNKNOWNFLAG();
+				if (legalOps.find(it->at(i)) == std::string::npos) throw Exception::ERR_UMODEUNKNOWNFLAG(); // change error on channel operation
 				tmp[1] = it->at(i);
 				output.push_back(tmp);
 			}

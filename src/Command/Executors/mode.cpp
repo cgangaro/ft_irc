@@ -1,8 +1,18 @@
 #include "Command.hpp"
 #include "CommunicationManager.hpp"
 
+std::string buildModeRep(Client * client, std::vector<std::string> tokens) {
+	std::string ret;
+
+	ret = "MODE " + client->getNickname() + " :";
+	for (std::vector<std::string>::iterator it = tokens.begin() + 2; it != tokens.end(); ++it)
+		ret += *it;
+	return ret;
+}
+
 bool Command::commandModeUser(Client * client, std::vector<std::string> tokens) {
 	std::vector<std::string> operations;
+	std::string msg;
 
 	if (tokens[1] != client->getNickname()) throw Exception::ERR_USERSDONTMATCH();
 	
@@ -12,7 +22,10 @@ bool Command::commandModeUser(Client * client, std::vector<std::string> tokens) 
 			execOperation(client, *it);
 		}
 	}
-	std::string msg = buildCmdResponse(*client, RPL_UMODEIS(client->getNickname(), client->getUsermode()));
+	if (tokens.size() == 2)
+ 		msg = buildCmdResponse(*client, RPL_UMODEIS(client->getNickname(), client->getUsermode()));
+	else
+ 		msg = buildCmdResponse(*client, buildModeRep(client, tokens), OPT_CLIENT);
 	this->_communicationManager->sendMsg(client->getSocket(), msg);
 	return false;
 }
