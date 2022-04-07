@@ -5,7 +5,7 @@
 #include "Commons.hpp"
 #include "Channel.hpp"
 
-//class Channel;
+class Channel;
 
 class Client {
 	private:
