@@ -7,8 +7,11 @@ bool Command::commandUser(Client * client, std::vector<std::string> tokens) {
 	if (client->isRegistered()) throw Exception::ERR_ALREADYREGISTERED();
 	if (!client->isAuthenticated()) throw Exception::ERR_PASSWDMISMATCH();
 
+	bool firstConnection = !client->isRegistered();
+
 	client->setUsername(tokens[1]);
 	client->registerMe();
-	if (client->isRegistered()) sendWelcomeMessage(client);
+	firstConnection = firstConnection && client->isRegistered();
+	if (firstConnection) sendWelcomeMessage(client);
 	return false;
 }
