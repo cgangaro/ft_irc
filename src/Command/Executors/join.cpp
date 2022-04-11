@@ -3,6 +3,9 @@
 
 bool Command::commandJoin(Client * client, std::vector<std::string> tokens) {
 	if (!(tokens.size() >= 2 && tokens.size() <= 3)) throw Exception::ERR_NEEDMOREPARAMS(tokens[0]);
+	Channel * channel = _communicationManager->getChannel(tokens[1]);
+
+	if (channel && (channel->getModeSettings() & F_INVITEONLY)) throw Exception::ERR_INVITEONLYCHAN(tokens[1]);
 	try {
 		if (tokens.size() == 2)
 			joinChannel(client, tokens[1], "");

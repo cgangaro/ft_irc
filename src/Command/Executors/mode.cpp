@@ -1,6 +1,16 @@
 #include "Command.hpp"
 #include "CommunicationManager.hpp"
 
+std::string buildModeChannelRep(Channel * channel, std::vector<std::string> tokens) {
+	std::string ret;
+
+	ret = "MODE " + channel->getName() + " :";
+	for (std::vector<std::string>::iterator it = tokens.begin() + 2; it != tokens.end(); ++it)
+		ret += *it;
+	ret += CRLF;
+	return ret;
+}
+
 std::string buildModeRep(Client * client, std::vector<std::string> tokens) {
 	std::string ret;
 
@@ -34,7 +44,6 @@ bool Command::commandModeChannel(Client * client, std::vector<std::string> token
 	Channel * channel;
 	std::vector<std::string> operations;
 	std::vector<std::string> arg;
-	//
 	
 	channel = this->_communicationManager->getChannel(tokens[1]);
 	if (!channel) return false;
@@ -51,14 +60,17 @@ bool Command::commandModeChannel(Client * client, std::vector<std::string> token
 			for (std::vector<std::string>::iterator it = operations.begin(); it != operations.end(); ++it) {
 				execChannelOperation(channel, *it, arg);
 			}
-		return false;
 		}
 	}
 	else if (tokens.size() == 2) {
  		std::string msg = ":" + (std::string)SERVER_NAME + " " + RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), channel->getChannelmode());
 		this->_communicationManager->sendMsg(client->getSocket(), msg);
+		return false;
 	}
 	else throw Exception::ERR_NEEDMOREPARAMS("MODE");
+	std::string msg = buildModeChannelRep(channel, tokens);
+	this->_communicationManager->sendToChannel(*client, *channel, msg, false);
+	this->_communicationManager->sendMsg(client->getSocket(), buildCmdResponse(*client, msg, OPT_CLIENT));
 	return false;
 }
 

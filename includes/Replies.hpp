@@ -35,4 +35,5 @@
 #define ERR_NORECIPIENT_PRIVMSG_BUILDER(nickname) ("411 * " + nickname + " No recipient given (PRIVMSG)" + CRLF)
 #define ERR_CHANOPRIVSNEEDED_BUILDER(channel) ("482 * " + channel + " :You're not channel operator" + CRLF)	
 #define ERR_CANTSPEAKINCHANNEL_BUILDER(channel) ("000 * " + channel + " :You can't speak in this channel. You haven't voice privilege" + CRLF)	
+#define ERR_INVITEONLYCHAN_BUILDER(channel) ("473 * " + channel + " :Cannot join channel (+i)" + CRLF)	
 #endif
