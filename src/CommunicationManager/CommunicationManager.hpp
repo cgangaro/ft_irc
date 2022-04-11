@@ -29,6 +29,7 @@ class CommunicationManager {
 		void sendToHisChannels(Client client, std::string msg);
 		void processClientActivity(void);
 		void addClientToKill(std::string client_nickname);
+		void sendMsgToChannel(Client client, Channel channel, std::string msg);
 
 		bool verifExistChannel(std::string channel);
 		bool verifChannelPassword(std::string channel, std::string password);

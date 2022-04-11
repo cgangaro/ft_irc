@@ -76,6 +76,14 @@ void CommunicationManager::sendToChannel(Client client, Channel channel, std::st
 	}
 }
 
+void CommunicationManager::sendMsgToChannel(Client client, Channel channel, std::string msg) {
+	std::vector<channelUser> userList = channel.getUserList();
+
+	for (size_t i = 0; i < userList.size(); i++)
+		if (userList[i].nickname != client.getNickname())
+			sendMsg(_clientManager->retSocketClient(userList[i].nickname), msg);
+}
+
 void CommunicationManager::processClientActivity(void) {
 	char* buffer = new char[BUFFER_SIZE];
 	bool shouldDelete = false;

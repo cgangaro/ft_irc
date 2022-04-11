@@ -56,4 +56,3 @@ I - set/remove an invitation mask to automatically override
 	the invite-only flag;
 
 traquer la segfault
-meme exception appelee avec different params
