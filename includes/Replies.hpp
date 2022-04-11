@@ -21,8 +21,8 @@
 #define RPL_YOUREOPER(nickname) ("381 " + nickname + " You are now an IRC operator" + CRLF)
 #define RPL_CHANNELMODEIS(nickname, channelname, channelmode) ("324 " + nickname + " " + channelname + " " + channelmode + CRLF)
 #define RPL_UMODEIS(user, usermode) ("221 " + user + " " + usermode + CRLF)
-#define RPL_NOTOPIC(channelname) ("331 " + channelname + " :No topic is set" + CRLF)
-#define RPL_TOPIC(channelname, topic) ("332 " + channelname + " :" + topic + CRLF)
+#define RPL_NOTOPIC(user, channelname) ("331 " + user + " " + channelname + " :No topic is set" + CRLF)
+#define RPL_TOPIC(user, channelname, topic) ("332 " + user + " " + channelname + " :" + topic + CRLF)
 // Those are used in Exception.hpp
 #define ERR_ERRONEOUSNICKNAME_BUILDER(nickname) ("432 * " + nickname + " :Erroneous nickname" + CRLF)
 #define ERR_NICKNAMEINUSE_BUILDER(nickname) ("433 * " + nickname + " :Nickname is already in use" + CRLF)
