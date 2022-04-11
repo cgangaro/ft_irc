@@ -14,13 +14,15 @@ void ClientManager::deleteClient(Client & client) {
 std::vector<Client>::iterator ClientManager::disconnectClient(std::vector<Client>::iterator client) {
 	std::vector<Client>::iterator ret;
 	std::vector<Channel*> channels = client->getChannels();
+	std::string nickname = client->getNickname();
+	SOCKET sock = client->getSocket();
 
 	for (std::vector<Channel*>::iterator it = channels.begin(); it != channels.end(); ++it) {
-		if ((*it)->verifIfRegisteredAdmin(client->getNickname()))
-			(*it)->removeAdmin(client->getNickname());
-		(*it)->removeUser(client->getNickname());
+		if ((*it)->verifIfRegisteredAdmin(nickname))
+			(*it)->removeAdmin(nickname);
+		(*it)->removeUser(nickname);
 	}
 	ret = removeClient(client);
-	std::cout << "Client with socket " << client->getSocket() << " (" << client->getNickname() << ") disconnected." << std::endl;
+	std::cout << "Client with socket " << sock << " (" << nickname << ") disconnected." << std::endl;
 	return ret;
 }
