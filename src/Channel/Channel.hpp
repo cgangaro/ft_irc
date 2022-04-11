@@ -9,6 +9,7 @@ struct channelUser {
 	std::string nickname;
 	bool		op;
 	bool		voice;
+	bool		creator;
 };
 
 class Channel {
@@ -34,6 +35,7 @@ class Channel {
 		std::vector<channelUser> getUserList(void) const;
 		std::string getChannelmode();
 		int getModeSettings(void);
+		int getModeSettings_operator(void) const;
 
 		void setName(std::string username);
 		void setPassword(std::string password);
@@ -43,11 +45,15 @@ class Channel {
 		void addUser(std::string user);
 		void removeUser(std::string user);
 	
-		void setUserOp(std::string op, bool activ);
+		void setUserOp(std::string user, bool activ);
+		void setUserVoice(std::string user, bool activ);
+		void setUserCreator(std::string user, bool activ);
 
 		bool verifIfRegisteredAdmin(std::string admin);
 		bool verifIfRegisteredUser(std::string user);
 		bool isOperator(std::string user);
+		bool isCreator(std::string user);
+		bool canUserSpeak(std::string user);
 };
 
 #endif

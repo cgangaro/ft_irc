@@ -22,3 +22,27 @@ ERR_WILDTOPLEVEL			Pas utile je crois, lié aux masks
 407 ERR_TOOMANYTARGETS		ok
 401 ERR_NOSUCHNICK			ok
 RPL_AWAY					Pas compris, avec AWAY command il me semble
+
+FLAGS CHANNEL:
+O - give "channel creator" status; ok
+o - give/take channel operator privilege; ok
+v - give/take the voice privilege; ok
+
+a - toggle the anonymous channel flag; ok
+i - toggle the invite-only channel flag; no
+m - toggle the moderated channel; ok
+n - toggle the no messages to channel from clients on the
+	outside;
+q - toggle the quiet channel flag;
+p - toggle the private channel flag;
+s - toggle the secret channel flag;
+r - toggle the server reop channel flag;
+t - toggle the topic settable by channel operator only flag;
+
+k - set/remove the channel key (password); ok
+l - set/remove the user limit to channel;
+
+b - set/remove ban mask to keep users out;
+e - set/remove an exception mask to override a ban mask;
+I - set/remove an invitation mask to automatically override
+	the invite-only flag;

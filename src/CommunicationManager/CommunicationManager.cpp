@@ -58,12 +58,17 @@ void CommunicationManager::sendToOne(std::string sender, std::string channel, SO
 	sendMsg(sock, msg_to_send);
 }
 
-void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg)
+void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg, bool server_msg)
 {
+	std::string sujet = client.getSujet();
+	if (!server_msg && (channel.getModeSettings() & F_MODERATED) && !channel.canUserSpeak(client.getNickname()))
+		throw Exception::ERR_CANTSPEAKINCHANNEL(channel.getName());
+	if ((channel.getModeSettings() & F_ANONYMOUS))
+		sujet = "anonymous!anonymous@anonymous.";
 	for (size_t i = 0; i < channel.getUserList().size(); i++)
 	{
 		if (channel.getUserList()[i].nickname != client.getNickname())
-			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getUserList()[i].nickname), msg);
+			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getUserList()[i].nickname), sujet + " " + msg);
 	}
 }
 
@@ -168,6 +173,8 @@ std::string CommunicationManager::RPL_NAMREPLY_builder(std::string canal, Channe
 			f = true;
 			if (channel.verifIfRegisteredAdmin(iencli[i].getNickname()))
 				ret = ret + "@" + iencli[i].getNickname();
+			else if (channel.canUserSpeak(iencli[i].getNickname()))
+				ret = ret + "+" + iencli[i].getNickname();
 			else
 				ret = ret + iencli[i].getNickname();
 		}

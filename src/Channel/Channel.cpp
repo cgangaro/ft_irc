@@ -12,10 +12,12 @@ Channel::Channel(Channel const &src) {
 Channel::Channel(std::string name, std::string password, std::string admin) {
 	_name = name;
 	_password = password;
+	_modeSettings = 0;
 	channelUser newUser;
 	newUser.nickname = admin;
 	newUser.op = true;
 	newUser.voice = false;
+	newUser.creator = false;
 	_userList.push_back(newUser);
 }
 
@@ -27,6 +29,7 @@ Channel & Channel::operator=(Channel const &rhs) {
 	_name = rhs.getName();
 	_password = rhs.getPassword();
 	_userList = rhs.getUserList();
+	_modeSettings = rhs.getModeSettings_operator();
 	return (*this);
 }
 
@@ -50,12 +53,34 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::setUserOp(std::string op, bool activ) {
+void Channel::setUserOp(std::string user, bool activ) {
 	for (std::vector<channelUser>::iterator it = _userList.begin(); it != _userList.end(); ++it)
 	{
-		if (it->nickname == op)
+		if (it->nickname == user)
 		{
 			it->op = activ; 
+			return ;
+		}
+	}
+}
+
+void Channel::setUserVoice(std::string user, bool activ) {
+	for (std::vector<channelUser>::iterator it = _userList.begin(); it != _userList.end(); ++it)
+	{
+		if (it->nickname == user)
+		{
+			it->voice = activ; 
+			return ;
+		}
+	}
+}
+
+void Channel::setUserCreator(std::string user, bool activ) {
+	for (std::vector<channelUser>::iterator it = _userList.begin(); it != _userList.end(); ++it)
+	{
+		if (it->nickname == user)
+		{
+			it->creator = activ;
 			return ;
 		}
 	}
@@ -115,6 +140,18 @@ bool Channel::isOperator(std::string user) {
 	return (false);
 }
 
+bool Channel::isCreator(std::string user) {
+	for (size_t i = 0; i < _userList.size(); i++)
+	{
+		if (_userList[i].nickname == user) {
+			if (_userList[i].creator == true)
+				return (true);
+			return (false);
+		}
+	}
+	return (false);
+}
+
 void Channel::addMode(int mode) {
 	this->_modeSettings |= mode;
 }
@@ -123,7 +160,11 @@ void Channel::removeMode(int mode) {
 	this->_modeSettings &= ~mode;
 }
 
-int Channel::getModeSettings(void){
+int Channel::getModeSettings(void) {
+	return this->_modeSettings;
+}
+
+int Channel::getModeSettings_operator(void) const {
 	return this->_modeSettings;
 }
 
@@ -150,4 +191,16 @@ std::string Channel::getChannelmode() {
 	if (_modeSettings & F_EXCEPT) usermode += 'e';
 	if (_modeSettings & F_INVITEONLY) usermode += 'I';
 	return usermode;
+}
+
+bool Channel::canUserSpeak(std::string user) {
+	for (size_t i = 0; i < _userList.size(); i++)
+	{
+		if (_userList[i].nickname == user) {
+			if (_userList[i].op || _userList[i].voice)
+				return (true);
+			return (false);
+		}
+	}
+	return (false);
 }

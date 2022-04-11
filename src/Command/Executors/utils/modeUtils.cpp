@@ -120,24 +120,26 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 		activ = false;
 	}
 	if (arg.size() > 0) {
-		if (mode == F_OP)
+		if (mode == F_OP || mode == F_VOICE)
 			channelOperationUser(channel, arg, mode, activ);
+		else if (mode == F_KEY)
+			channel->setPassword(arg[0]);
 	}
-	// 	else if (mode == F_KEY)
-	// 		channel->setPassword(arg[0]);
-	// 	else if (mode == F_VOICE)
-	// }
 }
 
 void Command::channelOperationUser(Channel * channel, std::vector<std::string> arg, int mode, bool activ) {
 	if (!_communicationManager->getClientManager()->isNicknameTaken(arg[0])) throw Exception::ERR_NOSUCHNICK(arg[0]);
 	else if (!channel->verifIfRegisteredUser(arg[0])) throw Exception::ERR_CANNOTSENDTOCHAN(channel->getName());
 	else {
-		if (mode == F_OP) {
+		if (mode == F_CREATOR) {
+			channel->setUserCreator(arg[0], activ);
+		}
+		else if (mode == F_OP) {
 			channel->setUserOp(arg[0], activ);
 		}
-		// else if (mode == F_VOICE)
-
+		else if (mode == F_VOICE) {
+			channel->setUserVoice(arg[0], activ);
+		}
 	}
 	
 }

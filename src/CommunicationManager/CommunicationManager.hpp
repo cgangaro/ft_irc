@@ -25,7 +25,7 @@ class CommunicationManager {
 		Channel & getDefaultChannel(void);
 		void sendMsg(SOCKET sock, std::string msg);
 		void sendToOne(std::string sender, std::string channel, SOCKET sock, std::string rawMsg);
-		void sendToChannel(Client client, Channel channel, std::string msg);
+		void sendToChannel(Client client, Channel channel, std::string msg, bool server_msg);
 		void sendToHisChannels(Client client, std::string msg);
 		void processClientActivity(void);
 		void addClientToKill(std::string client_nickname);

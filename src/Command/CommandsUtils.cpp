@@ -77,7 +77,7 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 		_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_CHANNELMODEIS_builder(SERVER_NAME, channel->getName(), channel->getChannelmode()));
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_NAMREPLY_builder(SERVER_NAME, *channel, *client));
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_ENDOFNAMES_builder(SERVER_NAME, *channel, *client));
-	_communicationManager->sendToChannel(*client, *channel, _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
+	_communicationManager->sendToChannel(*client, *channel, "JOIN " + channel->getName() + CRLF, true);
 }
 
 void Command::joinChannel(Client * client, std::string tokens_name, std::string tokens_pass)

@@ -34,13 +34,13 @@ bool Command::commandPrivmsg(Client * client, std::vector<std::string> tokens) {
 	}
 	else
 		msg_to_send = tokens[2];
-	msg_to_send = client->getSujet() + " PRIVMSG " + cmd[1] + " :" + msg_to_send + CRLF;
+	msg_to_send = "PRIVMSG " + cmd[1] + " :" + msg_to_send + CRLF;
 	if (_communicationManager->getClientManager()->checkListUsers(cmd[1]))
 		_communicationManager->sendToOne(client->getUsername(), "", _communicationManager->getClientManager()->retSocketClient(cmd[1]), msg_to_send);
 	else if (_communicationManager->verifExistChannel(cmd[1]))
 	{
-		if (_communicationManager->returnChannel(cmd[1])->verifIfRegisteredUser(client->getNickname()) || !(_communicationManager->returnChannel(cmd[1])->getModeSettings() | F_NOEXTERNMSGS))
-			_communicationManager->sendToChannel(*client, *_communicationManager->returnChannel(cmd[1]), msg_to_send);
+		if (_communicationManager->returnChannel(cmd[1])->verifIfRegisteredUser(client->getNickname()) || !(_communicationManager->returnChannel(cmd[1])->getModeSettings() & F_NOEXTERNMSGS))
+			_communicationManager->sendToChannel(*client, *_communicationManager->returnChannel(cmd[1]), msg_to_send, false);
 		else
 			throw Exception::ERR_CANNOTSENDTOCHAN(cmd[1]);
 	}
