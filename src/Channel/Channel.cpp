@@ -3,6 +3,7 @@
 Channel::Channel() {
 	this->_name = "";
 	this->_password = "";
+	this->_topic = "";
 }
 
 Channel::Channel(Channel const &src) {
@@ -20,6 +21,7 @@ Channel::Channel(std::string name, std::string password, std::string admin) {
 	newUser.voice = false;
 	newUser.creator = false;
 	_userList.push_back(newUser);
+	_topic = "";
 }
 
 Channel::~Channel() {}
@@ -32,6 +34,7 @@ Channel & Channel::operator=(Channel const &rhs) {
 	_userList = rhs.getUserList();
 	_modeSettings = rhs.getModeSettings_operator();
 	_maxUsers = rhs.getMaxUsers();
+	_topic = rhs.getTopic();
 	return (*this);
 }
 
@@ -41,6 +44,14 @@ std::string Channel::getName(void) const {
 
 std::string Channel::getPassword(void) const {
 	return _password;
+}
+
+std::string Channel::getTopic(void) const {
+	return _topic;
+}
+
+void Channel::setTopic(std::string topic) {
+	_topic = topic;
 }
 
 int Channel::getMaxUsers(void) const {

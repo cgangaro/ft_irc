@@ -18,6 +18,7 @@ class Channel {
 		std::string _password;
 		std::vector<channelUser> _userList;
 		std::vector<std::string> _banAddress;
+		std::string _topic;
 
 		int _modeSettings;
 		int _maxUsers;
@@ -37,6 +38,9 @@ class Channel {
 		int getModeSettings(void);
 		int getModeSettings_operator(void) const;
 		int getMaxUsers(void) const;
+
+		std::string getTopic(void) const;
+		void setTopic(std::string topic);
 
 		void setName(std::string username);
 		void setPassword(std::string password);

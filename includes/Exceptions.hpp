@@ -77,6 +77,7 @@ namespace Exception {
 		IRC_EXCEPTION(ERR_NOPRIVILEGES, "481 :Permission Denied- You're not an IRC operator\r\n")
 		IRC_EXCEPTION(ERR_UMODEUNKNOWNFLAG, "501 :Unknown MODE flag\r\n")
 		IRC_EXCEPTION(ERR_USERSDONTMATCH, "502 :Cannot change mode for other users\r\n")
+		IRC_EXCEPTION_CUSTOM(ERR_NOTONCHANNEL, ERR_NOTONCHANNEL_BUILDER)
 };
 
 #endif

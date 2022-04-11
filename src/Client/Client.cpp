@@ -105,6 +105,14 @@ void Client::setToKill(void) {
 	this->_toKill = true;
 }
 
+bool Client::isInChannel(std::string channelName) const {
+	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it) {
+		if ((*it)->getName() == channelName)
+			return true;
+	}
+	return false;
+}
+
 void Client::registerMe(void) {
 	if (!getUsername().empty() && !getNickname().empty())
 		this->_isRegistered = true;

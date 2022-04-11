@@ -120,7 +120,7 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 		activ = false;
 	}
 	if (arg.size() > 0) {
-		if (mode == F_OP || mode == F_VOICE || F_CREATOR || F_BAN)
+		if (mode == F_OP || mode == F_VOICE || mode == F_CREATOR || mode == F_BAN)
 			channelOperationUser(channel, arg, mode, activ);
 		else if (mode == F_KEY)
 			channel->setPassword(arg[0]);

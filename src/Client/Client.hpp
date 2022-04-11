@@ -46,6 +46,7 @@ class Client {
 		const std::string & getBuffer(void) const;
 		std::vector<Channel*> getChannels(void) const;
 		bool getToKill(void) const;
+		bool isInChannel(std::string channelName) const;
 
 		void setBuffer(std::string buffer);
 		void setUsername(std::string username);

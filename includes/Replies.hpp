@@ -21,6 +21,8 @@
 #define RPL_YOUREOPER(nickname) ("381 " + nickname + " You are now an IRC operator" + CRLF)
 #define RPL_CHANNELMODEIS(nickname, channelname, channelmode) ("324 " + nickname + " " + channelname + " " + channelmode + CRLF)
 #define RPL_UMODEIS(user, usermode) ("221 " + user + " " + usermode + CRLF)
+#define RPL_NOTOPIC(channelname) ("331 " + channelname + " :No topic is set" + CRLF)
+#define RPL_TOPIC(channelname, topic) ("332 " + channelname + " :" + topic + CRLF)
 // Those are used in Exception.hpp
 #define ERR_ERRONEOUSNICKNAME_BUILDER(nickname) ("432 * " + nickname + " :Erroneous nickname" + CRLF)
 #define ERR_NICKNAMEINUSE_BUILDER(nickname) ("433 * " + nickname + " :Nickname is already in use" + CRLF)
@@ -37,5 +39,5 @@
 #define ERR_CANTSPEAKINCHANNEL_BUILDER(channel) ("000 * " + channel + " :You can't speak in this channel. You haven't voice privilege" + CRLF)	
 #define ERR_INVITEONLYCHAN_BUILDER(channel) ("473 * " + channel + " :Cannot join channel (+i)" + CRLF)	
 #define ERR_BANNEDFROMCHAN_BUILDER(channel) ("474 * " + channel + " :Cannot join channel (+b)" + CRLF)	
-
+#define ERR_NOTONCHANNEL_BUILDER(channel) ("442 * " + channel + " :You're not on that channel" + CRLF)
 #endif
