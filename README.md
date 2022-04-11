@@ -5,10 +5,10 @@ Ce projet a pour but de recréer un serveur IRC simple.
 ## To-Do list
 
  - [ ] MODE channel
- - [ ] NOTICE
+ - [X] NOTICE
  - [X] S'authentifier + welcome msg quand NICK et USER reçu
  - [X] Voir histoire du ^Z
- - [ ] Changer PRIVMSG username to nickname, verifier dans tout le programme si username n'est pas utilise à la place de nickname
+ - [X] Changer PRIVMSG username to nickname, verifier dans tout le programme si username n'est pas utilise à la place de nickname
 
  - [ ] MODE user
  - [ ] KILL
