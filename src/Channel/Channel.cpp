@@ -231,7 +231,6 @@ void Channel::removeBanAddress(std::string banAddress) {
 }
 
 bool Channel::isBan(std::string address) {
-	std::cout << "isBan " << address << std::endl;
 	for (std::vector<std::string>::iterator it = _banAddress.begin(); it != _banAddress.end(); ++it)
 	{
 		std::cout << *it << std::endl;

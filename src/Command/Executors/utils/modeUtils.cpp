@@ -120,7 +120,7 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 		activ = false;
 	}
 	if (arg.size() > 0) {
-		if (mode == F_OP || mode == F_VOICE)
+		if (mode == F_OP || mode == F_VOICE || F_CREATOR || F_BAN)
 			channelOperationUser(channel, arg, mode, activ);
 		else if (mode == F_KEY)
 			channel->setPassword(arg[0]);
@@ -130,7 +130,21 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 }
 
 void Command::channelOperationUser(Channel * channel, std::vector<std::string> arg, int mode, bool activ) {
-	if (!_communicationManager->getClientManager()->isNicknameTaken(arg[0])) throw Exception::ERR_NOSUCHNICK(arg[0]);
+	if (mode == F_BAN) {
+		std::vector<std::string> cmd = split(arg[0].c_str(), ".");
+		if (cmd.size() != 4)
+			throw Exception::ERR_NOVALIDADDRESS();
+		for (size_t i = 0; i < cmd.size(); i++)
+		{
+				if (cmd[i].size() > 3 || cmd[i].size() == 0)
+					throw Exception::ERR_NOVALIDADDRESS();
+		}
+		if (activ && !channel->isBan(arg[0]))
+			channel->addBanAddress(arg[0]);
+		else if (!activ)
+			channel->removeBanAddress(arg[0]);
+	}
+	else if (!_communicationManager->getClientManager()->isNicknameTaken(arg[0])) throw Exception::ERR_NOSUCHNICK(arg[0]);
 	else if (!channel->verifIfRegisteredUser(arg[0])) throw Exception::ERR_CANNOTSENDTOCHAN(channel->getName());
 	else {
 		if (mode == F_CREATOR) {
@@ -142,17 +156,5 @@ void Command::channelOperationUser(Channel * channel, std::vector<std::string> a
 		else if (mode == F_VOICE) {
 			channel->setUserVoice(arg[0], activ);
 		}
-		else if (mode == F_BAN) {
-			std::vector<std::string> cmd = split(arg[0].c_str(), ".");
-			if (cmd.size() != 4)
-				throw Exception::ERR_NOVALIDADDRESS();
-			for (size_t i = 0; i < cmd.size(); i++)
-			{
-				 if (arg[i].size() != 3)
-				 	throw Exception::ERR_NOVALIDADDRESS();
-			}
-			channel->addBanAddress(arg[0]);
-		}
 	}
-	
 }
