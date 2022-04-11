@@ -47,7 +47,7 @@ bool Command::commandModeChannel(Client * client, std::vector<std::string> token
 	
 	channel = this->_communicationManager->getChannel(tokens[1]);
 	if (!channel) return false;
-	if (!channel->isOperator(client->getNickname()))
+	if (tokens.size() > 2 && !channel->isOperator(client->getNickname()))
 	{
 		throw Exception::ERR_CHANOPRIVSNEEDED(tokens[1]);
 		return false;
