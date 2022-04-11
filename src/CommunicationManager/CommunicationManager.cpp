@@ -58,10 +58,12 @@ void CommunicationManager::sendToOne(std::string sender, std::string channel, SO
 	sendMsg(sock, msg_to_send);
 }
 
-void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg, bool server_msg)
+void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg, int server_msg)
 {
 	std::string sujet = client.getSujet();
-	if (!server_msg && (channel.getModeSettings() & F_MODERATED) && !channel.canUserSpeak(client.getNickname()))
+	if ((channel.getModeSettings() & F_MODERATED) && server_msg == 0)
+		throw Exception::ERR_CANTSPEAKINCHANNELNOTICE(channel.getName());
+	if (server_msg == 2 && (channel.getModeSettings() & F_MODERATED) && !channel.canUserSpeak(client.getNickname()))
 		throw Exception::ERR_CANTSPEAKINCHANNEL(channel.getName());
 	if ((channel.getModeSettings() & F_ANONYMOUS))
 		sujet = "anonymous!anonymous@anonymous.";

@@ -20,7 +20,7 @@ bool Command::commandNotice(Client * client, std::vector<std::string> tokens) {
 	else if (_communicationManager->verifExistChannel(cmd[1]))
 	{
 		if (_communicationManager->returnChannel(cmd[1])->verifIfRegisteredUser(client->getNickname()) || !(_communicationManager->returnChannel(cmd[1])->getModeSettings() & F_NOEXTERNMSGS))
-			_communicationManager->sendToChannel(*client, *_communicationManager->returnChannel(cmd[1]), msg_to_send, false);
+			_communicationManager->sendToChannel(*client, *_communicationManager->returnChannel(cmd[1]), msg_to_send, 0);
 	}
 	return false;
 }
