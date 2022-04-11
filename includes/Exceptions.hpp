@@ -32,12 +32,14 @@ class name : public std::exception {																			\
 
 #define IRC_EXCEPTION_CUSTOM(name, messageBuilder)																\
 class name : public std::exception {																			\
-	std::string param;																							\
+	private:																									\
+		std::string param;																						\
 	public:																										\
-		name(const std::string &param) : param(param) {}														\
+		name(const std::string param) : param(param) {}															\
 		~name() throw() {}																						\
 		virtual const char* what() const throw() {																\
-			static std::string msg = messageBuilder(param);														\
+			static std::string msg;																				\
+			msg = messageBuilder(param);																		\
 			return (msg.c_str());																				\
 		}																										\
 };
