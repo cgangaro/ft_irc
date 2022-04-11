@@ -102,6 +102,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 	try {
 		tokens = extractArgs(*cmd);
 		this->_latestCommand = *cmd;
+		if (!isKnownCommand(tokens[0])) throw Exception::ERR_UNKNOWNCOMMAND(tokens[0]);
         if (tokens.empty() || (tokens.front() != "PASS" && !client->isAuthenticated())) return false;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {

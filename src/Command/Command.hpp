@@ -52,6 +52,7 @@ class Command
 		std::string recomposeCommand(char* inputBuffer, Client * client);
 		void sendWelcomeMessage(Client * client);
 		std::vector<std::string> extractArgs(std::string cmd);
+		static bool isKnownCommand(std::string cmd);
 		static std::vector<std::string> split(const char *buffer, std::string space_delimiter);
 		static bool isValidStringData(std::string & data);
 		static void eraseSubstr(std::string & str, const std::string & substr);

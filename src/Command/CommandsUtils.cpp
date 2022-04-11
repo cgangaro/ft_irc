@@ -2,6 +2,15 @@
 #include "CommunicationManager.hpp"
 #include "Commons.hpp"
 
+bool Command::isKnownCommand(std::string cmd) {
+	std::vector<std::string> commandNames = split(COMMANDS, " ");
+	for (int i = 0; i < NB_COMMANDS; i++) {
+		if (cmd.compare(commandNames[i]) == 0)
+			return true;
+	}
+	return false;
+}
+
 bool Command::isValidStringData(std::string & data) {
 	unsigned long pos;
 

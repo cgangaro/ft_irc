@@ -44,5 +44,5 @@
 #define ERR_INVITEONLYCHAN_BUILDER(channel) ("473 * " + channel + " :Cannot join channel (+i)" + CRLF)
 #define ERR_BANNEDFROMCHAN_BUILDER(channel) ("474 * " + channel + " :Cannot join channel (+b)" + CRLF)
 #define ERR_USERNOTINCHANNEL_BUILDER(nickname, channel) ("441 * " + nickname + " " + channel + " :You're not on that channel" + CRLF)
-
+#define ERR_UNKNOWNCOMMAND_BUILDER(command) ("421 * " + command + " :Unknown command" + CRLF)
 #endif
