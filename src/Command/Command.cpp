@@ -13,7 +13,8 @@ commandExecutor Command::_executors[NB_COMMANDS] = {
 	&Command::commandTopic,
 	&Command::commandOper,
 	&Command::commandMode,
-	&Command::commandNotice
+	&Command::commandNotice,
+	&Command::commandKick
 };
 
 std::string Command::channelPrefix = "&#+!";

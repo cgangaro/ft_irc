@@ -4,8 +4,8 @@
 #include "Commons.hpp"
 #include "Client.hpp"
 
-#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING TOPIC OPER MODE NOTICE"
-#define NB_COMMANDS 12
+#define COMMANDS "NICK USER PASS JOIN PRIVMSG MSG QUIT PING TOPIC OPER MODE NOTICE KICK"
+#define NB_COMMANDS 13
 #define COMMAND_EXECUTOR(name) bool name(Client * client, std::vector<std::string> tokens);
 
 class Command;
@@ -70,6 +70,7 @@ class Command
 		COMMAND_EXECUTOR(commandOper)
 		COMMAND_EXECUTOR(commandMode)
 		COMMAND_EXECUTOR(commandNotice)
+		COMMAND_EXECUTOR(commandKick)
 
 		/*
 		** Sub-executors, do not include in this->_executors array

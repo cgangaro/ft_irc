@@ -44,6 +44,21 @@ class name : public std::exception {																			\
 		}																										\
 };
 
+#define IRC_EXCEPTION_CUSTOM_2(name, messageBuilder)															\
+class name : public std::exception {																			\
+	private:																									\
+		std::string param1;																						\
+		std::string param2;																						\
+	public:																										\
+		name(const std::string param1, const std::string param2) : param1(param1), param2(param2) {}								\
+		~name() throw() {}																						\
+		virtual const char* what() const throw() {																\
+			static std::string msg;																				\
+			msg = messageBuilder(param1, param2);																\
+			return (msg.c_str());																				\
+		}																										\
+};
+
 namespace Exception {
 		SERVER_EXCEPTION(BindFailed, "bind")
 		SERVER_EXCEPTION(SocketCreationFailed, "socket");
@@ -72,8 +87,11 @@ namespace Exception {
 		IRC_EXCEPTION_CUSTOM(ERR_NORECIPIENT_PRIVMSG, ERR_NORECIPIENT_PRIVMSG_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_CHANOPRIVSNEEDED, ERR_CHANOPRIVSNEEDED_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_CANTSPEAKINCHANNEL, ERR_CANTSPEAKINCHANNEL_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_CANTSPEAKINCHANNELNOTICE, ERR_CANTSPEAKINCHANNELNOTICE_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_INVITEONLYCHAN, ERR_INVITEONLYCHAN_BUILDER)
 		IRC_EXCEPTION_CUSTOM(ERR_BANNEDFROMCHAN, ERR_BANNEDFROMCHAN_BUILDER)
+		IRC_EXCEPTION_CUSTOM(ERR_NOTONCHANNEL, ERR_NOTONCHANNEL_BUILDER)
+		IRC_EXCEPTION_CUSTOM_2(ERR_USERNOTINCHANNEL, ERR_USERNOTINCHANNEL_BUILDER)
 		IRC_EXCEPTION(ERR_NOPRIVILEGES, "481 :Permission Denied- You're not an IRC operator\r\n")
 		IRC_EXCEPTION(ERR_UMODEUNKNOWNFLAG, "501 :Unknown MODE flag\r\n")
 		IRC_EXCEPTION(ERR_USERSDONTMATCH, "502 :Cannot change mode for other users\r\n")

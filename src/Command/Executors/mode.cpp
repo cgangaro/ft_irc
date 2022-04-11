@@ -6,7 +6,11 @@ std::string buildModeChannelRep(Channel * channel, std::vector<std::string> toke
 
 	ret = "MODE " + channel->getName() + " :";
 	for (std::vector<std::string>::iterator it = tokens.begin() + 2; it != tokens.end(); ++it)
+	{
+		if (!(it == tokens.begin() + 2))
+			ret += " ";
 		ret += *it;
+	}
 	ret += CRLF;
 	return ret;
 }
@@ -69,7 +73,7 @@ bool Command::commandModeChannel(Client * client, std::vector<std::string> token
 	}
 	else throw Exception::ERR_NEEDMOREPARAMS("MODE");
 	std::string msg = buildModeChannelRep(channel, tokens);
-	this->_communicationManager->sendToChannel(*client, *channel, msg, false);
+	this->_communicationManager->sendToChannel(*client, *channel, msg, 1);
 	this->_communicationManager->sendMsg(client->getSocket(), buildCmdResponse(*client, msg, OPT_CLIENT));
 	return false;
 }
