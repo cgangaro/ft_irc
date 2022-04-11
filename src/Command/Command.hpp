@@ -50,6 +50,7 @@ class Command
 		bool interpret(char* buffer, Client * client);
 		bool processCommand(std::string *cmd, Client * client);
 		std::string recomposeCommand(char* inputBuffer, Client * client);
+		void sendWelcomeMessage(Client * client);
 		std::vector<std::string> extractArgs(std::string cmd);
 		static std::vector<std::string> split(const char *buffer, std::string space_delimiter);
 		static bool isValidStringData(std::string & data);
