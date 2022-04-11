@@ -36,4 +36,6 @@
 #define ERR_CHANOPRIVSNEEDED_BUILDER(channel) ("482 * " + channel + " :You're not channel operator" + CRLF)	
 #define ERR_CANTSPEAKINCHANNEL_BUILDER(channel) ("000 * " + channel + " :You can't speak in this channel. You haven't voice privilege" + CRLF)	
 #define ERR_INVITEONLYCHAN_BUILDER(channel) ("473 * " + channel + " :Cannot join channel (+i)" + CRLF)	
+#define ERR_BANNEDFROMCHAN_BUILDER(channel) ("474 * " + channel + " :Cannot join channel (+b)" + CRLF)	
+
 #endif

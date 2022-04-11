@@ -97,6 +97,8 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
 			if (!(channel->getUserList().size() < (size_t)channel->getMaxUsers()) && !channel->verifIfRegisteredUser(client->getNickname()))
 				throw Exception::ERR_CHANNELISFULL(channel_name[i]);
+			if (channel->isBan(client->getAddress()))
+				throw Exception::ERR_BANNEDFROMCHAN(channel_name[i]);
 			if (i < channel_pass.size())
 			{
 				if (channel->getPassword().compare(channel_pass[i]) == 0)

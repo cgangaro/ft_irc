@@ -142,6 +142,17 @@ void Command::channelOperationUser(Channel * channel, std::vector<std::string> a
 		else if (mode == F_VOICE) {
 			channel->setUserVoice(arg[0], activ);
 		}
+		else if (mode == F_BAN) {
+			std::vector<std::string> cmd = split(arg[0].c_str(), ".");
+			if (cmd.size() != 4)
+				throw Exception::ERR_NOVALIDADDRESS();
+			for (size_t i = 0; i < cmd.size(); i++)
+			{
+				 if (arg[i].size() != 3)
+				 	throw Exception::ERR_NOVALIDADDRESS();
+			}
+			channel->addBanAddress(arg[0]);
+		}
 	}
 	
 }

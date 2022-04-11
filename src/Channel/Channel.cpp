@@ -214,3 +214,29 @@ bool Channel::canUserSpeak(std::string user) {
 	}
 	return (false);
 }
+
+void Channel::addBanAddress(std::string banAddress) {
+	_banAddress.push_back(banAddress);
+}
+
+void Channel::removeBanAddress(std::string banAddress) {
+	for (std::vector<std::string>::iterator it = _banAddress.begin(); it != _banAddress.end(); ++it)
+	{
+		if (*it == banAddress)
+		{
+			_banAddress.erase(it); 
+			return ;
+		}
+	}
+}
+
+bool Channel::isBan(std::string address) {
+	std::cout << "isBan " << address << std::endl;
+	for (std::vector<std::string>::iterator it = _banAddress.begin(); it != _banAddress.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+		if (*it == address)
+			return (true);
+	}
+	return (false);
+}

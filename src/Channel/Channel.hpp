@@ -16,9 +16,8 @@ class Channel {
 	private:
 		std::string _name;
 		std::string _password;
-		std::vector<std::string> _list_admin;
-		std::vector<std::string> _list_user;
 		std::vector<channelUser> _userList;
+		std::vector<std::string> _banAddress;
 
 		int _modeSettings;
 		int _maxUsers;
@@ -47,6 +46,9 @@ class Channel {
 
 		void addUser(std::string user);
 		void removeUser(std::string user);
+
+		void addBanAddress(std::string banAddress);
+		void removeBanAddress(std::string banAddress);
 	
 		void setUserOp(std::string user, bool activ);
 		void setUserVoice(std::string user, bool activ);
@@ -57,6 +59,7 @@ class Channel {
 		bool isOperator(std::string user);
 		bool isCreator(std::string user);
 		bool canUserSpeak(std::string user);
+		bool isBan(std::string address);
 };
 
 #endif
