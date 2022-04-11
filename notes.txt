@@ -23,6 +23,14 @@ ERR_WILDTOPLEVEL			Pas utile je crois, lié aux masks
 401 ERR_NOSUCHNICK			ok
 RPL_AWAY					Pas compris, avec AWAY command il me semble
 
+- KICK:
+ERR_NEEDMOREPARAMS			o
+ERR_NOSUCHCHANNEL			o
+ERR_BADCHANMASK				Pas utilisé
+ERR_CHANOPRIVSNEEDED		o
+ERR_USERNOTINCHANNEL		
+ERR_NOTONCHANNEL			o
+
 FLAGS CHANNEL:
 O - give "channel creator" status; ok
 o - give/take channel operator privilege; ok
