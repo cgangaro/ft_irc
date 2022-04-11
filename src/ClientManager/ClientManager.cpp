@@ -65,7 +65,7 @@ bool ClientManager::isNicknameTaken(std::string nickname) const {
 bool ClientManager::checkListUsers(std::string user) const {
 	for (size_t i = 0; i < _clients.size(); i++)
 	{
-		if (_clients[i].getUsername().compare(user) == 0)
+		if (_clients[i].getNickname().compare(user) == 0)
 			return (true);
 	}
 	return (false);
@@ -74,7 +74,7 @@ bool ClientManager::checkListUsers(std::string user) const {
 SOCKET ClientManager::retSocketClient(std::string client_name) const {
 	for (size_t i = 0; i < _clients.size(); i++)
 	{
-		if (_clients[i].getUsername().compare(client_name) == 0)
+		if (_clients[i].getNickname().compare(client_name) == 0)
 			return (_clients[i].getSocket());
 	}
 	return (-1);
