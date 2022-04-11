@@ -22,7 +22,6 @@
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #define BUFFER_SIZE 1024
-#define MAX_USERS_PER_CHANNEL 5
 #define MAX_CHANNELS_PER_USER 6
 #define OPER_PASSWORD "oper"
 

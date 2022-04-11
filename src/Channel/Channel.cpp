@@ -13,6 +13,7 @@ Channel::Channel(std::string name, std::string password, std::string admin) {
 	_name = name;
 	_password = password;
 	_modeSettings = 0;
+	_maxUsers = 15;
 	channelUser newUser;
 	newUser.nickname = admin;
 	newUser.op = true;
@@ -30,6 +31,7 @@ Channel & Channel::operator=(Channel const &rhs) {
 	_password = rhs.getPassword();
 	_userList = rhs.getUserList();
 	_modeSettings = rhs.getModeSettings_operator();
+	_maxUsers = rhs.getMaxUsers();
 	return (*this);
 }
 
@@ -39,6 +41,10 @@ std::string Channel::getName(void) const {
 
 std::string Channel::getPassword(void) const {
 	return _password;
+}
+
+int Channel::getMaxUsers(void) const {
+	return _maxUsers;
 }
 
 std::vector<channelUser> Channel::getUserList(void) const {
@@ -51,6 +57,10 @@ void Channel::setPassword(std::string password) {
 
 void Channel::setName(std::string name) {
 	_name = name;
+}
+
+void Channel::setMaxUsers(std::string max) {
+	_maxUsers = atoi(max.c_str());
 }
 
 void Channel::setUserOp(std::string user, bool activ) {

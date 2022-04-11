@@ -33,7 +33,7 @@ i - toggle the invite-only channel flag; no
 m - toggle the moderated channel; ok
 n - toggle the no messages to channel from clients on the
 	outside; ok
-q - toggle the quiet channel flag;
+q - toggle the quiet channel flag; ok
 p - toggle the private channel flag;
 s - toggle the secret channel flag;
 r - toggle the server reop channel flag;

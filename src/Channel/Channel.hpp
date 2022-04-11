@@ -21,6 +21,7 @@ class Channel {
 		std::vector<channelUser> _userList;
 
 		int _modeSettings;
+		int _maxUsers;
 
 	public:
 		Channel();
@@ -36,9 +37,11 @@ class Channel {
 		std::string getChannelmode();
 		int getModeSettings(void);
 		int getModeSettings_operator(void) const;
+		int getMaxUsers(void) const;
 
 		void setName(std::string username);
 		void setPassword(std::string password);
+		void setMaxUsers(std::string max);
 		void addMode(int mode);
 		void removeMode(int mode);
 
