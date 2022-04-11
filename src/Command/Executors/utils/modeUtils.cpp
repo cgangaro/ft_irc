@@ -124,6 +124,8 @@ void Command::execChannelOperation(Channel * channel, std::string op, std::vecto
 			channelOperationUser(channel, arg, mode, activ);
 		else if (mode == F_KEY)
 			channel->setPassword(arg[0]);
+		else if (mode == F_LIMIT)
+			channel->setMaxUsers(arg[0]);
 	}
 }
 
