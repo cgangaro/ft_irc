@@ -60,10 +60,10 @@ void CommunicationManager::sendToOne(std::string sender, std::string channel, SO
 
 void CommunicationManager::sendToChannel(Client client, Channel channel, std::string msg)
 {
-	for (size_t i = 0; i < channel.getListUser().size(); i++)
+	for (size_t i = 0; i < channel.getUserList().size(); i++)
 	{
-		if (channel.getListUser()[i] != client.getNickname())
-			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getListUser()[i]), msg);
+		if (channel.getUserList()[i].nickname != client.getNickname())
+			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getUserList()[i].nickname), msg);
 	}
 }
 

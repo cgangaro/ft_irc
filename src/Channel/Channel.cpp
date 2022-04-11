@@ -12,8 +12,11 @@ Channel::Channel(Channel const &src) {
 Channel::Channel(std::string name, std::string password, std::string admin) {
 	_name = name;
 	_password = password;
-	_list_admin.push_back(admin);
-	_list_user.push_back(admin);
+	channelUser newUser;
+	newUser.nickname = admin;
+	newUser.op = true;
+	newUser.voice = false;
+	_userList.push_back(newUser);
 }
 
 Channel::~Channel() {}
@@ -23,8 +26,7 @@ Channel & Channel::operator=(Channel const &rhs) {
 		return (*this);
 	_name = rhs.getName();
 	_password = rhs.getPassword();
-	_list_admin = rhs.getListAdmin();
-	_list_user = rhs.getListUser();
+	_userList = rhs.getUserList();
 	return (*this);
 }
 
@@ -36,12 +38,8 @@ std::string Channel::getPassword(void) const {
 	return _password;
 }
 
-std::vector<std::string> Channel::getListAdmin(void) const {
-	return _list_admin;
-}
-
-std::vector<std::string> Channel::getListUser(void) const {
-	return _list_user;
+std::vector<channelUser> Channel::getUserList(void) const {
+	return _userList;
 }
 
 void Channel::setPassword(std::string password) {
@@ -52,19 +50,12 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::addAdmin(std::string admin)
-{
-	if (!verifIfRegisteredAdmin(admin))
-		_list_admin.push_back(admin);
-}
-
-void Channel::removeAdmin(std::string admin)
-{
-	for (std::vector<std::string>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
+void Channel::setUserOp(std::string op, bool activ) {
+	for (std::vector<channelUser>::iterator it = _userList.begin(); it != _userList.end(); ++it)
 	{
-		if (*it == admin)
+		if (it->nickname == op)
 		{
-			_list_admin.erase(it); 
+			it->op = activ; 
 			return ;
 		}
 	}
@@ -72,17 +63,21 @@ void Channel::removeAdmin(std::string admin)
 
 void Channel::addUser(std::string user)
 {
+	channelUser newUser;
+	newUser.nickname = user;
+	newUser.op = false;
+	newUser.voice = false;
 	if (!verifIfRegisteredAdmin(user))
-		_list_user.push_back(user);
+		_userList.push_back(newUser);
 }
 
 void Channel::removeUser(std::string user)
 {
-	for (std::vector<std::string>::iterator it = _list_user.begin(); it != _list_user.end(); ++it)
+	for (std::vector<channelUser>::iterator it = _userList.begin(); it != _userList.end(); ++it)
 	{
-		if (*it == user)
+		if (it->nickname == user)
 		{
-			_list_user.erase(it); 
+			_userList.erase(it); 
 			return ;
 		}
 	}
@@ -90,9 +85,9 @@ void Channel::removeUser(std::string user)
 
 bool Channel::verifIfRegisteredAdmin(std::string admin)
 {
-	for (size_t i = 0; i < _list_admin.size(); i++)
+	for (size_t i = 0; i < _userList.size(); i++)
 	{
-		if (_list_admin[i] == admin)
+		if (_userList[i].nickname == admin && _userList[i].op == true)
 			return (true);
 	}
 	return (false);
@@ -100,19 +95,24 @@ bool Channel::verifIfRegisteredAdmin(std::string admin)
 
 bool Channel::verifIfRegisteredUser(std::string user)
 {
-	for (size_t i = 0; i < _list_user.size(); i++)
+	for (size_t i = 0; i < _userList.size(); i++)
 	{
-		if (_list_user[i] == user)
+		if (_userList[i].nickname == user)
 			return (true);
 	}
 	return (false);
 }
 
 bool Channel::isOperator(std::string user) {
-	for (std::vector<std::string>::iterator it = _list_admin.begin(); it != _list_admin.end(); ++it)
-		if (*it == user)
-			return (true);
-	return false;
+	for (size_t i = 0; i < _userList.size(); i++)
+	{
+		if (_userList[i].nickname == user) {
+			if (_userList[i].op == true)
+				return (true);
+			return (false);
+		}
+	}
+	return (false);
 }
 
 void Channel::addMode(int mode) {

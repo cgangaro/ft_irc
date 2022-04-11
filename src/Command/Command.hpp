@@ -40,7 +40,7 @@ class Command
 		void execOperation(Client * client, std::string op);
 		void execChannelOperation(Channel * channel, std::string op, std::vector<std::string> arg);
 
-		void channelOperationOp(Channel * channel, std::vector<std::string> arg, bool activ);
+		void channelOperationUser(Channel * channel, std::vector<std::string> arg, int mode, bool activ);
 	public:
 		Command();
 		Command(CommunicationManager *_communicationManager, std::string pwd);

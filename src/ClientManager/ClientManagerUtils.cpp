@@ -18,8 +18,6 @@ std::vector<Client>::iterator ClientManager::disconnectClient(std::vector<Client
 	SOCKET sock = client->getSocket();
 
 	for (std::vector<Channel*>::iterator it = channels.begin(); it != channels.end(); ++it) {
-		if ((*it)->verifIfRegisteredAdmin(nickname))
-			(*it)->removeAdmin(nickname);
 		(*it)->removeUser(nickname);
 	}
 	ret = removeClient(client);

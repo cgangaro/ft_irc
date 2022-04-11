@@ -95,7 +95,7 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 		if (_communicationManager->verifExistChannel(channel_name[i]))
 		{
 			Channel *channel = _communicationManager->returnChannel(channel_name[i]);
-			if (!(channel->getListUser().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getNickname()))
+			if (!(channel->getUserList().size() < MAX_USERS_PER_CHANNEL) && !channel->verifIfRegisteredUser(client->getNickname()))
 				throw Exception::ERR_CHANNELISFULL(channel_name[i]);
 			if (i < channel_pass.size())
 			{

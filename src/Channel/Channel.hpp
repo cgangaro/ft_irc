@@ -5,12 +5,19 @@
 #include <vector>
 #include "Client.hpp"
 
+struct channelUser {
+	std::string nickname;
+	bool		op;
+	bool		voice;
+};
+
 class Channel {
 	private:
 		std::string _name;
 		std::string _password;
 		std::vector<std::string> _list_admin;
 		std::vector<std::string> _list_user;
+		std::vector<channelUser> _userList;
 
 		int _modeSettings;
 
@@ -24,19 +31,19 @@ class Channel {
 
 		std::string getName(void) const;
 		std::string getPassword(void) const;
-		std::vector<std::string> getListAdmin(void) const;
-		std::vector<std::string> getListUser(void) const;
+		std::vector<channelUser> getUserList(void) const;
 		std::string getChannelmode();
 		int getModeSettings(void);
 
 		void setName(std::string username);
 		void setPassword(std::string password);
-		void addAdmin(std::string admin);
-		void removeAdmin(std::string admin);
-		void addUser(std::string user);
-		void removeUser(std::string user);
 		void addMode(int mode);
 		void removeMode(int mode);
+
+		void addUser(std::string user);
+		void removeUser(std::string user);
+	
+		void setUserOp(std::string op, bool activ);
 
 		bool verifIfRegisteredAdmin(std::string admin);
 		bool verifIfRegisteredUser(std::string user);
