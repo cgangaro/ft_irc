@@ -65,6 +65,8 @@ void CommunicationManager::sendToChannel(Client client, Channel channel, std::st
 		throw Exception::ERR_CANTSPEAKINCHANNEL(channel.getName());
 	if ((channel.getModeSettings() & F_ANONYMOUS))
 		sujet = "anonymous!anonymous@anonymous.";
+	if (server_msg && (channel.getModeSettings() & F_QUIET))
+		return ;
 	for (size_t i = 0; i < channel.getUserList().size(); i++)
 	{
 		if (channel.getUserList()[i].nickname != client.getNickname())

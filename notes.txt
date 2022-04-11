@@ -32,7 +32,7 @@ a - toggle the anonymous channel flag; ok
 i - toggle the invite-only channel flag; no
 m - toggle the moderated channel; ok
 n - toggle the no messages to channel from clients on the
-	outside;
+	outside; ok
 q - toggle the quiet channel flag;
 p - toggle the private channel flag;
 s - toggle the secret channel flag;
