@@ -12,8 +12,8 @@ bool Command::commandTopic(Client * client, std::vector<std::string> tokens) {
 		else channel->setTopic(tokens[2]);
 	}
 	std::string msg = (channel->getTopic() == "") ?
-		buildCmdResponse(*client, RPL_NOTOPIC(channel->getName())) :
-		buildCmdResponse(*client, RPL_TOPIC(channel->getName(), channel->getTopic()));
+		buildCmdResponse(*client, RPL_NOTOPIC(client->getNickname(), channel->getName())) :
+		buildCmdResponse(*client, RPL_TOPIC(client->getNickname(), channel->getName(), channel->getTopic()));
 	_communicationManager->sendMsg(client->getSocket(), msg);
 	std::cout << "msg : " << msg << std::endl;
 	return false;
