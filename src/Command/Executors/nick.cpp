@@ -10,7 +10,7 @@ bool Command::commandNick(Client * client, std::vector<std::string> tokens) {
 
 	client->setNickname(tokens[1]);
 	
-	if (!client->getNickname().empty()) client->registerMe();
+	client->registerMe();
 	if (client->isRegistered()) sendWelcomeMessage(client);
 	return false;
 }

@@ -8,7 +8,7 @@ bool Command::commandUser(Client * client, std::vector<std::string> tokens) {
 	if (!client->isAuthenticated()) throw Exception::ERR_PASSWDMISMATCH();
 
 	client->setUsername(tokens[1]);
-	if (!client->getNickname().empty()) client->registerMe();
+	client->registerMe();
 	if (client->isRegistered()) sendWelcomeMessage(client);
 	return false;
 }
