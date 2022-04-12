@@ -105,6 +105,7 @@ bool Command::processCommand(std::string *cmd, Client * client) {
 		this->_latestCommand = *cmd;
 		if (!isKnownCommand(tokens[0])) throw Exception::ERR_UNKNOWNCOMMAND(tokens[0]);
         if (tokens.empty() || (tokens.front() != "PASS" && !client->isAuthenticated())) return false;
+		if (tokens.front() != "PASS" && tokens.front() != "NICK" && tokens.front() != "USER" && !client->isRegistered()) return false;
 		for (std::vector<t_command>::iterator it = _commands.begin(); it != _commands.end(); ++it) {
 			if (it->name == tokens[0]) {
 				shouldDisconnect = (this->*(it->executor))(client, tokens);
