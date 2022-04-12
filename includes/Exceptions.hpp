@@ -50,7 +50,7 @@ class name : public std::exception {																			\
 		std::string param1;																						\
 		std::string param2;																						\
 	public:																										\
-		name(const std::string param1, const std::string param2) : param1(param1), param2(param2) {}								\
+		name(const std::string param1, const std::string param2) : param1(param1), param2(param2) {}			\
 		~name() throw() {}																						\
 		virtual const char* what() const throw() {																\
 			static std::string msg;																				\

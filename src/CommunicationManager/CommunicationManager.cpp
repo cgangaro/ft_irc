@@ -71,7 +71,7 @@ void CommunicationManager::sendToChannel(Client client, Channel channel, std::st
 		return ;
 	for (size_t i = 0; i < channel.getUserList().size(); i++)
 	{
-		if (channel.getUserList()[i].nickname != client.getNickname())
+		if (channel.getUserList()[i].nickname != client.getNickname() || server_msg == 4)
 			sendToOne(client.getUsername(), channel.getName(), _clientManager->retSocketClient(channel.getUserList()[i].nickname), sujet + " " + msg);
 	}
 }

@@ -10,12 +10,12 @@ bool Command::commandKick(Client * client, std::vector<std::string> tokens) {
 	if (!_communicationManager->returnChannel(cmd[1])->verifIfRegisteredUser(client->getNickname())) throw Exception::ERR_NOTONCHANNEL(cmd[1]);
 	if (!_communicationManager->returnChannel(cmd[1])->verifIfRegisteredAdmin(client->getNickname())) throw Exception::ERR_CHANOPRIVSNEEDED(cmd[1]);
 	if (!_communicationManager->returnChannel(cmd[1])->verifIfRegisteredUser(cmd[2])) throw Exception::ERR_USERNOTINCHANNEL(cmd[2], cmd[1]);
-	_communicationManager->returnChannel(cmd[1])->removeUser(cmd[2]);
-	msg_to_send = "KICK " + cmd[1] + " " + cmd[2] + ":";
+	msg_to_send = "KICK " + cmd[1] + " " + cmd[2] + " " + ":";
 	if (cmd_and_msg.size() > 1)
-		msg_to_send = msg_to_send + " " + this->_latestCommand.erase(0, this->_latestCommand.find(':', 0) + 1);
+		msg_to_send = msg_to_send + this->_latestCommand.erase(0, this->_latestCommand.find(':', 0) + 1) + CRLF;
 	else
-		msg_to_send = msg_to_send + " " + cmd[2];
-	_communicationManager->sendToHisChannels(*client, _communicationManager->RPL_TOPIC_builder(client, msg_to_send));
+		msg_to_send = msg_to_send + cmd[2] + CRLF;
+	_communicationManager->sendToChannel(*client, *_communicationManager->returnChannel(cmd[1]), msg_to_send, 4);
+	_communicationManager->returnChannel(cmd[1])->removeUser(cmd[2]);
 	return false;
 }
