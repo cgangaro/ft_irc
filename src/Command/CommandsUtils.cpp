@@ -76,8 +76,8 @@ std::string Command::buildMultipleCmdResponse(Client & client, std::vector<std::
 
 void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 {
-	if (!(client->verifIfRegisteredChannel(channel)))
-		client->addChannel(channel);
+	if (!(client->isInChannel(channel->getName())))
+		client->addChannel(channel->getName());
 	if (!(channel->verifIfRegisteredUser(client->getNickname())))
 		channel->addUser(client->getNickname());
 	_communicationManager->sendToOne("", "", client->getSocket(), _communicationManager->RPL_TOPIC_builder(client, "JOIN " + channel->getName()));
@@ -91,13 +91,11 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 
 void Command::joinChannel(Client * client, std::string tokens_name, std::string tokens_pass)
 {
-	std::cout << "Join Channel" << std::endl;
 	std::vector<std::string> channel_name = split(tokens_name.c_str(), ",");
 	std::vector<std::string> channel_pass = split(tokens_pass.c_str(), ",");
 
 	for (size_t i = 0; i < channel_name.size(); i++)
 	{
-		std::cout << "chanel_name = " << channel_name[i] << std::endl;
 		if ((channel_name[i][0] != '&' && channel_name[i][0] != '#' && channel_name[i][0] != '+' && channel_name[i][0] != '!')
 			|| !isValidStringData(channel_name[i]))
 			throw Exception::ERR_NOSUCHCHANNEL(channel_name[i]);
@@ -135,5 +133,13 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			addClientChannel(client, channel, true);
 		}
 	}
-	std::cout << "end Join Channel" << std::endl;
+}
+
+std::string Command::toUpper(std::string arg) {
+	for (size_t i = 0; i < arg.size(); i++)
+	{
+		if (arg[i] >= 97 && arg[i] <= 122)
+			arg[i] = arg[i] - 32;
+	}
+	return (arg);
 }

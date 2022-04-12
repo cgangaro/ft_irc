@@ -144,12 +144,8 @@ bool Channel::verifIfRegisteredUser(std::string user)
 	for (size_t i = 0; i < _userList.size(); i++)
 	{
 		if (_userList[i].nickname == user)
-		{
-			//std::cout << "true" << std::endl;
 			return (true);
-		}
 	}
-	//std::cout << "false" << std::endl;
 	return (false);
 }
 

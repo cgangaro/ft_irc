@@ -61,7 +61,7 @@ class name : public std::exception {																			\
 
 namespace Exception {
 		SERVER_EXCEPTION(BindFailed, "bind")
-		SERVER_EXCEPTION(SocketCreationFailed, "socket");
+		SERVER_EXCEPTION(SocketCreationFailed, "socket")
 		SERVER_EXCEPTION(ListenFailed, "listen")
 		SERVER_EXCEPTION(AcceptFailed, "accept")
 		SERVER_EXCEPTION(SelectFailed, "select")
@@ -96,6 +96,6 @@ namespace Exception {
 		IRC_EXCEPTION(ERR_NOPRIVILEGES, "481 :Permission Denied- You're not an IRC operator\r\n")
 		IRC_EXCEPTION(ERR_UMODEUNKNOWNFLAG, "501 :Unknown MODE flag\r\n")
 		IRC_EXCEPTION(ERR_USERSDONTMATCH, "502 :Cannot change mode for other users\r\n")
-};
+}
 
 #endif

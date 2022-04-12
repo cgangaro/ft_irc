@@ -95,22 +95,24 @@ void CommunicationManager::processClientActivity(void) {
 		{
 			ret_read = read(it->getSocket(), buffer, BUFFER_SIZE);
 			if (ret_read == SOCKET_ERROR) throw Exception::ReadFailed();
-			else if (ret_read == 0) it = _clientManager->disconnectClient(it);
+			else if (ret_read == 0) {
+				removeClientToChannels(it->getNickname());
+				it = _clientManager->removeClient(it);
+				// it = _clientManager->disconnectClient(it);
+			}
 			else if (ret_read != 1) // ignore empty messages
 			{
 				buffer[ret_read] = '\0';
 				shouldDelete = _interpreter.interpret(buffer, &(*it));
-				if (shouldDelete) it = _clientManager->disconnectClient(it);
+				if (shouldDelete) {
+					removeClientToChannels(it->getNickname());
+					it = _clientManager->removeClient(it);
+				}
 			}
 		}
 		if (it == _clientManager->getClients()->end()) break;
 	}
-	_clientManager->disconnectClientsToKill();
 	delete[] buffer;
-}
-
-void CommunicationManager::addClientToKill(std::string client_nickname) {
-	_clientManager->addClientToKill(client_nickname);
 }
 
 bool CommunicationManager::verifExistChannel(std::string channel)
@@ -218,5 +220,13 @@ void CommunicationManager::sendToHisChannels(Client client, std::string msg)
 	{
 		if (it->hasCommonChannel(client))
 			sendToOne(client.getUsername(), "", it->getSocket(), msg);
+	}
+}
+
+void CommunicationManager::removeClientToChannels(std::string client_name) {
+	for (size_t i = 0; i < _channels_server.size(); i++)
+	{
+		if (_channels_server[i].verifIfRegisteredUser(client_name))
+			_channels_server[i].removeUser(client_name);
 	}
 }

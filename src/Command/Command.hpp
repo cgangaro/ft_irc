@@ -82,6 +82,8 @@ class Command
 		void joinChannel(Client * client, std::string tokens_name, std::string tokens_pass);
 		void addClientChannel(Client * client, Channel * channel, bool creator);
 
+		std::string toUpper(std::string arg);
+
 };
 
 #endif

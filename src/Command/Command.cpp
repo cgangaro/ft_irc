@@ -87,6 +87,7 @@ std::vector<std::string> Command::extractArgs(std::string cmd) {
 		cmd.erase(pos);
 	}
 	args = split(cmd.c_str(), " ");
+	args[0] = toUpper(args[0]);
 	if (pos != std::string::npos) args.push_back(lastArg);
 	return args;
 }

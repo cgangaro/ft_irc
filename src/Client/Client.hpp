@@ -14,11 +14,10 @@ class Client {
 		bool _isRegistered;
 		bool _isAuthenticated;
 		bool _isOperator;
-		bool _toKill;
 
 		std::string _username;
 		std::string _nickname;
-		std::vector<Channel*> _channels; // a string beginning with #
+		std::vector<std::string> _channels; // a string beginning with #
 
 		std::string buffer;
 		int _modeSettings;
@@ -44,20 +43,17 @@ class Client {
 		std::string getUsermode();
 		std::string getSujet(void) const;
 		const std::string & getBuffer(void) const;
-		std::vector<Channel*> getChannels(void) const;
-		bool getToKill(void) const;
+		std::vector<std::string> getChannels(void) const;
 		bool isInChannel(std::string channelName) const;
 
 		void setBuffer(std::string buffer);
 		void setUsername(std::string username);
 		void setNickname(std::string nickname);
 		void setSocket(SOCKET socket);
-		void setToKill(void);
 		void authenticate(void);
 		void registerMe(void);
 		void setOperator(bool isOperator);
-		void addChannel(Channel * channel);
-		bool verifIfRegisteredChannel(Channel * channel);
+		void addChannel(std::string channel);
 		bool hasCommonChannel(Client Client);
 		void addMode(int mode);
 		void removeMode(int mode);

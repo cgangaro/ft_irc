@@ -28,13 +28,12 @@ class CommunicationManager {
 		void sendToChannel(Client client, Channel channel, std::string msg, int server_msg);
 		void sendToHisChannels(Client client, std::string msg);
 		void processClientActivity(void);
-		void addClientToKill(std::string client_nickname);
 		void sendMsgToChannel(Client client, Channel channel, std::string msg);
+		void removeClientToChannels(std::string client_name);
 
 		bool verifExistChannel(std::string channel);
 		bool verifChannelPassword(std::string channel, std::string password);
 		void addChannel(std::string channel, std::string password, std::string admin);
-		//void addUserToChannel(std::string channel, Client * client);
 		Channel * returnChannel(std::string channel);
 
 		std::string RPL_TOPIC_builder(Client * client, std::string sujet);

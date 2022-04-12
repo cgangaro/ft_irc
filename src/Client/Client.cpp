@@ -9,7 +9,6 @@ Client::Client(SOCKET sock, SOCKADDR_IN sin) : _socket(sock), _sin(sin), _isAuth
 	this->_isRegistered = false;
 	this->_isOperator = false;
 	this->buffer = "";
-	this->_toKill = false;
 	this->_modeSettings = 0;
 }
 
@@ -30,7 +29,6 @@ Client & Client::operator=(Client const &rhs) {
 	this->_username = rhs.getUsername();
 	this->_nickname = rhs.getNickname();
 	this->_channels = rhs.getChannels();
-	this->_toKill = rhs.getToKill();
 	this->_modeSettings = rhs.getModeSettings();
 	this->_isOperator = rhs.isOperator();
 	return (*this);
@@ -81,16 +79,12 @@ std::string Client::getSujet(void) const {
 	return ret;
 }
 
-std::vector<Channel*> Client::getChannels(void) const {
+std::vector<std::string> Client::getChannels(void) const {
 	return this->_channels;
 }
 
 const std::string & Client::getBuffer(void) const {
 	return this->buffer;
-}
-
-bool Client::getToKill(void) const {
-	return this->_toKill;
 }
 
 void Client::setOperator(bool isOperator) {
@@ -101,13 +95,9 @@ void Client::setBuffer(std::string buffer) {
 	this->buffer = buffer;
 }
 
-void Client::setToKill(void) {
-	this->_toKill = true;
-}
-
 bool Client::isInChannel(std::string channelName) const {
-	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it) {
-		if ((*it)->getName() == channelName)
+	for (std::vector<std::string>::const_iterator it = _channels.begin(); it != _channels.end(); ++it) {
+		if (*it == channelName)
 			return true;
 	}
 	return false;
@@ -134,24 +124,15 @@ void Client::authenticate(void) {
 	this->_isAuthenticated = true;
 }
 
-void Client::addChannel(Channel * channel) {
+void Client::addChannel(std::string channel) {
 	_channels.push_back(channel);
-}
-
-bool Client::verifIfRegisteredChannel(Channel * channel) {
-	for (size_t i = 0; i < _channels.size(); i++)
-	{
-		if (_channels[i]->getName().compare(channel->getName()) == 0)
-			return (true);
-	}
-	return (false);
 }
 
 bool Client::hasCommonChannel(Client client)
 {
 	for (size_t i = 0; i < client.getChannels().size(); i++)
 	{
-		if (verifIfRegisteredChannel(client.getChannels()[i]))
+		if (isInChannel(client.getChannels()[i]))
 			return (true);
 	}
 	return (false);
@@ -163,7 +144,7 @@ void Client::test_printChannels(void)
 	std::cout << "size = " << _channels.size() << std::endl;
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		std::cout << _channels[i]->getName() << std::endl;
+		std::cout << _channels[i] << std::endl;
 	}
 	std::cout << "End print client channels" << std::endl;
 }

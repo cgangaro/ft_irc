@@ -4,7 +4,7 @@
 std::string buildModeChannelRep(Channel * channel, std::vector<std::string> tokens) {
 	std::string ret;
 
-	ret = "MODE " + channel->getName() + " :";
+	ret = "MODE " + channel->getName() + " ";
 	for (std::vector<std::string>::iterator it = tokens.begin() + 2; it != tokens.end(); ++it)
 	{
 		if (!(it == tokens.begin() + 2))

@@ -19,7 +19,7 @@ class ClientManager {
 		void addSocket(SOCKET sock);
 		void addClient(SOCKET sock, SOCKADDR_IN sin);
 		std::vector<Client>::iterator removeClient(std::vector<Client>::iterator it);
-		std::vector<Client>::iterator disconnectClient(std::vector<Client>::iterator it);
+		//std::vector<Client>::iterator disconnectClient(std::vector<Client>::iterator it);
 		static void deleteClient(Client & client);
 		SOCKET initReadfdsClient(fd_set *readfds, SOCKET max_socket);
 		int readClient();
@@ -32,8 +32,6 @@ class ClientManager {
 		bool isNicknameTaken(std::string nickname) const;
 		bool checkListUsers(std::string user) const;
 		SOCKET retSocketClient(std::string client_name) const;
-		void addClientToKill(std::string client_nickname);
-		void disconnectClientsToKill(void);
 };
 
 #endif
