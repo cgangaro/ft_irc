@@ -91,11 +91,13 @@ void Command::addClientChannel(Client * client, Channel * channel, bool creator)
 
 void Command::joinChannel(Client * client, std::string tokens_name, std::string tokens_pass)
 {
+	std::cout << "Join Channel" << std::endl;
 	std::vector<std::string> channel_name = split(tokens_name.c_str(), ",");
 	std::vector<std::string> channel_pass = split(tokens_pass.c_str(), ",");
 
 	for (size_t i = 0; i < channel_name.size(); i++)
 	{
+		std::cout << "chanel_name = " << channel_name[i] << std::endl;
 		if ((channel_name[i][0] != '&' && channel_name[i][0] != '#' && channel_name[i][0] != '+' && channel_name[i][0] != '!')
 			|| !isValidStringData(channel_name[i]))
 			throw Exception::ERR_NOSUCHCHANNEL(channel_name[i]);
@@ -133,4 +135,5 @@ void Command::joinChannel(Client * client, std::string tokens_name, std::string 
 			addClientChannel(client, channel, true);
 		}
 	}
+	std::cout << "end Join Channel" << std::endl;
 }
